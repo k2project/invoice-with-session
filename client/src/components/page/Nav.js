@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
 import Page from './Page';
 
-const Nav = ({ setAlert }) => {
+const Nav = ({ setAlert, profile: { createdAt, updatedAt } }) => {
     return (
         <nav aria-label='dashboard menu' className='dashboard-nav '>
             <ul
@@ -83,6 +83,10 @@ const Nav = ({ setAlert }) => {
                             New Invoice
                         </Link>
                     </li>
+                    {/* // disable links until profile is created */}
+                    {createdAt === updatedAt && (
+                        <div className='disable-links'></div>
+                    )}
                 </div>
                 <li>
                     <Link
@@ -111,9 +115,12 @@ const Nav = ({ setAlert }) => {
 };
 Nav.propTypes = {
     setAlert: PropTypes.func.isRequired,
+    profile: PropTypes.object,
 };
-
+const mapStateToProps = (state) => ({
+    profile: state.profile,
+});
 const mapDispatchToProps = {
     setAlert,
 };
-export default connect(null, mapDispatchToProps)(Nav);
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);

@@ -5,6 +5,7 @@ import Header from './Header';
 import Nav from './Nav';
 import './Page.scss';
 import DesktopOnly from './DesktopOnly';
+import loader from '../../imgs/icons/loader.gif';
 
 const Page = ({ title, user, children }) => {
     let mql = window.matchMedia('(min-width: 1000px)');
@@ -22,6 +23,12 @@ const Page = ({ title, user, children }) => {
     }, [desktop, desktopDisplay]);
     return (
         <Fragment>
+            {!user && desktop && (
+                <div className='loader'>
+                    <img src={loader} alt='' />
+                    <p>loading...</p>
+                </div>
+            )}
             {!desktop && <DesktopOnly />}
             {desktop && user && (
                 <Fragment>
