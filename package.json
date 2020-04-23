@@ -1,0 +1,30 @@
+{
+    "name": "invoice-with-session",
+    "version": "1.0.0",
+    "description": "Online invoice pdf generator",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server",
+        "server": "nodemon server",
+        "client": "npm start --prefix client",
+        "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "author": "@_k2project",
+    "license": "MIT",
+    "dependencies": {
+        "bcrypt": "^4.0.1",
+        "bcryptjs": "^2.4.3",
+        "connect-mongo": "^3.2.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-session": "^1.17.0",
+        "express-validator": "^6.4.0",
+        "helmet": "^3.22.0",
+        "mongoose": "^5.9.9",
+        "uuid": "^7.0.3"
+    },
+    "devDependencies": {
+        "concurrently": "^5.1.0",
+        "nodemon": "^2.0.3"
+    }
+}

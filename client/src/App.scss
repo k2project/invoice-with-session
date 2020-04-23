@@ -1,0 +1,461 @@
+//====================
+//  APP VARIABLES
+//====================
+$COLOR_THEME: #eb9346;
+$COLOR_DANGER: #e67a7b;
+$COLOR_SUCCESS: #98c685;
+$COLOR_INFO: #66b3ca;
+$COLOR_BG: #f6f9fc;
+$COLOR_DARK: #1b262b;
+$COLOR_DARK_SECONDARY: #2b3a41;
+$COLOR_DARK2: #354052;
+$COLOR_LIGHT2: #edf2f6;
+$COLOR_GREY: #ebedef;
+
+$FONT_LOGO: 'Audiowide', serif;
+
+.font-logo {
+    font-family: $FONT_LOGO;
+}
+// ==============
+//    MIXINS
+//===============
+@mixin desktop-sm {
+    @media only screen and (max-width: 1200px) {
+        @content;
+    }
+}
+@mixin tablet {
+    @media only screen and (max-width: 1024px) {
+        @content;
+    }
+}
+@mixin mobile {
+    @media only screen and (max-width: 768px) {
+        @content;
+    }
+}
+@mixin mobile-sm {
+    @media only screen and (max-width: 480px) {
+        @content;
+    }
+}
+@mixin portrait {
+    @media only screen and (max-width: 768px) and (orientation: portrait) {
+        @content;
+    }
+}
+@mixin landscape {
+    @media only screen and (max-width: 768px) and (orientation: landscape) {
+        @content;
+    }
+}
+//==========================
+//  SCREEN READERS STYLING
+//==========================
+.sr-only {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip: rect(1px 1px 1px 1px); //IE6 and IE7
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.sr-only--in-focus {
+    position: static;
+    clip: auto !important;
+    clip-path: none;
+    height: auto;
+    margin: 0;
+    overflow: auto;
+    line-height: normal;
+    width: auto;
+    padding: 3rem 5rem;
+    left: 0;
+    right: 0;
+    background: $COLOR_THEME;
+    color: #000 !important;
+    font-size: 1.6rem;
+    z-index: 1000;
+    display: block;
+}
+.sr-only--in-focus:hover {
+    text-decoration-line: underline;
+}
+//====================
+//  LINKS STYLING
+//====================
+a:link,
+a:visited {
+    color: $COLOR_THEME;
+}
+a:hover,
+a:active {
+    text-decoration: underline;
+    color: $COLOR_INFO;
+}
+a:focus {
+    text-decoration: underline;
+    color: $COLOR_INFO;
+}
+//====================
+//  ALERTS STYLING
+//====================
+.alert {
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    font-size: 1.6rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 98vw;
+    margin: 1vw;
+    z-index: 999;
+    border-radius: 0.5rem;
+    opacity: 0;
+    top: -5rem;
+    animation: slideIn 0.5s forwards ease-in-out;
+    box-shadow: 0 0 1rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        top: 0;
+    }
+}
+.alert--success {
+    background: $COLOR_SUCCESS;
+    // color: seashell;
+}
+.alert--danger {
+    background: $COLOR_DANGER;
+    // color: seashell;
+}
+.alert__close {
+    position: absolute;
+    font-size: 2.4rem;
+    line-height: 0;
+    padding: 2rem;
+    font-weight: bold;
+    right: 0;
+    top: 0;
+    opacity: 0.7;
+}
+.alert__close:focus {
+    border: dashed 0.1rem #fff;
+}
+.dialog {
+    position: fixed;
+    width: 100vw;
+    height: 100vw;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+.dialog-box {
+    width: 44rem;
+    margin-left: -20rem;
+    margin-top: -15rem;
+    background-color: #fff;
+    position: fixed;
+    left: 50%;
+    text-align: left;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    //anim
+    top: 30%;
+    opacity: 0;
+    animation: slideInDialog 0.5s forwards ease-in-out;
+}
+
+.dialog-box__header {
+    color: $COLOR_DARK_SECONDARY;
+    font-size: 2.2rem;
+    padding: 3rem 4.3rem 2rem;
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+    border-bottom: solid 0.1rem $COLOR_BG;
+    // opacity: 0.3;
+    background-color: $COLOR_BG;
+}
+.dialog-box__body {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 3rem 4.3rem 2rem;
+    display: flex;
+    align-items: center;
+}
+.dialog-box__footer {
+    display: block;
+    padding: 0 4rem 1rem;
+    li {
+        display: inline-block;
+    }
+}
+@keyframes slideInDialog {
+    to {
+        opacity: 1;
+        top: 50%;
+    }
+}
+
+//====================
+//  BUTTONS STYLING
+//====================
+.btn {
+    border: solid 0.1rem #111;
+    border-radius: 0.4rem;
+    padding: 1.3rem 0.5rem;
+    margin: 1rem 0;
+    font-size: 1.3rem;
+    background-color: none;
+    min-width: 15rem;
+    img {
+        height: 1.4rem;
+        margin: 0 0.2rem;
+    }
+}
+.btn:hover {
+    background-color: darken($COLOR_THEME, 10%);
+}
+.btn:focus {
+    border: dashed 0.1rem #111;
+}
+
+.btn--theme {
+    background-color: $COLOR_THEME;
+    border-color: $COLOR_THEME;
+    color: seashell;
+    font-size: 1.8rem;
+}
+.btn--white {
+    background-color: none;
+    border-color: seashell;
+    color: seashell;
+}
+.btn--white:focus {
+    border: dashed 0.1rem #fff;
+}
+.btn--white:hover {
+    border-color: $COLOR_DARK;
+}
+.btn--danger {
+    background-color: $COLOR_DANGER;
+    color: #fff;
+    border-color: $COLOR_DANGER;
+}
+.btn--danger:hover {
+    background-color: darken($COLOR_DANGER, 10%);
+    border-color: darken($COLOR_DANGER, 10%);
+}
+
+.btn--info {
+    background-color: $COLOR_INFO;
+    color: #fff;
+    border-color: $COLOR_INFO;
+}
+.btn--info:hover {
+    background-color: darken($COLOR_INFO, 10%);
+    border-color: darken($COLOR_INFO, 10%);
+}
+
+.btn--grey {
+    padding: 1rem 0.5rem;
+    margin: 0.7rem 0;
+    font-size: 1.3rem;
+    background-color: none;
+    min-width: 10rem;
+    border: solid 0.1rem #ccc;
+    background-color: $COLOR_GREY;
+    color: $COLOR_DARK;
+}
+.btn--sqr {
+    border: solid 0.1rem #ccc;
+    background-color: $COLOR_GREY;
+    color: $COLOR_DARK;
+    font-size: 2rem;
+    padding: 0;
+    margin: 0.3rem;
+    min-width: 2.6rem;
+    min-height: 2rem;
+    text-align: center;
+}
+.btn--sqr:hover,
+.btn--grey:hover {
+    background-color: darken($COLOR_GREY, 10%);
+    border-color: darken($COLOR_GREY, 10%);
+}
+.btn--sqr:focus,
+.btn--danger:focus,
+.btn--info:focus,
+.btn--grey:focus {
+    border: dashed 0.1rem #111;
+    background-color: darken($COLOR_BG, 20%);
+    color: $COLOR_DARK;
+}
+.btn--form {
+    width: 100%;
+}
+.btn--sml {
+    min-width: 10rem;
+    padding: 1rem;
+}
+.btn--sibling {
+    margin-right: 1rem;
+}
+//====================
+//  HEADINGS STYLING
+//====================
+.heading {
+    display: block;
+    margin: 0;
+    font-weight: bold;
+}
+.heading--xlg {
+    font-size: 12rem;
+    margin: 0 0 -2rem;
+    font-family: $FONT_LOGO;
+    opacity: 0.3;
+}
+.heading--lg {
+    font-family: $FONT_LOGO;
+    font-size: 3.2rem;
+}
+.heading--md {
+    font-size: 3rem;
+    font-weight: bold;
+}
+.heading--sm {
+    font-size: 2.2rem;
+    font-weight: normal;
+    margin: 2rem 0 1rem;
+}
+.heading--xs {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+p {
+    margin: 0.7rem 0;
+    font-size: 1.2rem;
+}
+.p--lg {
+    font-size: 1.5rem;
+}
+//====================
+//  OTHERS STYLING
+//====================
+.wrapper {
+    width: 80rem;
+    margin: auto;
+}
+.not-found {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    background-color: $COLOR_THEME;
+    color: #fff;
+    align-content: center;
+    text-align: center;
+    padding-bottom: 8rem;
+}
+.not-found__link:link,
+.not-found__link:visited,
+.not-found__link:active {
+    color: #111;
+    font-size: 1.6rem;
+    margin-top: 2rem;
+    display: inline-block;
+    padding: 1rem;
+}
+
+.not-found__link:focus {
+    border: dashed 0.1rem #111;
+}
+.section__heading {
+    padding: 3rem 7rem 2.5rem;
+    background-color: $COLOR_BG;
+}
+.section__body {
+    padding: 4rem 7rem;
+}
+.cover {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    align-content: center;
+}
+.cover--theme {
+    background: $COLOR_THEME;
+    opacity: 0.8;
+    padding-bottom: 3rem;
+}
+.tile {
+    min-height: 6rem;
+    font-size: 1.4rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    border-radius: 0.4rem;
+    margin: 0.5rem;
+    padding: 1rem 2rem;
+}
+.tile--md {
+    width: 60rem;
+}
+.tile--sm {
+    width: 40rem;
+}
+.tile--info {
+    background-color: $COLOR_INFO;
+    color: #fff;
+}
+.tile--err {
+    background-color: $COLOR_DANGER;
+    color: #111;
+}
+.icon--sm {
+    height: 1.4rem;
+    margin-right: 0.8rem;
+}
+.icon--md {
+    height: 2.6rem;
+    margin-right: 1.2rem;
+}
+//====================
+//  SUBMENU STYLING
+//====================
+.submenu__list {
+    padding: 0 2rem 1.7rem 0.5rem;
+}
+.submenu__link {
+    display: inline-block;
+    margin: 0.3rem;
+}
+.submenu__icon {
+    height: 1.4rem;
+    margin-right: 0.4rem;
+}
+.submenu__btn,
+.submenu__btn:active {
+    border: solid 0.1rem #111;
+    padding: 1rem 2rem;
+    border-radius: 0.4rem;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+.submenu__btn:focus {
+    border: dashed 0.1rem #111;
+}
