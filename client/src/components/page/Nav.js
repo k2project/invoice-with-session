@@ -4,11 +4,13 @@ import { NavLink as Link } from 'react-router-dom';
 import plusIcon from '../../imgs/icons/plusIcon.png';
 import profileIcon from '../../imgs/icons/profileIcon.png';
 import cogsIcon from '../../imgs/icons/cogs.png';
+import companiesIcon from '../../imgs/icons/companiesIcon.png';
 import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
 import Page from './Page';
+import NavSubmenu from './NavSubmenu';
 
-const Nav = ({ setAlert, profile: { createdAt, updatedAt } }) => {
+const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
     return (
         <nav aria-label='dashboard menu' className='dashboard-nav '>
             <ul
@@ -37,8 +39,34 @@ const Nav = ({ setAlert, profile: { createdAt, updatedAt } }) => {
                             Profile
                         </Link>
                     </li>
+                    <li>
+                        <Link
+                            to={`/dashboard/companies/${companies[0]._id}`}
+                            className={`dashboard-nav__link tile ${
+                                /^\/dashboard\/companies/.test(
+                                    window.location.pathname
+                                )
+                                    ? 'dashboard__link--is-active'
+                                    : ''
+                            }`}
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => {
+                                setAlert(
+                                    `Submenu listing companies now open below. `,
+                                    'success'
+                                );
+                            }}
+                        >
+                            <img
+                                src={companiesIcon}
+                                className='dashboard__icon'
+                                alt=''
+                            />
+                            Companies
+                        </Link>
+                    </li>
 
-                    {/* {companies.length > 0 && <DashboardSubNav />} */}
+                    {companies.length > 0 && <NavSubmenu />}
 
                     <li>
                         <Link
@@ -116,9 +144,11 @@ const Nav = ({ setAlert, profile: { createdAt, updatedAt } }) => {
 Nav.propTypes = {
     setAlert: PropTypes.func.isRequired,
     profile: PropTypes.object,
+    companies: PropTypes.array,
 };
 const mapStateToProps = (state) => ({
     profile: state.profile,
+    companies: state.companies.companies,
 });
 const mapDispatchToProps = {
     setAlert,

@@ -98,49 +98,45 @@
     min-height: calc(100vh - 24rem);
     padding-bottom: 5rem;
 }
-
-.dashboard-nav__sublink,
+.dashboard-subnav,
+.dashboard-subnav__link,
 .dashboard-nav__link {
-    background-color: $COLOR_THEME;
     background-color: #cfcfcf;
     font-size: 1.3rem;
     padding: 1.2rem 3rem 1.2rem 3rem;
     color: #111;
     margin-top: 0;
 }
-.dashboard-nav__sublink {
-    // border-bottom: solid 0.1rem lighten($COLOR_THEME, 15%);
-}
-.dashboard-nav__sublink:last-child {
-    padding-bottom: 1.4rem;
-    border: none;
-}
-.dashboard-nav__sublink:link,
-.dashboard-nav__sublink:active,
-.dashboard-nav__sublink:visited {
-    background-color: lighten($COLOR_THEME, 20%);
 
-    color: darken($COLOR_THEME, 5%);
+.dashboard-subnav__link:link,
+.dashboard-subnav__link:visited {
+    background-color: lighten($COLOR_THEME, 20%);
+    transition: 0.5s ease-in-out;
+    color: #111;
     padding-left: 3rem;
+    opacity: 0;
 }
+.dashboard-subnav:hover,
 .dashboard-nav__link:focus,
 .dashboard-nav__link:hover {
-    background-color: lighten($COLOR_THEME, 15%);
     background-color: #cfcfcf;
     color: #111;
     text-decoration: none;
 }
-.dashboard-nav__sublink:focus,
-.dashboard-nav__sublink:hover {
-    background-color: lighten($COLOR_THEME, 30%);
-    color: $COLOR_THEME;
+.dashboard-subnav__link--is-active,
+.dashboard-subnav__link--is-active:hover,
+.dashboard-subnav__link:active,
+.dashboard-subnav__link:hover {
+    transform: translateX(1.5rem);
+    transition: 0.5s ease-in-out;
     text-decoration: none;
 }
+
 .dashboard__link--is-active:hover,
 .dashboard__link--is-active:focus,
 .dashboard__link--is-active:link,
 .dashboard__link--is-active:visited {
-    background-color: $COLOR_THEME;
+    background-color: $COLOR_THEME !important;
 }
 
 .dashboard-nav__link:link,
@@ -149,7 +145,7 @@
     color: #111;
 }
 .dashboard-nav__link:focus,
-.dashboard-nav__sublink:focus {
+.dashboard-subnav__link:focus {
     border: dashed 0.1rem #111;
 }
 .dashboard__icon {
