@@ -1,4 +1,6 @@
-export const dialogBox = async (msg, cb, targetEl, redirection) => {
+import React from 'react';
+import errIcon from '../../imgs/icons/errIcon.png';
+export const dialogBox = async (msg, cb, targetEl) => {
     const exist = document.getElementById('dialog');
     if (!exist) {
         let box = document.createElement('div');
@@ -9,14 +11,13 @@ export const dialogBox = async (msg, cb, targetEl, redirection) => {
         box.className = 'dialog';
         box.innerHTML = `
         <div class="dialog-box" aria-describedby="dialog-body" role="dialog">
-            <div class="dialog-box__header" id="dialog-header">Confirm Dialog</div>
+            <div class="dialog-box__header sr-only" id="dialog-header">WARNING!</div>
             <div class="dialog-box__body" id="dialog-body">
-                <span class="sr-only">Confirm dialog. </span>
-                Are you sure you want to ${msg}?
+                <img src="${errIcon}" alt=""/>Are you sure you want to ${msg}?
             </div>
             <div class="dialog-box__footer" >
-                <button class="btn btn--grey btn--sibling" id="dialog-cancel">Cancel</button>
-                <button class="btn btn--danger" id="dialog-confirm"> OK <span class="sr-only">,${msg}</span></button>
+                <button class="btn btn--cancel" id="dialog-cancel">Cancel</button>
+                <button class="btn btn--ok" id="dialog-confirm"> Proceed</button>
             </div>
         </div>
         `;

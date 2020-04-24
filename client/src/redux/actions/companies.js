@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setAlert } from './messages';
 import {
     GET_ALL_COMPANIES,
     CLEAR_COMPANIES,
@@ -28,4 +29,17 @@ export const setCurrentCompany = (company) => (dispatch) => {
         type: SET_CURRENT_COMPANY,
         payload: company,
     });
+};
+
+export const deleteCompany = (id) => async (dispatch) => {
+    try {
+        const res = await axios.delete(`/api/companies/${id}`);
+        await dispatch(getAllCompanies());
+        dispatch(
+            setAlert('Company deleted successfully.', 'success', null, false)
+        );
+    } catch (err) {
+        console.log(err);
+        console.error('ERROR ON DELETING COMPANY', err);
+    }
 };

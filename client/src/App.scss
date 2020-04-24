@@ -150,12 +150,14 @@ a:focus {
     height: 100vw;
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.1);
     z-index: 999;
 }
 .dialog-box {
-    width: 44rem;
-    margin-left: -20rem;
+    border-radius: 0.4rem;
+    overflow: hidden;
+    width: 38rem;
+    margin-left: -19rem;
     margin-top: -15rem;
     background-color: #fff;
     position: fixed;
@@ -163,36 +165,55 @@ a:focus {
     text-align: left;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
-    border-radius: 1rem;
+    box-shadow: 0 0 1rem 0.4rem rgba(0, 0, 0, 0.1);
+
     //anim
     top: 30%;
     opacity: 0;
     animation: slideInDialog 0.5s forwards ease-in-out;
+
+    img {
+        opacity: 0.1;
+        height: 3rem;
+        left: -1rem;
+        top: 0.2rem;
+    }
 }
 
 .dialog-box__header {
-    color: $COLOR_DARK_SECONDARY;
-    font-size: 2.2rem;
-    padding: 3rem 4.3rem 2rem;
-    border-top-right-radius: 1rem;
-    border-top-left-radius: 1rem;
-    border-bottom: solid 0.1rem $COLOR_BG;
-    // opacity: 0.3;
-    background-color: $COLOR_BG;
 }
 .dialog-box__body {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: bold;
-    padding: 3rem 4.3rem 2rem;
+    padding: 5rem 4rem 4rem;
     display: flex;
     align-items: center;
 }
 .dialog-box__footer {
-    display: block;
-    padding: 0 4rem 1rem;
-    li {
-        display: inline-block;
+    display: flex;
+    .btn {
+        background-color: #e1e1e1;
+        border: solid 0.1rem #f1f1f1;
+        border-radius: 0;
+        padding: 2rem;
+        border-color: #ccc;
+        width: 50%;
+        margin: 0;
+        border: none;
+    }
+    .btn:hover {
+        background-color: #cfcfcf;
+    }
+    .btn:focus {
+        border: dashed 0.1rem #111;
+    }
+
+    .btn--ok {
+        background-color: $COLOR_SUCCESS;
+        border-color: $COLOR_SUCCESS;
+    }
+    .btn--ok:hover {
+        background-color: darken($COLOR_SUCCESS, 20%);
     }
 }
 @keyframes slideInDialog {

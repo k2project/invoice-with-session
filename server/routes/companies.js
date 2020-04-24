@@ -79,5 +79,17 @@ companiesRoutes.post('/:companyID', auth, async (req, res) => {
         return res.status(500).send('Server error ---> updating the company');
     }
 });
+//@route    DELETE api/companies/:company_id
+//@desc     Delete company from user's profile
+//@status   Private
+companiesRoutes.delete('/:company_id', auth, async (req, res) => {
+    try {
+        const company = await Company.findByIdAndDelete(req.params.company_id);
+        res.json(company);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server error');
+    }
+});
 
 module.exports = companiesRoutes;

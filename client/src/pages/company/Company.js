@@ -16,7 +16,7 @@ export const Company = ({ companies, currentCompanyTab }) => {
     });
     return (
         <Page>
-            {!company && <Redirect to='dashboard/companies' />}
+            {!company && <Redirect to='/dashboard/companies' />}
             {company && (
                 <Fragment>
                     <CompanySubmenu company={company} />

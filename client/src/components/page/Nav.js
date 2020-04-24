@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
 import { setCompanyTab } from '../../redux/actions/session';
 import NavSubmenu from './NavSubmenu';
+import { sortInputsByNamesAlphabeticaly } from '../form/utils/customFormQueries';
 
 const Nav = ({
     setAlert,
@@ -16,6 +17,7 @@ const Nav = ({
     companies,
     setCompanyTab,
 }) => {
+    companies = sortInputsByNamesAlphabeticaly(companies, 'details');
     return (
         <nav aria-label='dashboard menu' className='dashboard-nav '>
             <ul
