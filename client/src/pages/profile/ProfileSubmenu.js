@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import updateIcon from '../../imgs/icons/updateIcon.png';
 import listIcon from '../../imgs/icons/list.png';
+import { connect } from 'react-redux';
+import { setProfileTab } from '../../redux/actions/session';
 
-export default function ProfileSubmenu({ setCurrentTab }) {
+const ProfileSubmenu = ({ setProfileTab }) => {
     return (
         <nav aria-label="Profile's submenu" className='submenu'>
             <ul aria-label="Profile's submenu links" className='submenu__list'>
@@ -10,7 +13,7 @@ export default function ProfileSubmenu({ setCurrentTab }) {
                     <button
                         className='submenu__btn'
                         onClick={() => {
-                            setCurrentTab('details');
+                            setProfileTab('details');
                         }}
                         onMouseDown={(e) => e.preventDefault()}
                     >
@@ -22,7 +25,7 @@ export default function ProfileSubmenu({ setCurrentTab }) {
                     <button
                         className='submenu__btn'
                         onClick={() => {
-                            setCurrentTab('form');
+                            setProfileTab('form');
                         }}
                         onMouseDown={(e) => e.preventDefault()}
                     >
@@ -37,4 +40,11 @@ export default function ProfileSubmenu({ setCurrentTab }) {
             </ul>
         </nav>
     );
-}
+};
+ProfileSubmenu.propTypes = {
+    setProfileTab: PropTypes.func,
+};
+const mapDispatchToProps = {
+    setProfileTab,
+};
+export default connect(null, mapDispatchToProps)(ProfileSubmenu);

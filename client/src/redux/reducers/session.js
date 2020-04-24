@@ -8,7 +8,7 @@ import {
 const initialState = {
     authenticated: false,
     currentProfileTab: 'details', //detaisl | form
-    currentCompanyTab: 'tasks', //detaisl | tasks |invoices | update | delete
+    currentCompanyTab: 'tasks', //details | tasks |invoices | update | delete
 };
 
 export default function (state = initialState, { type, payload }) {

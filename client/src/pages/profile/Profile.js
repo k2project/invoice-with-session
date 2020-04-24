@@ -7,13 +7,11 @@ import './Profile.scss';
 import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
 import infoIcon from '../../imgs/icons/infoIcon.png';
 import { getProfile } from '../../redux/actions/profile';
-import { setProfileTab } from '../../redux/actions/session';
 
 const Profile = ({
     profile: { details, createdAt, updatedAt },
     getProfile,
-    currentProfileTab: currentTab = 'details',
-    setProfileTab: setCurrentTab,
+    currentProfileTab = 'details',
 }) => {
     //show form on first login and until its created
     const updated = createdAt !== updatedAt;
@@ -40,11 +38,11 @@ const Profile = ({
                     />
                 </Fragment>
             )}
-            {updated && <ProfileSubmenu setCurrentTab={setCurrentTab} />}
-            {updated && currentTab === 'details' && (
+            {updated && <ProfileSubmenu />}
+            {updated && currentProfileTab === 'details' && (
                 <div className='tile tile--md'>details</div>
             )}
-            {updated && currentTab === 'form' && (
+            {updated && currentProfileTab === 'form' && (
                 <CustomBuiltForm
                     data={{
                         ...formData,
@@ -59,7 +57,7 @@ const Profile = ({
 Profile.propTypes = {
     profile: PropTypes.object,
     getProfile: PropTypes.func,
-    setProfileTab: PropTypes.func,
+    currentProfileTab: PropTypes.string,
 };
 const mapStateToProps = (state) => ({
     profile: state.profile,
@@ -67,6 +65,5 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
     getProfile,
-    setProfileTab,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

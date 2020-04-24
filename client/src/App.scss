@@ -90,18 +90,13 @@ $FONT_LOGO: 'Audiowide', serif;
 //====================
 //  LINKS STYLING
 //====================
-a:link,
-a:visited {
-    color: $COLOR_THEME;
-}
+
 a:hover,
 a:active {
     text-decoration: underline;
-    color: $COLOR_INFO;
 }
 a:focus {
     text-decoration: underline;
-    color: $COLOR_INFO;
 }
 //====================
 //  ALERTS STYLING
@@ -411,12 +406,7 @@ p {
     margin: 0.5rem;
     padding: 1rem 2rem;
 }
-.tile--md {
-    width: 60rem;
-}
-.tile--sm {
-    width: 40rem;
-}
+
 .tile--info {
     background-color: $COLOR_INFO;
     color: #fff;
@@ -424,6 +414,9 @@ p {
 .tile--err {
     background-color: $COLOR_DANGER;
     color: #111;
+}
+.tile--transparent {
+    background-color: none;
 }
 .icon--sm {
     height: 1.4rem;

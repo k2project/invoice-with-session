@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Page from '../../components/page/Page';
 
 export const Invoice = () => {
-    return <div>invoice</div>;
+    return <Page>invoice</Page>;
 };
 
 Invoice.propTypes = {};

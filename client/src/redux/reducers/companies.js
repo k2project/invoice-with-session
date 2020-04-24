@@ -1,7 +1,12 @@
-import { GET_ALL_COMPANIES, CLEAR_COMPANIES } from '../actions/types';
+import {
+    GET_ALL_COMPANIES,
+    CLEAR_COMPANIES,
+    SET_CURRENT_COMPANY,
+} from '../actions/types';
 
 const initialState = {
     companies: [],
+    company: null,
 };
 
 export default function (state = initialState, { type, payload }) {
@@ -11,8 +16,13 @@ export default function (state = initialState, { type, payload }) {
                 ...state,
                 companies: payload,
             };
+        case SET_CURRENT_COMPANY:
+            return {
+                ...state,
+                company: payload,
+            };
         case CLEAR_COMPANIES:
-            return {};
+            return { companies: [], company: null };
         default:
             return state;
     }

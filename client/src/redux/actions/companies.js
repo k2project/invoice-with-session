@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
     GET_ALL_COMPANIES,
     CLEAR_COMPANIES,
-    GET_USER,
+    SET_CURRENT_COMPANY,
     END_SESS,
 } from '../actions/types';
 
@@ -22,4 +22,10 @@ export const getAllCompanies = () => async (dispatch) => {
 };
 export const clearCompanies = () => (dispatch) => {
     dispatch({ type: CLEAR_COMPANIES });
+};
+export const setCurrentCompany = (company) => (dispatch) => {
+    dispatch({
+        type: SET_CURRENT_COMPANY,
+        payload: company,
+    });
 };

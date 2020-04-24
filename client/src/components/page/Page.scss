@@ -11,6 +11,17 @@
     font-size: 1.4rem;
     border-bottom: solid 0.1rem #dfdfdf;
     padding: 1rem 0 2rem;
+    a:link,
+    a:visited {
+        color: $COLOR_THEME;
+    }
+    a:hover,
+    a:active {
+        color: $COLOR_INFO;
+    }
+    a:focus {
+        color: $COLOR_INFO;
+    }
 }
 
 .header__logo:link,

@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { NavLink as Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
+import { setCompanyTab } from '../../redux/actions/session';
 import {
     sortInputsByNamesAlphabeticaly,
     getInputValueByLabel,
 } from '../form/utils/customFormQueries';
 
-const NavSubmenu = ({ companies }) => {
-    companies = sortInputsByNamesAlphabeticaly(companies);
+const NavSubmenu = ({ companies, setCompanyTab }) => {
+    companies = sortInputsByNamesAlphabeticaly(companies, 'details');
     useEffect(() => {
         //grade sublink bg shade
         //orange color rgb: (235,147,70)
@@ -51,6 +52,7 @@ const NavSubmenu = ({ companies }) => {
                             activeClassName='dashboard-subnav__link--is-active'
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
+                                setCompanyTab('tasks');
                                 setAlert(
                                     `${name} is now desplayed on the page `,
                                     'success'
@@ -74,6 +76,8 @@ const mapStateToProps = (state) => ({
     companies: state.companies.companies,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    setCompanyTab,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavSubmenu);

@@ -23,7 +23,7 @@ function FormErrorsDisplay({ errors, label }) {
     ));
     return (
         <ul
-            className='form__errs tile tile--err'
+            className='form__errs'
             role='alert'
             aria-label={`${label} errors list. Number of errors: ${arr.length}.`}
         >

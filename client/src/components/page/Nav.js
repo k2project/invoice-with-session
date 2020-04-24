@@ -7,10 +7,15 @@ import cogsIcon from '../../imgs/icons/cogs.png';
 import companiesIcon from '../../imgs/icons/companiesIcon.png';
 import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
-import Page from './Page';
+import { setCompanyTab } from '../../redux/actions/session';
 import NavSubmenu from './NavSubmenu';
 
-const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
+const Nav = ({
+    setAlert,
+    profile: { createdAt, updatedAt },
+    companies,
+    setCompanyTab,
+}) => {
     return (
         <nav aria-label='dashboard menu' className='dashboard-nav '>
             <ul
@@ -51,6 +56,7 @@ const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
                             }`}
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
+                                setCompanyTab('tasks');
                                 setAlert(
                                     `Submenu listing companies now open below. `,
                                     'success'
@@ -143,6 +149,7 @@ const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
 };
 Nav.propTypes = {
     setAlert: PropTypes.func.isRequired,
+    setCompanyTab: PropTypes.func.isRequired,
     profile: PropTypes.object,
     companies: PropTypes.array,
 };
@@ -152,5 +159,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
     setAlert,
+    setCompanyTab,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);
