@@ -1,14 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import './Form.scss';
+import '../Form.scss';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import FormErrorsDisplay from './FormErrorsDisplay';
-import { isRequired, isValidated } from './validations';
-import { customInputOnChange, formErrorsStyling } from './formFuns';
+import FormErrorsDisplay from '../components/FormErrorsDisplay';
+import { isRequired, isValidated } from '../utils/validations';
+import { customInputOnChange, formErrorsStyling } from '../utils/formFuns';
 import AddCustomFields from './AddCustomFields';
 import RemoveCustomFields from './RemoveCustomFields';
-import { setAlert } from '../../redux/actions/messages';
+import { setAlert } from '../../../redux/actions/messages';
 
 const CustomBuiltForm = ({
     data: { details, http, url, cb, msg, reset },
@@ -51,7 +51,7 @@ const CustomBuiltForm = ({
             };
             const body = JSON.stringify(formState);
             const res = await axios.post(http, body, config);
-            cb();
+            await cb();
             setAlert(msg, 'success', null, false);
             //reset data
             if (reset) setFormState(formState.map((i) => (i.value = '')));

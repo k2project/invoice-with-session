@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Page from '../../components/page/Page';
 import ProfileSubmenu from './ProfileSubmenu';
 import './Profile.scss';
-import CustomBuiltForm from '../../components/form/CustomBuiltForm';
+import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
 import infoIcon from '../../imgs/icons/infoIcon.png';
 import { getProfile } from '../../redux/actions/profile';
 import { setProfileTab } from '../../redux/actions/session';

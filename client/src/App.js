@@ -8,7 +8,7 @@ import factory from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { startSession } from './redux/actions/session';
 
-import SkipToMainContentLink from './components/SkipToMainContentLink';
+import SkipToMainContentLink from './components/others/SkipToMainContentLink';
 import Alert from './components/alerts/Alert';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';

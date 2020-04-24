@@ -12,9 +12,9 @@ const isToday = (d) => {
     d = new Date(d);
     const today = new Date();
     return (
-        d.getDate() == today.getDate() &&
-        d.getMonth() == today.getMonth() &&
-        d.getFullYear() == today.getFullYear()
+        d.getDate() === today.getDate() &&
+        d.getMonth() === today.getMonth() &&
+        d.getFullYear() === today.getFullYear()
     );
 };
 const getTime = (d) => {

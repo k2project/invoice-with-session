@@ -14,8 +14,8 @@ import { getCurrentUser } from './user';
 
 export const startSession = () => async (dispatch) => {
     dispatch({ type: START_SESS });
-    await dispatch(getProfile());
     await dispatch(getAllCompanies());
+    await dispatch(getProfile());
     await dispatch(getCurrentUser());
 };
 export const endSession = () => (dispatch) => {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import FormInput from './FormInput';
-import FormErrorsDisplay from './FormErrorsDisplay';
-import { formErrorsStyling } from './formFuns';
+import FormInput from '../components/FormInput';
+import FormErrorsDisplay from '../components/FormErrorsDisplay';
+import { formErrorsStyling } from '../utils/formFuns';
 
 export default function AddCustomFields({
     addCustomToFieldsFormState,

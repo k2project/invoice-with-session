@@ -18,8 +18,12 @@ const Page = ({ title, user, children }) => {
         }
     };
     useEffect(() => {
+        window.scrollTo(0, 0);
         getMQL();
         window.addEventListener('resize', getMQL);
+        return () => {
+            window.removeEventListener('resize', getMQL);
+        };
     }, [desktop, desktopDisplay]);
     return (
         <Fragment>

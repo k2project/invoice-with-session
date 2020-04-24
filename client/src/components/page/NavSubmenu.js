@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import { NavLink as Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
+import {
+    sortInputsByNamesAlphabeticaly,
+    getInputValueByLabel,
+} from '../form/utils/customFormQueries';
 
 const NavSubmenu = ({ companies }) => {
+    companies = sortInputsByNamesAlphabeticaly(companies);
     useEffect(() => {
         //grade sublink bg shade
         //orange color rgb: (235,147,70)
@@ -37,8 +42,7 @@ const NavSubmenu = ({ companies }) => {
         >
             {companies.map((company) => {
                 const { _id, details } = company;
-                const name = details.find((input) => input.label === 'Name')
-                    .value;
+                const name = getInputValueByLabel(details, 'Name');
                 return (
                     <li key={_id}>
                         <Link
@@ -47,11 +51,6 @@ const NavSubmenu = ({ companies }) => {
                             activeClassName='dashboard-subnav__link--is-active'
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
-                                // document
-                                //     .getElementById('companies-link')
-                                //     .classList.add(
-                                //         'dashboard__link--is-active'
-                                //     );
                                 setAlert(
                                     `${name} is now desplayed on the page `,
                                     'success'

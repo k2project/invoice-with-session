@@ -21,7 +21,7 @@ export const isValidated = (state, outputArr) => {
         if (input.validate && input.value.trim()) {
             const { type, msg } = input.validate;
             let error = null;
-            if (type == 'isEmail') {
+            if (type === 'isEmail') {
                 error = isEmail(input.value)
                     ? null
                     : {

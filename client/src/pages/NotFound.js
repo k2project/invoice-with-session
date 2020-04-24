@@ -2,7 +2,9 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {
-    const companyQuery = /^\/dashboard\/company/.test(window.location.pathname);
+    const companyQuery = /^\/dashboard\/companies/.test(
+        window.location.pathname
+    );
     return (
         <main id='main'>
             <section className='not-found'>
@@ -14,7 +16,7 @@ const NotFound = () => {
                     <Link
                         to={
                             companyQuery
-                                ? '/dashboard/company'
+                                ? '/dashboard/add-company'
                                 : '/dashboard/profile'
                         }
                         onMouseDown={(e) => e.preventDefault()}

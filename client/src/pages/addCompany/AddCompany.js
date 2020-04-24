@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Page from '../../components/page/Page';
 import { companyInitDetails } from './companyInitDetails';
-import CustomBuiltForm from '../../components/form/CustomBuiltForm';
+import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
 import { setCompanyTab } from '../../redux/actions/session';
 import { getAllCompanies } from '../../redux/actions/companies';
 import infoIcon from '../../imgs/icons/infoIcon.png';
 
 const AddCompany = ({ getAllCompanies, setCompanyTab }) => {
-    const cb = () => {
-        getAllCompanies();
+    const cb = async () => {
+        await getAllCompanies();
         setCompanyTab('details');
     };
     const formData = {

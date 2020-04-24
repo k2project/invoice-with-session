@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import errIcon from '../../imgs/icons/errIcon.png';
+import errIcon from '../../../imgs/icons/errIcon.png';
 //ERROR STRUCTURE
 //{param:NAME || id , msg: text, index: num}
 

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { inputOnChange, checkboxOnChange } from './formFuns';
+import { inputOnChange, checkboxOnChange } from '../utils/formFuns';
 
 const FormInput = ({ type = 'text', name, size = 'sml', children, form }) => {
     const onChange = (e) => {

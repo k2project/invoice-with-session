@@ -111,7 +111,7 @@ const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
                             New Invoice
                         </Link>
                     </li>
-                    {/* // disable links until profile is created */}
+                    {/* // disables links until profile is created */}
                     {createdAt === updatedAt && (
                         <div className='disable-links'></div>
                     )}
