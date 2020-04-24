@@ -1,7 +1,13 @@
 import React from 'react';
 import errIcon from '../../imgs/icons/errIcon.png';
 //targetEl- el to focus on cancelation for sr
-export const dialogBox = async (msg, cb, targetEl) => {
+export const dialogBox = async ({
+    msg,
+    cancelBtnText = 'Cancel',
+    confirmBtnText = 'Proceeed',
+    cancelCb,
+    confirmCb,
+}) => {
     const exist = document.getElementById('dialog');
     if (!exist) {
         let box = document.createElement('div');
@@ -17,8 +23,8 @@ export const dialogBox = async (msg, cb, targetEl) => {
                 <img src="${errIcon}" alt=""/> ${msg}
             </div>
             <div class="dialog-box__footer" >
-                <button class="btn btn--cancel" id="dialog-cancel">Cancel</button>
-                <button class="btn btn--ok" id="dialog-confirm"> Proceed</button>
+                <button class="btn btn--cancel" id="dialog-cancel">${cancelBtnText}</button>
+                <button class="btn btn--ok" id="dialog-confirm">${confirmBtnText}</button>
             </div>
         </div>
         `;
@@ -30,14 +36,14 @@ export const dialogBox = async (msg, cb, targetEl) => {
 
     function cancelDialog(e) {
         if (e.target.getAttribute('id') === 'dialog-cancel') {
+            cancelCb();
             removeEvents();
             closeDialog();
-            if (targetEl) targetEl.focus();
         }
     }
     function confirmDialog(e) {
         if (e.target.getAttribute('id') === 'dialog-confirm') {
-            cb();
+            confirmCb();
             removeEvents();
             closeDialog();
         }

@@ -18,12 +18,16 @@ const CompanySubmenu = ({ company, setCompanyTab, deleteCompany, history }) => {
     let companyName = getInputValueByLabel(company.details, 'Name');
     const handleDelete = (e) => {
         const msg = ` Are you sure you want to delete ${companyName}?`;
-        const cb = () => {
+        const targetEl = e.target;
+        const cancelCb = () => {
+            targetEl.focus();
+        };
+        const confirmCb = () => {
             deleteCompany(company._id);
             history.push('/dashboard/add-company');
         };
-        const targetEl = e.target;
-        dialogBox(msg, cb, targetEl);
+
+        dialogBox({ msg, cancelCb, confirmCb, targetEl });
         document.getElementById('dialog-cancel').focus();
     };
     return (

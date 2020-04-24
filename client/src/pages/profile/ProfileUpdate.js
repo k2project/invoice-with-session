@@ -5,9 +5,10 @@ import './Profile.scss';
 import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
 import { connect } from 'react-redux';
 import { getProfile } from '../../redux/actions/profile';
+import { setProfileTab } from '../../redux/actions/session';
 import { alertUnsavedChanges } from './utils/onProfileChanges';
 
-const ProfileUpdate = ({ profile, getProfile, history }) => {
+const ProfileUpdate = ({ profile, getProfile, setProfileTab, history }) => {
     const { details } = profile;
     const formData = {
         details,
@@ -19,21 +20,23 @@ const ProfileUpdate = ({ profile, getProfile, history }) => {
     //handle unsaved changes
     useEffect(() => {
         return async () => {
-            alertUnsavedChanges(profile, history);
+            alertUnsavedChanges(profile, getProfile, setProfileTab, history);
         };
-    });
+    }, []);
     return <CustomBuiltForm data={formData} />;
 };
 
 ProfileUpdate.propTypes = {
     profile: PropTypes.object,
     getProfile: PropTypes.func,
+    setProfileTab: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     profile: state.profile,
 });
 const mapDispatchToProps = {
     getProfile,
+    setProfileTab,
 };
 export default connect(
     mapStateToProps,

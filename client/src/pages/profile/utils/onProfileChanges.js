@@ -3,7 +3,12 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { dialogBox } from '../../../components/alerts/alertsFuns';
 
-export const alertUnsavedChanges = async (profile, history) => {
+export const alertUnsavedChanges = async (
+    profile,
+    getProfile,
+    setProfileTab,
+    history
+) => {
     try {
         const profileDB = await axios.get('/api/profile');
         console.log(profile);
@@ -13,10 +18,22 @@ export const alertUnsavedChanges = async (profile, history) => {
             JSON.stringify(profileDB.data.details)
         ) {
             const msg = `You have some unsaved changes in your profile form.`;
-            const cb = () => {
-                history.push('/dashboard/profile');
+            const cancelBtnText = 'Leave without saving';
+            const confirmBtnText = 'Return to form!';
+            const cancelCb = () => {
+                getProfile();
             };
-            dialogBox(msg, cb);
+            const confirmCb = () => {
+                history.push('/dashboard/profile');
+                setProfileTab('form');
+            };
+            dialogBox({
+                msg,
+                cancelBtnText,
+                confirmBtnText,
+                cancelCb,
+                confirmCb,
+            });
         }
     } catch (err) {
         console.log('@@@ Unsaved Changes - Profile @@@', err);
