@@ -8,7 +8,7 @@ export default function RemoveCustomFields({
     return (
         <fieldset>
             <legend>
-                <b>Remove custom fields from the form.</b>
+                <b>Remove a custom field.</b>
             </legend>
             <ul aria-label='Custom fields list' className='remove-custom__list'>
                 {customFields.map((f) => (

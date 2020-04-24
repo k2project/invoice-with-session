@@ -18,6 +18,7 @@ export const startSession = () => async (dispatch) => {
     await dispatch(getProfile());
     await dispatch(getCurrentUser());
 };
+
 export const endSession = () => (dispatch) => {
     localStorage.removeItem('persist:sess');
     dispatch({ type: END_SESS });

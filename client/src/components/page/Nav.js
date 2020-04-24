@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as Link } from 'react-router-dom';
 import plusIcon from '../../imgs/icons/plusIcon.png';
@@ -46,35 +46,39 @@ const Nav = ({
                             Profile
                         </Link>
                     </li>
-                    <li>
-                        <Link
-                            to={`/dashboard/companies/${companies[0]._id}`}
-                            className={`dashboard-nav__link tile ${
-                                /^\/dashboard\/companies/.test(
-                                    window.location.pathname
-                                )
-                                    ? 'dashboard__link--is-active'
-                                    : ''
-                            }`}
-                            onMouseDown={(e) => e.preventDefault()}
-                            onClick={() => {
-                                setCompanyTab('tasks');
-                                setAlert(
-                                    `Submenu listing companies now open below. `,
-                                    'success'
-                                );
-                            }}
-                        >
-                            <img
-                                src={companiesIcon}
-                                className='dashboard__icon'
-                                alt=''
-                            />
-                            Companies
-                        </Link>
-                    </li>
 
-                    {companies.length > 0 && <NavSubmenu />}
+                    {companies.length > 0 && (
+                        <Fragment>
+                            <li>
+                                <Link
+                                    to={`/dashboard/companies/${companies[0]._id}`}
+                                    className={`dashboard-nav__link tile ${
+                                        /^\/dashboard\/companies/.test(
+                                            window.location.pathname
+                                        )
+                                            ? 'dashboard__link--is-active'
+                                            : ''
+                                    }`}
+                                    onMouseDown={(e) => e.preventDefault()}
+                                    onClick={() => {
+                                        setCompanyTab('tasks');
+                                        setAlert(
+                                            `Submenu listing companies now open below. `,
+                                            'success'
+                                        );
+                                    }}
+                                >
+                                    <img
+                                        src={companiesIcon}
+                                        className='dashboard__icon'
+                                        alt=''
+                                    />
+                                    Companies
+                                </Link>
+                            </li>
+                            <NavSubmenu />
+                        </Fragment>
+                    )}
 
                     <li>
                         <Link

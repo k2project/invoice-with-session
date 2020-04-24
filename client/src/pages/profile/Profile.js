@@ -1,69 +1,58 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Page from '../../components/page/Page';
-import ProfileSubmenu from './ProfileSubmenu';
 import './Profile.scss';
-import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
-import infoIcon from '../../imgs/icons/infoIcon.png';
-import { getProfile } from '../../redux/actions/profile';
+import Page from '../../components/page/Page';
+import ProfileInit from './ProfileInit';
+import ProfileSubmenu from './ProfileSubmenu';
+import ProfileDetails from './ProfileDetails';
+import ProfileUpdate from './ProfileUpdate';
+import { connect } from 'react-redux';
 
 const Profile = ({
-    profile: { details, createdAt, updatedAt },
-    getProfile,
+    profile: { createdAt, updatedAt },
     currentProfileTab = 'details',
 }) => {
     //show form on first login and until its created
     const updated = createdAt !== updatedAt;
-    const formData = {
-        details,
-        http: '/api/profile/',
-        url: '/dashboard/profile',
-        cb: getProfile,
-    };
 
+    //save changes
+    // useEffect(() => {
+    //     return async () => {
+    //         try {
+    //             const config = {
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                 },
+    //             };
+    //             const profileDB = await axios.get('/api/profile');
+    //             JSON.stringify(profile) === JSON.stringify(profileDB) ||
+    //                 (await axios.post(
+    //                     '/api/profile',
+    //                     JSON.stringify(details),
+    //                     config
+    //                 ));
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     };
+    // });
     return (
         <Page title='Profile Page.'>
-            {!updated && (
-                <Fragment>
-                    <div className='tile tile--info'>
-                        <img src={infoIcon} alt='' className='icon--md' />{' '}
-                        <h2>Please create your profile.</h2>
-                    </div>
-                    <CustomBuiltForm
-                        data={{
-                            ...formData,
-                            msg: 'Your profile has been created successfully.',
-                        }}
-                    />
-                </Fragment>
-            )}
+            {!updated && <ProfileInit />}
             {updated && <ProfileSubmenu />}
-            {updated && currentProfileTab === 'details' && (
-                <div className='tile tile--md'>details</div>
-            )}
-            {updated && currentProfileTab === 'form' && (
-                <CustomBuiltForm
-                    data={{
-                        ...formData,
-                        msg: 'Your profile has been updated successfully.',
-                    }}
-                />
-            )}
+            {updated && currentProfileTab === 'details' && <ProfileDetails />}
+            {updated && currentProfileTab === 'form' && <ProfileUpdate />}
         </Page>
     );
 };
 
 Profile.propTypes = {
     profile: PropTypes.object,
-    getProfile: PropTypes.func,
     currentProfileTab: PropTypes.string,
 };
 const mapStateToProps = (state) => ({
     profile: state.profile,
     currentProfileTab: state.session.currentProfileTab,
 });
-const mapDispatchToProps = {
-    getProfile,
-};
+const mapDispatchToProps = {};
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

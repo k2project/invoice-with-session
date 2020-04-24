@@ -1,5 +1,6 @@
 import React from 'react';
 import errIcon from '../../imgs/icons/errIcon.png';
+//targetEl- el to focus on cancelation for sr
 export const dialogBox = async (msg, cb, targetEl) => {
     const exist = document.getElementById('dialog');
     if (!exist) {
@@ -13,7 +14,7 @@ export const dialogBox = async (msg, cb, targetEl) => {
         <div class="dialog-box" aria-describedby="dialog-body" role="dialog">
             <div class="dialog-box__header sr-only" id="dialog-header">WARNING!</div>
             <div class="dialog-box__body" id="dialog-body">
-                <img src="${errIcon}" alt=""/>Are you sure you want to ${msg}?
+                <img src="${errIcon}" alt=""/> ${msg}
             </div>
             <div class="dialog-box__footer" >
                 <button class="btn btn--cancel" id="dialog-cancel">Cancel</button>
@@ -31,7 +32,7 @@ export const dialogBox = async (msg, cb, targetEl) => {
         if (e.target.getAttribute('id') === 'dialog-cancel') {
             removeEvents();
             closeDialog();
-            targetEl.focus();
+            if (targetEl) targetEl.focus();
         }
     }
     function confirmDialog(e) {

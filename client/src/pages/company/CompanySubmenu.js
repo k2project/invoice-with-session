@@ -17,7 +17,7 @@ const CompanySubmenu = ({ company, setCompanyTab, deleteCompany, history }) => {
     //details | tasks |invoices | update | delete
     let companyName = getInputValueByLabel(company.details, 'Name');
     const handleDelete = (e) => {
-        const msg = ` delete ${companyName}`;
+        const msg = ` Are you sure you want to delete ${companyName}?`;
         const cb = () => {
             deleteCompany(company._id);
             history.push('/dashboard/add-company');

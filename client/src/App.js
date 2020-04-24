@@ -21,6 +21,7 @@ import NotFound from './pages/NotFound';
 
 function App() {
     const { store, persistor } = factory();
+
     useEffect(() => {
         store.dispatch(startSession());
     });

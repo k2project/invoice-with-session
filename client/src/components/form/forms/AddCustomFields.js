@@ -85,7 +85,7 @@ export default function AddCustomFields({
         <Fragment>
             <fieldset className='add-custom-fields'>
                 <legend>
-                    <b>Add a custom field to the form.</b>
+                    <b>Add a custom field.</b>
                 </legend>
                 <FormInput
                     form={{ formData, setFormData }}

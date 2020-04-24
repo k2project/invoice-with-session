@@ -17,10 +17,12 @@ const Page = ({ title, user, children }) => {
             desktopDisplay(false);
         }
     };
+
     useEffect(() => {
         window.scrollTo(0, 0);
         getMQL();
         window.addEventListener('resize', getMQL);
+
         return () => {
             window.removeEventListener('resize', getMQL);
         };

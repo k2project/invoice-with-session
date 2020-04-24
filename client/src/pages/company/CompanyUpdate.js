@@ -13,7 +13,7 @@ export const CompanyUpdate = ({ company, getAllCompanies }) => {
         http: `/api/companies/${company._id}`,
         url: '/dashboard/companies/',
         cb: getAllCompanies,
-        msg: `${companyName || 'Company'} has been updated successfully.`,
+        msg: 'Company has been updated successfully.',
     };
     return <CustomBuiltForm data={formData} />;
 };
