@@ -25,10 +25,12 @@ const CustomBuiltForm = ({
         formState.splice(position, 0, field);
         setFormState([...formState]);
     };
-    const removeCustomFieldsFromFormState = (id) => {
-        const newFields = formState.filter((field) => field._id !== id);
-        setFormState(newFields);
+    const removeCustomFieldsFromFormState = (field) => {
+        const index = formState.indexOf(field);
+        formState.splice(index, 1);
+        setFormState([...formState]);
     };
+
     //handle input change
     const updateInput = (e, id) => {
         customInputOnChange(e, id, formState, setFormState, errors, setErrors);

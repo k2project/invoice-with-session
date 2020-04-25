@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_PROFILE, END_SESS } from './types';
+import { GET_PROFILE, END_SESS, UPDATE_PROFILE } from './types';
 import { setAlert } from './messages';
 
 export const getProfile = () => async (dispatch) => {
@@ -7,7 +7,7 @@ export const getProfile = () => async (dispatch) => {
         const res = await axios.get('/api/profile');
         dispatch({
             type: GET_PROFILE,
-            profile: res.data,
+            payload: res.data,
         });
     } catch (err) {
         console.error('ERROR ON PROFILE LOADING', err);
@@ -22,4 +22,10 @@ export const getProfile = () => async (dispatch) => {
         //     )
         // );
     }
+};
+export const updateProfileDetails = (details) => (dispatch) => {
+    dispatch({
+        type: UPDATE_PROFILE,
+        payload: details,
+    });
 };

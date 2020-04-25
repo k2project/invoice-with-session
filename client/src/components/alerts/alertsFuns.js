@@ -36,14 +36,14 @@ export const dialogBox = async ({
 
     function cancelDialog(e) {
         if (e.target.getAttribute('id') === 'dialog-cancel') {
-            cancelCb();
+            if (cancelCb) cancelCb();
             removeEvents();
             closeDialog();
         }
     }
     function confirmDialog(e) {
         if (e.target.getAttribute('id') === 'dialog-confirm') {
-            confirmCb();
+            if (confirmCb) confirmCb();
             removeEvents();
             closeDialog();
         }

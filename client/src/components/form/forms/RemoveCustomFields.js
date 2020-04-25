@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import deleteIcon from '../../../imgs/icons/deleteIcon.png';
 
 export default function RemoveCustomFields({
@@ -11,15 +11,15 @@ export default function RemoveCustomFields({
                 <b>Remove a custom field.</b>
             </legend>
             <ul aria-label='Custom fields list' className='remove-custom__list'>
-                {customFields.map((f) => (
-                    <li key={f._id}>
-                        <span>{f.label}</span>
+                {customFields.map((field) => (
+                    <li key={field._id}>
+                        <span>{field.label}</span>
                         <button
                             title='Remove Item'
                             className='btn btn--sqr'
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
-                                removeCustomFieldsFromFormState(f._id);
+                                removeCustomFieldsFromFormState(field);
                             }}
                         >
                             <img src={deleteIcon} alt='Delete Item' />

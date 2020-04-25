@@ -5,10 +5,17 @@ import './Profile.scss';
 import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
 import { connect } from 'react-redux';
 import { getProfile } from '../../redux/actions/profile';
+import { setAlert } from '../../redux/actions/messages';
 import { setProfileTab } from '../../redux/actions/session';
-import { alertUnsavedChanges } from './utils/onProfileChanges';
+import { alertUnsavedChanges } from '../../components/form/utils/handleUnsavedChanges';
 
-const ProfileUpdate = ({ profile, getProfile, setProfileTab, history }) => {
+const ProfileUpdate = ({
+    profile,
+    getProfile,
+    setAlert,
+    setProfileTab,
+    history,
+}) => {
     const { details } = profile;
     const formData = {
         details,
@@ -19,8 +26,18 @@ const ProfileUpdate = ({ profile, getProfile, setProfileTab, history }) => {
     };
     //handle unsaved changes
     useEffect(() => {
+        console.log(profile.details);
         return async () => {
-            alertUnsavedChanges(profile, getProfile, setProfileTab, history);
+            console.log(profile.details);
+            alertUnsavedChanges(
+                profile,
+                getProfile,
+                setProfileTab,
+                '/api/profile',
+                '/dashboard/profile',
+                history,
+                setAlert
+            );
         };
     }, []);
     return <CustomBuiltForm data={formData} />;
@@ -29,6 +46,7 @@ const ProfileUpdate = ({ profile, getProfile, setProfileTab, history }) => {
 ProfileUpdate.propTypes = {
     profile: PropTypes.object,
     getProfile: PropTypes.func,
+    setAlert: PropTypes.func,
     setProfileTab: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
@@ -37,6 +55,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     getProfile,
     setProfileTab,
+    setAlert,
 };
 export default connect(
     mapStateToProps,

@@ -7,19 +7,19 @@ export const alertUnsavedChanges = async (
     profile,
     getProfile,
     setProfileTab,
-    history
+    history,
+    setAlert
 ) => {
     try {
         const profileDB = await axios.get('/api/profile');
-        console.log(profile);
-        console.log(profileDB);
+
         if (
             JSON.stringify(profile.details) !==
             JSON.stringify(profileDB.data.details)
         ) {
-            const msg = `You have some unsaved changes in your profile form.`;
-            const cancelBtnText = 'Leave without saving';
-            const confirmBtnText = 'Return to form!';
+            const msg = `You have some unsaved changes. What would you like to do?`;
+            const cancelBtnText = 'Discharge updates';
+            const confirmBtnText = 'Return to the form!';
             const cancelCb = () => {
                 getProfile();
             };
@@ -36,6 +36,12 @@ export const alertUnsavedChanges = async (
             });
         }
     } catch (err) {
-        console.log('@@@ Unsaved Changes - Profile @@@', err);
+        setAlert(
+            `We think you may have some unsaved changes. Unfortunately due to server error we weren't able to proceed them. Please check the last form you were working on.`,
+            'danger',
+            null,
+            false,
+            15000
+        );
     }
 };
