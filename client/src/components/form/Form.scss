@@ -234,6 +234,11 @@ textarea:focus {
     .td__last {
         padding-right: 2rem;
     }
+    tr:last-child {
+        .td__last {
+            display: none;
+        }
+    }
     tfoot td {
         padding: 1.5rem;
     }

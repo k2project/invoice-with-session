@@ -74,26 +74,6 @@ export const updateStateErrors = async (form, state, updateState, errors) => {
     }
 };
 
-export const sanitize = (string) => {
-    const map = {
-        // '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        // '"': '&quot;',
-        // "'": '&#x27;',
-        // '/': '&#x2F;'
-    };
-    const reg = /[<>]/gi;
-    // const reg = /[&<>"'/]/gi;
-    return string.replace(reg, (match) => map[match]);
-};
-
-export const cleanData = async (state) => {
-    Object.keys(state).forEach(function (item) {
-        if (typeof state[item] === 'string')
-            state[item] = sanitize(state[item].trim());
-    });
-};
 export const objHasAllPropertyEmpty = (obj) => {
     let res = true;
     if (Object.values(obj).length > 0) {

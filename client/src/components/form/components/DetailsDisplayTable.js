@@ -1,39 +1,9 @@
 import React, { useState } from 'react';
 import arrowIcon from '../../../imgs/icons/arrow.png';
+import { moveItemUpOrDown } from '../utils/moveItemUpOrDown';
 
 export default function DetailsDisplayTable({ details }) {
     const [tableState, setTableState] = useState(details);
-    const moveUp = (e, item) => {
-        const btn = e.target.closest('button');
-        const tr = btn.parentElement.parentElement;
-        const trSibling = tr.previousElementSibling;
-        const margin = 2;
-        const trIndex = tr.dataset.detailsIndex;
-        const trSiblingIndex = trSibling.dataset.detailsIndex;
-
-        tr.style.transform = `translateY(-${
-            trSibling.getBoundingClientRect().height + margin
-        }px)`;
-        tr.style.transition = 'transform 0.5s ease-in-out';
-        trSibling.style.transform = `translateY(${
-            tr.getBoundingClientRect().height + margin
-        }px)`;
-        trSibling.style.transition = 'transform 0.5s ease-in-out';
-
-        setTimeout(() => {
-            let index = tableState.indexOf(item);
-            tableState.splice(
-                trSiblingIndex,
-                0,
-                tableState.splice(trIndex, 1)[0]
-            );
-            setTableState([...tableState]);
-            tr.style.transition = 'none';
-            trSibling.style.transition = 'none';
-            tr.style.transform = `translateY(0px)`;
-            trSibling.style.transform = `translateY(0px)`;
-        }, 500);
-    };
     return (
         <table className='details-table'>
             <caption>
@@ -89,7 +59,14 @@ export default function DetailsDisplayTable({ details }) {
                                             }
                                             className='arrow-up'
                                             title='Move item up'
-                                            onClick={(e) => moveUp(e, item)}
+                                            onClick={(e) =>
+                                                moveItemUpOrDown(
+                                                    e,
+                                                    'up',
+                                                    tableState,
+                                                    setTableState
+                                                )
+                                            }
                                         >
                                             <img
                                                 src={arrowIcon}
@@ -99,20 +76,25 @@ export default function DetailsDisplayTable({ details }) {
                                     )}
                                 </td>
                                 <td className='td__last'>
-                                    {index !== arr.length - 1 && (
-                                        <button
-                                            onMouseDown={(e) =>
-                                                e.preventDefault()
-                                            }
-                                            className='arrow-down'
-                                            title='Move item down'
-                                        >
-                                            <img
-                                                src={arrowIcon}
-                                                alt='move item up'
-                                            />
-                                        </button>
-                                    )}
+                                    {/* last td of last tr disabled with css */}
+                                    <button
+                                        onMouseDown={(e) => e.preventDefault()}
+                                        className='arrow-down'
+                                        title='Move item down'
+                                        onClick={(e) =>
+                                            moveItemUpOrDown(
+                                                e,
+                                                'down',
+                                                tableState,
+                                                setTableState
+                                            )
+                                        }
+                                    >
+                                        <img
+                                            src={arrowIcon}
+                                            alt='move item up'
+                                        />
+                                    </button>
                                 </td>
                             </tr>
                         );
