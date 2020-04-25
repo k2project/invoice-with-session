@@ -1,7 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import arrowIcon from '../../../imgs/icons/arrow.png';
 
 export default function DetailsDisplayTable({ details }) {
+    const [tableState, setTableState] = useState(details);
+    const moveUp = (e, item) => {
+        const btn = e.target.closest('button');
+        const tr = btn.parentElement.parentElement;
+        const trSibling = tr.previousElementSibling;
+        const margin = 2;
+        const trIndex = tr.dataset.detailsIndex;
+        const trSiblingIndex = trSibling.dataset.detailsIndex;
+
+        tr.style.transform = `translateY(-${
+            trSibling.getBoundingClientRect().height + margin
+        }px)`;
+        tr.style.transition = 'transform 0.5s ease-in-out';
+        trSibling.style.transform = `translateY(${
+            tr.getBoundingClientRect().height + margin
+        }px)`;
+        trSibling.style.transition = 'transform 0.5s ease-in-out';
+
+        setTimeout(() => {
+            let index = tableState.indexOf(item);
+            tableState.splice(
+                trSiblingIndex,
+                0,
+                tableState.splice(trIndex, 1)[0]
+            );
+            setTableState([...tableState]);
+            tr.style.transition = 'none';
+            trSibling.style.transition = 'none';
+            tr.style.transform = `translateY(0px)`;
+            trSibling.style.transform = `translateY(0px)`;
+        }, 500);
+    };
     return (
         <table className='details-table'>
             <caption>
@@ -22,13 +54,12 @@ export default function DetailsDisplayTable({ details }) {
                 </tr>
             </thead>
             <tbody>
-                {details
-                    .filter((item) => item.value)
-                    .map((item) => {
+                {tableState.map((item, index, arr) => {
+                    if (item.value)
                         return (
-                            <tr key={item._id}>
+                            <tr key={item._id} data-details-index={index}>
                                 <th scope='row'>{item.label}:</th>
-                                <td className='value'>{item.value}</td>
+                                <td className='td__value'>{item.value}</td>
                                 <td
                                 // onClick={() => {
                                 //     task.addToNextInvoice = !addToNextInvoice;
@@ -44,39 +75,48 @@ export default function DetailsDisplayTable({ details }) {
                                         }
                                     >
                                         {item.addToInvoice ? (
-                                            <b>&#43;</b>
+                                            <span>&#43;</span>
                                         ) : (
-                                            <b>&#45;</b>
+                                            <span>&#45;</span>
                                         )}
                                     </button>
                                 </td>
                                 <td>
-                                    <button
-                                        onMouseDown={(e) => e.preventDefault()}
-                                        className='arrow-up'
-                                        title='Move item up'
-                                    >
-                                        <img
-                                            src={arrowIcon}
-                                            alt='move item up'
-                                        />
-                                    </button>
+                                    {index !== 0 && (
+                                        <button
+                                            onMouseDown={(e) =>
+                                                e.preventDefault()
+                                            }
+                                            className='arrow-up'
+                                            title='Move item up'
+                                            onClick={(e) => moveUp(e, item)}
+                                        >
+                                            <img
+                                                src={arrowIcon}
+                                                alt='move item up'
+                                            />
+                                        </button>
+                                    )}
                                 </td>
-                                <td>
-                                    <button
-                                        onMouseDown={(e) => e.preventDefault()}
-                                        className='arrow-down'
-                                        title='Move item down'
-                                    >
-                                        <img
-                                            src={arrowIcon}
-                                            alt='move item up'
-                                        />
-                                    </button>
+                                <td className='td__last'>
+                                    {index !== arr.length - 1 && (
+                                        <button
+                                            onMouseDown={(e) =>
+                                                e.preventDefault()
+                                            }
+                                            className='arrow-down'
+                                            title='Move item down'
+                                        >
+                                            <img
+                                                src={arrowIcon}
+                                                alt='move item up'
+                                            />
+                                        </button>
+                                    )}
                                 </td>
                             </tr>
                         );
-                    })}
+                })}
             </tbody>
         </table>
     );

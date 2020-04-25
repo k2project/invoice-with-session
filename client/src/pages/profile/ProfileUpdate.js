@@ -26,9 +26,7 @@ const ProfileUpdate = ({
     };
     //handle unsaved changes
     useEffect(() => {
-        console.log(profile.details);
-        return async () => {
-            console.log(profile.details);
+        return () => {
             alertUnsavedChanges(
                 profile,
                 getProfile,

@@ -21,10 +21,10 @@ fieldset {
     margin: 0.5rem;
     min-height: 9rem;
     padding: 2rem;
-    margin-top: -3.2rem;
+    margin-top: -2rem;
 }
 legend {
-    padding-top: 7rem;
+    padding-top: 6rem;
 }
 label {
     display: inline-block;
@@ -177,50 +177,62 @@ textarea:focus {
     }
 }
 .details-table {
-    // max-width: 70rem;
-    // padding: 4rem 0;
     font-size: 1.4rem;
     background-color: #fff;
     margin: 0.5rem;
-    padding: 2rem;
+    padding: 2rem 0;
     border-radius: 0.4rem;
     caption {
         text-align: left;
         padding-bottom: 1rem;
-        // position: absolute;
-        // z-index: 2;
-        // top: 2rem;
-        // left: 3rem;
     }
 
     button {
-        font-size: 2rem;
-        font-weight: normal;
+        font-size: 2.2rem;
+        padding-bottom: 0.2rem;
+        width: 3.5rem;
+        height: 3.5rem;
         opacity: 0.4;
+        border: solid 1px #ccc;
+        font-weight: 100;
+        margin: 0.2rem;
         img {
             height: 1.6rem;
         }
+    }
+    button:hover {
+        background-color: #f1f1f1;
+    }
+    button:focus {
+        border: dashed 0.1rem #111;
     }
     .arrow-down {
         transform: rotate(180deg);
     }
     th,
     td {
-        padding: 0.5rem 1rem;
         text-align: center;
         background-color: #fff;
     }
 
     tr {
+        background-color: #fff;
         vertical-align: middle;
+        padding: 0 2rem;
     }
+
     th[scope='row'] {
         text-align: left;
         color: #c5c5c5;
+        padding-left: 2rem;
     }
-    td.value {
+
+    .td__value {
         text-align: right;
         padding: 0 4rem 0 5rem;
+    }
+    .td__last {
+        padding-right: 2rem;
     }
     tfoot td {
         padding: 1.5rem;

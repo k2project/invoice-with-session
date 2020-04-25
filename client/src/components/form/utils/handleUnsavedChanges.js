@@ -39,7 +39,7 @@ export const alertUnsavedChanges = async (
         }
     } catch (err) {
         setAlert(
-            `We think you may have some unsaved changes. Unfortunately due to server error we weren't able to proceed them. Please check the last form you were working on.`,
+            `We think you may have some unsaved changes. Unfortunately due to server error we weren't able to proceed them.`,
             'danger',
             null,
             false,
