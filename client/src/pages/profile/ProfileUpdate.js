@@ -1,51 +1,91 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './Profile.scss';
 import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
 import { connect } from 'react-redux';
 import { getProfile } from '../../redux/actions/profile';
-import { setAlert } from '../../redux/actions/messages';
 import { setProfileTab } from '../../redux/actions/session';
 import { alertUnsavedChanges } from '../../components/form/utils/handleUnsavedChanges';
 
-const ProfileUpdate = ({
-    profile,
-    getProfile,
-    setAlert,
-    setProfileTab,
-    history,
-}) => {
-    const { details } = profile;
-    const formData = {
-        details,
-        http: '/api/profile/',
-        url: '/dashboard/profile',
-        cb: getProfile,
-        msg: 'Your profile has been updated successfully.',
-    };
-    //handle unsaved changes
-    useEffect(() => {
-        return () => {
-            // alertUnsavedChanges(
-            //     profile,
-            //     getProfile,
-            //     setProfileTab,
-            //     '/api/profile',
-            //     '/dashboard/profile',
-            //     history,
-            //     setAlert
-            // );
+class ProfileUpdate extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            //deep copy of the redux state on component load
+            details: JSON.parse(JSON.stringify(props.profile.details)),
         };
-    }, []);
-    return <CustomBuiltForm data={formData} />;
-};
+        this.handleChanges = this.handleChanges.bind(this);
+        this.updateInitState = this.updateInitState.bind(this);
+    }
+    handleChanges() {
+        alertUnsavedChanges(
+            this.state.details, //initial state
+            this.props.profile.details, //redux updated state
+            this.props.setProfileTab,
+            '/dashboard/profile',
+            this.props.history
+        );
+    }
+    updateInitState() {
+        this.setState({ details: this.props.profile.details });
+    }
+    componentDidMount() {
+        window.addEventListener('beforeunload', this.handleChanges);
+    }
+    componentWillUnmount() {
+        this.handleChanges();
+        window.removeEventListener('beforeunload', this.handleChanges);
+    }
+    render() {
+        const formData = {
+            details: this.props.profile.details,
+            http: '/api/profile',
+            url: '/dashboard/profile',
+            cb: this.props.getProfile,
+            updateInitState: this.updateInitState, //stops firing alertUnsavedChanges on submit
+            msg: 'Your profile has been updated successfully.',
+        };
+        return <CustomBuiltForm data={formData} />;
+    }
+}
+// const ProfileUpdate = ({
+//     profile: { details },
+//     getProfile,
+//     setProfileTab,
+//     setSessionUpdatesStatus,
+//     history,
+// }) => {
+//     const formData = {
+//         details,
+//         http: '/api/profile',
+//         url: '/dashboard/profile',
+//         cb: getProfile,
+//         msg: 'Your profile has been updated successfully.',
+//     };
+//     //handle unsaved changes
+//     useEffect(() => {
+//         const initialDetails = JSON.parse(JSON.stringify(details));
+//         return () => {
+//             alertUnsavedChanges(
+//                 initialDetails,
+//                 details,
+//                 setProfileTab,
+//                 setSessionUpdatesStatus,
+//                 '/dashboard/profile',
+//                 history
+//             );
+//         };
+//     }, []);
+//     return <CustomBuiltForm data={formData} />;
+// };
 
 ProfileUpdate.propTypes = {
-    profile: PropTypes.object,
+    details: PropTypes.array,
     getProfile: PropTypes.func,
     setAlert: PropTypes.func,
     setProfileTab: PropTypes.func,
+    setSessionUpdatesStatus: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     profile: state.profile,
@@ -53,7 +93,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     getProfile,
     setProfileTab,
-    setAlert,
 };
 export default connect(
     mapStateToProps,

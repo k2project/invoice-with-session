@@ -11,7 +11,7 @@ import RemoveCustomFields from './RemoveCustomFields';
 import { setAlert } from '../../../redux/actions/messages';
 
 const CustomBuiltForm = ({
-    data: { details, http, url, cb, msg, reset },
+    data: { details, http, url, cb, updateInitState, msg, reset },
     setAlert,
     history,
 }) => {
@@ -36,6 +36,42 @@ const CustomBuiltForm = ({
         customInputOnChange(e, id, formState, setFormState, errors, setErrors);
     };
 
+    const displayInput = (input, i) => {
+        const { _id, label, inputType, value, required } = input;
+        if (inputType === 'text')
+            return (
+                <Fragment key={_id}>
+                    <label htmlFor={_id}>
+                        {label}
+                        {/* {i + 1}. {label} */}
+                        {required ? '*' : null}
+                    </label>
+                    <input
+                        id={_id}
+                        type={inputType}
+                        value={value}
+                        onChange={(e) => updateInput(e, _id)}
+                        className={'form__input ci--on-change'}
+                    />
+                </Fragment>
+            );
+        if (inputType === 'textarea')
+            return (
+                <Fragment key={_id}>
+                    <label htmlFor={_id}>
+                        {label}
+                        {required ? '*' : null}
+                    </label>
+                    <textarea
+                        id={_id}
+                        value={value}
+                        onChange={(e) => updateInput(e, _id)}
+                        className='ci--on-change'
+                    />
+                </Fragment>
+            );
+    };
+
     const onSubmit = async (e) => {
         e.preventDefault();
         const errArr = [];
@@ -54,6 +90,8 @@ const CustomBuiltForm = ({
             const body = JSON.stringify(formState);
             const res = await axios.post(http, body, config);
             await cb();
+            //stop showing the dialog for changes
+            updateInitState();
             setAlert(msg, 'success', null, false);
             //reset data
             if (reset) setFormState(formState.map((i) => (i.value = '')));
@@ -74,7 +112,17 @@ const CustomBuiltForm = ({
     useEffect(() => {
         formErrorsStyling(errors);
     }, [errors]);
-    const customFields = formState.filter((field) => field.custom);
+
+    const orderedFields = formState
+        .filter((field) => field.order)
+        .sort((a, b) => a.order - b.order);
+    const customFields = formState
+        .filter((field) => field.custom)
+        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    const textarea = formState.filter(
+        (field) => field.inputType === 'textarea'
+    );
+    console.log(formState, orderedFields, customFields, textarea);
     return (
         <form onSubmit={onSubmit} className='form form__submit'>
             <div>
@@ -86,46 +134,11 @@ const CustomBuiltForm = ({
                         </span>
                         * Regired fields.
                     </legend>
-                    {formState.map((input, i) => {
-                        const {
-                            _id,
-                            label,
-                            inputType,
-                            value,
-                            required,
-                        } = input;
-                        if (inputType === 'text')
-                            return (
-                                <Fragment key={_id}>
-                                    <label htmlFor={_id}>
-                                        {i + 1}. {label}
-                                        {required ? '*' : null}
-                                    </label>
-                                    <input
-                                        id={_id}
-                                        type={inputType}
-                                        value={value}
-                                        onChange={(e) => updateInput(e, _id)}
-                                        className={'form__input ci--on-change'}
-                                    />
-                                </Fragment>
-                            );
-                        if (inputType === 'textarea')
-                            return (
-                                <Fragment key={_id}>
-                                    <label htmlFor={_id}>
-                                        {i + 1}. {label}
-                                        {required ? '*' : null}
-                                    </label>
-                                    <textarea
-                                        id={_id}
-                                        value={value}
-                                        onChange={(e) => updateInput(e, _id)}
-                                        className='ci--on-change'
-                                    />
-                                </Fragment>
-                            );
-                    })}
+                    {orderedFields.map(displayInput)}
+                    {customFields.map((el, i) =>
+                        displayInput(el, (i = orderedFields.length + i))
+                    )}
+                    {textarea.map(displayInput)}
                     <button
                         className='btn btn--info'
                         onMouseDown={(e) => e.preventDefault()}
