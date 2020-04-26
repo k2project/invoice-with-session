@@ -27,15 +27,15 @@ const ProfileUpdate = ({
     //handle unsaved changes
     useEffect(() => {
         return () => {
-            alertUnsavedChanges(
-                profile,
-                getProfile,
-                setProfileTab,
-                '/api/profile',
-                '/dashboard/profile',
-                history,
-                setAlert
-            );
+            // alertUnsavedChanges(
+            //     profile,
+            //     getProfile,
+            //     setProfileTab,
+            //     '/api/profile',
+            //     '/dashboard/profile',
+            //     history,
+            //     setAlert
+            // );
         };
     }, []);
     return <CustomBuiltForm data={formData} />;

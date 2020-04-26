@@ -15,27 +15,6 @@ const Profile = ({
     //show form on first login and until its created
     const updated = createdAt !== updatedAt;
 
-    //save changes
-    // useEffect(() => {
-    //     return async () => {
-    //         try {
-    //             const config = {
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                 },
-    //             };
-    //             const profileDB = await axios.get('/api/profile');
-    //             JSON.stringify(profile) === JSON.stringify(profileDB) ||
-    //                 (await axios.post(
-    //                     '/api/profile',
-    //                     JSON.stringify(details),
-    //                     config
-    //                 ));
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //     };
-    // });
     return (
         <Page title='Profile Page.'>
             {!updated && <ProfileInit />}

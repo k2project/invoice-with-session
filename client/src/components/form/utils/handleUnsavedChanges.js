@@ -1,6 +1,4 @@
 import axios from 'axios';
-import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { dialogBox } from '../../alerts/alertsFuns';
 
 export const alertUnsavedChanges = async (
@@ -24,6 +22,7 @@ export const alertUnsavedChanges = async (
             const confirmBtnText = 'Return to the form!';
             const cancelCb = () => {
                 getState();
+                window.location.reload();
             };
             const confirmCb = () => {
                 history.push(url);
@@ -45,5 +44,26 @@ export const alertUnsavedChanges = async (
             false,
             15000
         );
+    }
+};
+
+export const saveChangesOnLeave = async (
+    initilState,
+    state,
+    getState,
+    http //api call
+) => {
+    try {
+        if (JSON.stringify(state) !== JSON.stringify(initilState)) {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+            await axios.post(http, JSON.stringify(state), config);
+            await getState();
+        }
+    } catch (err) {
+        console.log(err);
     }
 };

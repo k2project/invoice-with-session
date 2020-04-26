@@ -8,6 +8,7 @@ export default function (state = initialState, { type, payload }) {
             return { ...payload };
         case UPDATE_PROFILE:
             return { ...state, details: [...payload] };
+
         case REMOVE_PROFILE:
             return {};
         default:

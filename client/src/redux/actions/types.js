@@ -10,6 +10,7 @@ export const REMOVE_USER = 'REMOVE_USER ';
 export const GET_PROFILE = 'GET_PROFILE';
 export const REMOVE_PROFILE = 'REMOVE_PROFILE ';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+
 //messages
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';

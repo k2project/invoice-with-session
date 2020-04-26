@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import arrowIcon from '../../../imgs/icons/arrow.png';
-import { moveItemUpOrDown } from '../utils/moveItemUpOrDown';
+import {
+    moveItemUpOrDown,
+    toggleIncludedInInvoice,
+} from '../utils/detailsDisplayTableFun';
 
-export default function DetailsDisplayTable({ details }) {
+export default function DetailsDisplayTable({ details, updateState }) {
     const [tableState, setTableState] = useState(details);
     return (
         <table className='details-table'>
@@ -30,12 +34,7 @@ export default function DetailsDisplayTable({ details }) {
                             <tr key={item._id} data-details-index={index}>
                                 <th scope='row'>{item.label}:</th>
                                 <td className='td__value'>{item.value}</td>
-                                <td
-                                // onClick={() => {
-                                //     task.addToNextInvoice = !addToNextInvoice;
-                                //     toggleTaskInvoiceDisplay(_id, task);
-                                // }}
-                                >
+                                <td>
                                     <button
                                         onMouseDown={(e) => e.preventDefault()}
                                         title={
@@ -43,6 +42,14 @@ export default function DetailsDisplayTable({ details }) {
                                                 ? 'Item will be included in the new invoice.'
                                                 : ' Item will NOT be included in the new invoice.'
                                         }
+                                        onClick={() => {
+                                            toggleIncludedInInvoice(
+                                                index,
+                                                tableState,
+                                                setTableState,
+                                                updateState
+                                            );
+                                        }}
                                     >
                                         {item.addToInvoice ? (
                                             <span>&#43;</span>
@@ -64,7 +71,8 @@ export default function DetailsDisplayTable({ details }) {
                                                     e,
                                                     'up',
                                                     tableState,
-                                                    setTableState
+                                                    setTableState,
+                                                    updateState
                                                 )
                                             }
                                         >
@@ -86,7 +94,8 @@ export default function DetailsDisplayTable({ details }) {
                                                 e,
                                                 'down',
                                                 tableState,
-                                                setTableState
+                                                setTableState,
+                                                updateState
                                             )
                                         }
                                     >
@@ -103,3 +112,6 @@ export default function DetailsDisplayTable({ details }) {
         </table>
     );
 }
+DetailsDisplayTable.propTypes = {
+    details: PropTypes.array,
+};
