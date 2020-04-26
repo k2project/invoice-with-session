@@ -30,7 +30,6 @@ class ProfileDetails extends Component {
         window.removeEventListener('beforeunload', this.handleChanges);
     }
     render() {
-        console.log('RENDER', this.state.details);
         return (
             <section>
                 <h2 className='sr-only'>Profile Details .</h2>

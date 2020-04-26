@@ -11,7 +11,7 @@ import RemoveCustomFields from './RemoveCustomFields';
 import { setAlert } from '../../../redux/actions/messages';
 
 const CustomBuiltForm = ({
-    data: { details, http, url, cb, msg, reset },
+    data: { details, http, url, cb, updateInitStateToReduxState, msg, reset },
     setAlert,
     history,
 }) => {
@@ -55,7 +55,9 @@ const CustomBuiltForm = ({
             const res = await axios.post(http, body, config);
             await cb();
             setAlert(msg, 'success', null, false);
-            //reset data
+            //stops prompt on form submition when updated
+            if (updateInitStateToReduxState) updateInitStateToReduxState();
+            //clear submitted data
             if (reset) setFormState(formState.map((i) => (i.value = '')));
             //redirect
             history.push(`${url}${res.data.id ? res.data.id : ''}`);
@@ -64,7 +66,7 @@ const CustomBuiltForm = ({
             //     const { status, statusText } = err.response;
             //     setAlert(`${status} ${statusText}`, 'danger', null, false);
             // }
-
+            console.log(err);
             if (err.response.data) {
                 setErrors([...errors, ...err.response.data.errors]);
             }
