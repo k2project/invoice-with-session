@@ -122,7 +122,7 @@ const CustomBuiltForm = ({
     const textarea = formState.filter(
         (field) => field.inputType === 'textarea'
     );
-    console.log(formState, orderedFields, customFields, textarea);
+
     return (
         <form onSubmit={onSubmit} className='form form__submit'>
             <div>

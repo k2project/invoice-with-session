@@ -6,6 +6,7 @@ import {
     REMOVE_PROFILE,
     CLEAR_COMPANIES,
     REMOVE_USER,
+    SESS_UPDATES,
 } from './types';
 
 import { getProfile } from './profile';
@@ -31,4 +32,7 @@ export const setProfileTab = (tab) => (dispatch) => {
 };
 export const setCompanyTab = (tab) => (dispatch) => {
     dispatch({ type: SET_COMPANY_TAB, payload: tab });
+};
+export const setSessionUpdatesStatus = (updates) => (dispatch) => {
+    dispatch({ type: SESS_UPDATES, payload: updates });
 };

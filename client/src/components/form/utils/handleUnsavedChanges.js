@@ -5,15 +5,18 @@ export const alertUnsavedChanges = async (
     initilState,
     state,
     setStateTab,
+    setSessionUpdatesStatus,
     url, //redirection back to the form
     history
 ) => {
     try {
         if (JSON.stringify(state) !== JSON.stringify(initilState)) {
+            setSessionUpdatesStatus(true);
             const msg = `You have some unsaved changes. What would you like to do?`;
             const cancelBtnText = 'Discharge updates';
             const confirmBtnText = 'Return to the form!';
             const cancelCb = () => {
+                setSessionUpdatesStatus(false);
                 window.location.reload();
             };
             const confirmCb = () => {
