@@ -10,7 +10,7 @@ class ProfileDetails extends Component {
         super(props);
         this.state = {
             //deep copy of the redux state on component load
-            details: JSON.parse(JSON.stringify(props.details)),
+            details: props.updates || JSON.parse(JSON.stringify(props.details)),
         };
         this.handleChanges = this.handleChanges.bind(this);
     }
@@ -50,6 +50,7 @@ ProfileDetails.propTypes = {
 
 const mapStateToProps = (state) => ({
     details: state.profile.details,
+    updates: state.session.updates,
 });
 
 const mapDispatchToProps = {

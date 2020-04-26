@@ -54,6 +54,7 @@ export default function AddCustomFields({
             addToInvoice: true,
             custom: true,
             inputType: 'text',
+            createdAt: new Date(),
         };
         await addCustomToFieldsFormState(customField);
         //reset state
@@ -64,9 +65,9 @@ export default function AddCustomFields({
             errors: [],
         });
         //set last option as default
-        document
-            .getElementById('customFieldPosition')
-            .lastElementChild.setAttribute('selected', true);
+        // document
+        //     .getElementById('customFieldPosition')
+        //     .lastElementChild.setAttribute('selected', true);
     };
     const getSelectedPosition = () => {
         const el = document.getElementById('customFieldPosition');
@@ -76,9 +77,9 @@ export default function AddCustomFields({
         });
     };
     useEffect(() => {
-        document
-            .getElementById('customFieldPosition')
-            .lastElementChild.setAttribute('selected', true);
+        // document
+        //     .getElementById('customFieldPosition')
+        //     .lastElementChild.setAttribute('selected', true);
         formErrorsStyling(formData.errors);
     }, [formData.errors]);
     return (
@@ -101,8 +102,11 @@ export default function AddCustomFields({
                 >
                     Value*
                 </FormInput>
-
-                <label htmlFor='customFieldPosition'>Choose a position:</label>
+                <p>
+                    You can determin the display position of the new field in
+                    the details list.
+                </p>
+                {/* <label htmlFor='customFieldPosition'>Choose a position:</label>
                 <select id='customFieldPosition' onChange={getSelectedPosition}>
                     {[...Array(++maxPosition).keys()].map((key) => (
                         <option
@@ -112,8 +116,8 @@ export default function AddCustomFields({
                             {key + 1}
                         </option>
                     ))}
-                </select>
-                <br />
+                </select> */}
+                {/* <br /> */}
                 <button
                     className='btn btn--grey'
                     onMouseDown={(e) => e.preventDefault()}

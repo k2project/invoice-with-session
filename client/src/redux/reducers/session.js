@@ -8,7 +8,7 @@ import {
 const initialState = {
     authenticated: false,
     currentProfileTab: 'details', //detaisl | form
-    currentCompanyTab: 'tasks', //details | tasks |invoices | update | delete
+    currentCompanyTab: 'tasks', //details | tasks |invoices | update | delete,
 };
 
 export default function (state = initialState, { type, payload }) {
@@ -33,6 +33,7 @@ export default function (state = initialState, { type, payload }) {
                 ...state,
                 currentCompanyTab: payload,
             };
+
         default:
             return state;
     }
