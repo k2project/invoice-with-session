@@ -13,9 +13,5 @@ There should be no prompt on:
 5. on reloading the page,
 6. on represhing the page.
 
-The prompt actions (block history):
-*A.DISCHARGING THE CHANGES:
--1.redirect to the targeted path with window.location.replace (reloading clears the changes)
-*B.RETURNING TO THE FORM:
--1.unblock history so the prompt is active
+The prompt actions (block history): DISCHARGING THE CHANGES by redirect to the targeted path with window.location.replace (reloading clears the changes) or RETURNING TO THE FORM (unblock history so the prompt stays active on nav links).
 
