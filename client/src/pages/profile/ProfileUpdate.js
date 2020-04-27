@@ -14,6 +14,9 @@ class ProfileUpdate extends Component {
         super(props);
         this.handleChanges = this.handleChanges.bind(this);
         this.clearInitState = this.clearInitState.bind(this);
+        this.updateInitStateToReduxStateOnSubmit = this.updateInitStateToReduxStateOnSubmit.bind(
+            this
+        );
     }
     handleChanges() {
         alertUnsavedChanges(
@@ -24,11 +27,25 @@ class ProfileUpdate extends Component {
             this.props.history
         );
     }
+    updateInitStateToReduxStateOnSubmit() {
+        this.props.setUpdates(this.props.profile.details);
+    }
     clearInitState() {
         //on submit clear app updates
         this.props.setUpdates(null);
     }
     componentDidMount() {
+        if (this.props.initialState === null)
+            this.props.setUpdates(
+                JSON.parse(JSON.stringify(this.props.profile.details))
+            );
+        console.log(
+            'MOUNTING____',
+            'INIT',
+            this.props.initialState,
+            'REDUX',
+            this.props.profile.details
+        );
         window.addEventListener('beforeunload', this.props.clearInitState);
     }
     componentWillUnmount() {
@@ -36,16 +53,20 @@ class ProfileUpdate extends Component {
         window.removeEventListener('beforeunload', this.props.clearInitState);
     }
     render() {
-        if (this.props.initialState === null)
-            this.props.setUpdates(
-                JSON.parse(JSON.stringify(this.props.profile.details))
-            );
+        console.log(
+            'REBDERING____',
+            'INIT',
+            this.props.initialState,
+            'REDUX',
+            this.props.profile.details
+        );
         const formData = {
             details: this.props.profile.details,
             http: '/api/profile',
             url: '/dashboard/profile',
             cb: this.props.getProfile,
-            clearInitState: this.clearInitState, //stops firing alertUnsavedChanges on submit
+            updateInitStateToReduxStateOnSubmit: this
+                .updateInitStateToReduxStateOnSubmit, //stops firing alertUnsavedChanges on submit
             msg: 'Your profile has been updated successfully.',
         };
         return <CustomBuiltForm data={formData} />;

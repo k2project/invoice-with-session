@@ -11,7 +11,15 @@ import RemoveCustomFields from './RemoveCustomFields';
 import { setAlert } from '../../../redux/actions/messages';
 
 const CustomBuiltForm = ({
-    data: { details, http, url, cb, clearInitState, msg, reset },
+    data: {
+        details,
+        http,
+        url,
+        cb,
+        updateInitStateToReduxStateOnSubmit,
+        msg,
+        reset,
+    },
     setAlert,
     history,
 }) => {
@@ -92,7 +100,8 @@ const CustomBuiltForm = ({
             await cb();
             setAlert(msg, 'success', null, false);
             //stops prompt on form submition when updated
-            if (clearInitState) clearInitState();
+            if (updateInitStateToReduxStateOnSubmit)
+                updateInitStateToReduxStateOnSubmit();
             //clear submitted data
             if (reset) setFormState(formState.map((i) => (i.value = '')));
             //redirect
