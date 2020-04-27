@@ -14,8 +14,8 @@ There should be no prompt on:
 6. on represhing the page.
 
 The prompt actions (block history):
--A.DISCHARGING THE CHANGES:
+*A.DISCHARGING THE CHANGES:
 -1.redirect to the targeted path with window.location.replace (reloading clears the changes)
--B.RETURNING TO THE FORM:
+*B.RETURNING TO THE FORM:
 -1.unblock history so the prompt is active
 
