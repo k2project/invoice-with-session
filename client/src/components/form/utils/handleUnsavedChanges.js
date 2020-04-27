@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { dialogBox } from '../../alerts/alertsFuns';
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 export const alertUnsavedChanges = async (
     initilState,
@@ -9,23 +11,33 @@ export const alertUnsavedChanges = async (
     history
 ) => {
     if (JSON.stringify(state) !== JSON.stringify(initilState)) {
-        // history.push('/dashboard/profile');
+        const targetPathname = history.location.pathname;
+        history.push('/dashboard/profile');
         setStateTab('form');
+        const unblockRouting = history.block();
+
         const msg = `You have some unsaved changes. What would you like to do?`;
         const cancelBtnText = 'Discharge changes';
         const confirmBtnText = 'Return to the form!';
+        const confirmCb = () => {
+            unblockRouting();
+        };
         const cancelCb = () => {
             //discharge all changes and clear app changes status
-            setUpdates(false);
-            window.location.reload();
+            // chnages clear on reload
+            window.location.replace(window.location.origin + targetPathname);
         };
 
         dialogBox({
             msg,
             cancelBtnText,
             confirmBtnText,
+            confirmCb,
             cancelCb,
         });
+    } else {
+        //no chnages
+        setUpdates(null);
     }
 };
 

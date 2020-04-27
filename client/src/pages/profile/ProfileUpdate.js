@@ -12,16 +12,8 @@ import { alertUnsavedChanges } from '../../components/form/utils/handleUnsavedCh
 class ProfileUpdate extends Component {
     constructor(props) {
         super(props);
-        // this.state = {
-        //     //deep copy of the redux state on component load
-        //     details:
-        //         this.props.updated ||
-        //         JSON.parse(JSON.stringify(props.profile.details)),
-        // };
         this.handleChanges = this.handleChanges.bind(this);
-        this.updateInitStateToReduxState = this.updateInitStateToReduxState.bind(
-            this
-        );
+        this.clearInitState = this.clearInitState.bind(this);
     }
     handleChanges() {
         alertUnsavedChanges(
@@ -32,33 +24,28 @@ class ProfileUpdate extends Component {
             this.props.history
         );
     }
-    updateInitStateToReduxState() {
-        this.props.setUpdates(false);
-        this.setState({ details: this.props.profile.details });
+    clearInitState() {
+        //on submit clear app updates
+        this.props.setUpdates(null);
     }
     componentDidMount() {
+        window.addEventListener('beforeunload', this.props.clearInitState);
+    }
+    componentWillUnmount() {
+        this.handleChanges();
+        window.removeEventListener('beforeunload', this.props.clearInitState);
+    }
+    render() {
         if (this.props.initialState === null)
             this.props.setUpdates(
                 JSON.parse(JSON.stringify(this.props.profile.details))
             );
-        window.addEventListener('beforeunload', () =>
-            this.props.setUpdates(null)
-        );
-    }
-    componentWillUnmount() {
-        console.log('Unmoutning');
-        this.handleChanges();
-        window.removeEventListener('beforeunload', () =>
-            this.props.setUpdates(null)
-        );
-    }
-    render() {
         const formData = {
             details: this.props.profile.details,
             http: '/api/profile',
             url: '/dashboard/profile',
             cb: this.props.getProfile,
-            updateInitStateToReduxState: this.updateInitStateToReduxState, //stops firing alertUnsavedChanges on submit
+            clearInitState: this.clearInitState, //stops firing alertUnsavedChanges on submit
             msg: 'Your profile has been updated successfully.',
         };
         return <CustomBuiltForm data={formData} />;

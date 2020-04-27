@@ -24,8 +24,6 @@ export const customInputOnChange = (
     setErrors
 ) => {
     const index = formState.findIndex((el) => el._id === id);
-    console.log(formState);
-    console.log(index);
 
     formState[index].value = e.target.value;
     setFormState([...formState]);
