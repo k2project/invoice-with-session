@@ -3,14 +3,12 @@ import {
     END_SESS,
     SET_PROFILE_TAB,
     SET_COMPANY_TAB,
-    SESS_UPDATES,
 } from '../actions/types';
 
 const initialState = {
     authenticated: false,
     currentProfileTab: 'details', //detaisl | form
     currentCompanyTab: 'tasks', //details | tasks |invoices | update | delete,
-    updated: true,
 };
 
 export default function (state = initialState, { type, payload }) {
@@ -24,6 +22,8 @@ export default function (state = initialState, { type, payload }) {
             return {
                 ...state,
                 authenticated: false,
+                currentProfileTab: 'details',
+                currentCompanyTab: 'tasks',
             };
         case SET_PROFILE_TAB:
             return {
@@ -34,11 +34,6 @@ export default function (state = initialState, { type, payload }) {
             return {
                 ...state,
                 currentCompanyTab: payload,
-            };
-        case SESS_UPDATES:
-            return {
-                ...state,
-                updated: payload,
             };
 
         default:

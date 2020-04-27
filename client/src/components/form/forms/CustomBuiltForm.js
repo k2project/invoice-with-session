@@ -51,7 +51,7 @@ const CustomBuiltForm = ({
                         type={inputType}
                         value={value}
                         onChange={(e) => updateInput(e, _id)}
-                        className={'form__input ci--on-change'}
+                        className={'form__input'}
                     />
                 </Fragment>
             );

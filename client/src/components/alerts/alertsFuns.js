@@ -62,6 +62,7 @@ export const dialogBox = async ({
         document.removeEventListener('mousedown', mouseDownOnDialogBtns);
     }
     function closeDialog() {
-        document.getElementById('dialog').remove();
+        const dialog = document.getElementById('dialog');
+        if (dialog) dialog.remove();
     }
 };

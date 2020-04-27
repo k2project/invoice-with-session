@@ -5,21 +5,19 @@ import './Profile.scss';
 import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
 import { connect } from 'react-redux';
 import { getProfile } from '../../redux/actions/profile';
-import {
-    setProfileTab,
-    setSessionUpdatesStatus,
-} from '../../redux/actions/session';
+import { setProfileTab } from '../../redux/actions/session';
+import { setUpdates } from '../../redux/actions/updates';
 import { alertUnsavedChanges } from '../../components/form/utils/handleUnsavedChanges';
 
 class ProfileUpdate extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            //deep copy of the redux state on component load
-            details:
-                this.props.updated ||
-                JSON.parse(JSON.stringify(props.profile.details)),
-        };
+        // this.state = {
+        //     //deep copy of the redux state on component load
+        //     details:
+        //         this.props.updated ||
+        //         JSON.parse(JSON.stringify(props.profile.details)),
+        // };
         this.handleChanges = this.handleChanges.bind(this);
         this.updateInitStateToReduxState = this.updateInitStateToReduxState.bind(
             this
@@ -27,23 +25,32 @@ class ProfileUpdate extends Component {
     }
     handleChanges() {
         alertUnsavedChanges(
-            this.state.details, //initial state
+            this.props.initialState, //initial state
             this.props.profile.details, //redux updated state
             this.props.setProfileTab,
-            this.props.setSessionUpdatesStatus,
-            '/dashboard/profile',
+            this.props.setUpdates,
             this.props.history
         );
     }
     updateInitStateToReduxState() {
+        this.props.setUpdates(false);
         this.setState({ details: this.props.profile.details });
     }
     componentDidMount() {
-        window.addEventListener('beforeunload', this.handleChanges);
+        if (this.props.initialState === null)
+            this.props.setUpdates(
+                JSON.parse(JSON.stringify(this.props.profile.details))
+            );
+        window.addEventListener('beforeunload', () =>
+            this.props.setUpdates(null)
+        );
     }
     componentWillUnmount() {
+        console.log('Unmoutning');
         this.handleChanges();
-        window.removeEventListener('beforeunload', this.handleChanges);
+        window.removeEventListener('beforeunload', () =>
+            this.props.setUpdates(null)
+        );
     }
     render() {
         const formData = {
@@ -63,16 +70,16 @@ ProfileUpdate.propTypes = {
     getProfile: PropTypes.func,
     setAlert: PropTypes.func,
     setProfileTab: PropTypes.func,
-    setSessionUpdatesStatus: PropTypes.func,
+    setUpdates: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     profile: state.profile,
-    updated: state.session.updated,
+    initialState: state.updates.initialState,
 });
 const mapDispatchToProps = {
     getProfile,
     setProfileTab,
-    setSessionUpdatesStatus,
+    setUpdates,
 };
 export default connect(
     mapStateToProps,

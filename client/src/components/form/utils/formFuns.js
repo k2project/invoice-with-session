@@ -23,10 +23,10 @@ export const customInputOnChange = (
     errors,
     setErrors
 ) => {
-    const inputs = document.querySelectorAll('.ci--on-change');
-    const index = Array.from(inputs).findIndex(
-        (el) => el.getAttribute('id') === id
-    );
+    const index = formState.findIndex((el) => el._id === id);
+    console.log(formState);
+    console.log(index);
+
     formState[index].value = e.target.value;
     setFormState([...formState]);
     //remove errors styling related to the input

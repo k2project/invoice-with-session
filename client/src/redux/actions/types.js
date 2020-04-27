@@ -3,7 +3,8 @@ export const START_SESS = 'START_SESS';
 export const END_SESS = 'END_SESS';
 export const SET_PROFILE_TAB = 'SET_PROFILE_TAB';
 export const SET_COMPANY_TAB = 'SET_COMPANY_TAB ';
-export const SESS_UPDATES = 'SESS_UPDATES';
+//updates
+export const SET_UPDATES = 'SET_UPDATES';
 //user
 export const GET_USER = 'GET_USER';
 export const REMOVE_USER = 'REMOVE_USER ';

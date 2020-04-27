@@ -5,41 +5,27 @@ export const alertUnsavedChanges = async (
     initilState,
     state,
     setStateTab,
-    setSessionUpdatesStatus,
-    url, //redirection back to the form
+    setUpdates,
     history
 ) => {
-    try {
-        if (JSON.stringify(state) !== JSON.stringify(initilState)) {
-            setSessionUpdatesStatus(true);
-            const msg = `You have some unsaved changes. What would you like to do?`;
-            const cancelBtnText = 'Discharge updates';
-            const confirmBtnText = 'Return to the form!';
-            const cancelCb = () => {
-                setSessionUpdatesStatus(false);
-                window.location.reload();
-            };
-            const confirmCb = () => {
-                history.push(url);
-                setStateTab('form');
-            };
-            dialogBox({
-                msg,
-                cancelBtnText,
-                confirmBtnText,
-                cancelCb,
-                confirmCb,
-            });
-        }
-    } catch (err) {
-        console.log(err);
-        // setAlert(
-        //     `We think you may have some unsaved changes. Unfortunately due to server error we weren't able to proceed them.`,
-        //     'danger',
-        //     null,
-        //     false,
-        //     15000
-        // );
+    if (JSON.stringify(state) !== JSON.stringify(initilState)) {
+        // history.push('/dashboard/profile');
+        setStateTab('form');
+        const msg = `You have some unsaved changes. What would you like to do?`;
+        const cancelBtnText = 'Discharge changes';
+        const confirmBtnText = 'Return to the form!';
+        const cancelCb = () => {
+            //discharge all changes and clear app changes status
+            setUpdates(false);
+            window.location.reload();
+        };
+
+        dialogBox({
+            msg,
+            cancelBtnText,
+            confirmBtnText,
+            cancelCb,
+        });
     }
 };
 
