@@ -11,9 +11,7 @@ class CompanyDetails extends Component {
         super(props);
         this.state = {
             //deep copy of the redux state on component load
-            details:
-                props.updates ||
-                JSON.parse(JSON.stringify(props.company.details)),
+            details: JSON.parse(JSON.stringify(props.company.details)),
         };
         this.handleChanges = this.handleChanges.bind(this);
         this.updateCompanyDetails = this.updateCompanyDetails.bind(this);
@@ -23,7 +21,7 @@ class CompanyDetails extends Component {
             this.state.details, //initial state
             this.props.company.details, //redux updated state
             this.props.endSession,
-            `api/companies/${this.props.company._id}` //api call,
+            `/api/companies/${this.props.company._id}`
         );
     }
     updateCompanyDetails(details) {
@@ -55,9 +53,7 @@ CompanyDetails.propTypes = {
     endSession: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({
-    updates: state.session.updates,
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
     updateCompanyDetails,

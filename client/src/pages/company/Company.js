@@ -29,7 +29,7 @@ export const Company = ({ companies, currentCompanyTab }) => {
                         <CompanyDetails company={company} />
                     )}
                     {currentCompanyTab === 'update' && (
-                        <CompanyUpdate company={company} />
+                        <CompanyUpdate details={company.details} />
                     )}
                 </Fragment>
             )}

@@ -46,6 +46,7 @@ export const saveChangesOnLeave = async (
     http //api call
 ) => {
     try {
+        console.log(http);
         if (JSON.stringify(state) !== JSON.stringify(initilState)) {
             const config = {
                 headers: {
