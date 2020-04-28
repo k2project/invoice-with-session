@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Page from '../../components/page/Page';
 import CompanySubmenu from './CompanySubmenu';
@@ -9,9 +9,12 @@ import CompanyDetails from './CompanyDetails';
 
 import './Company.scss';
 
-export const Company = ({ companies, currentCompanyTab }) => {
+export const Company = ({ companies }) => {
     let { id } = useParams();
     let company = companies.find((c) => c._id === id);
+
+    const tab = useLocation().search.slice(5);
+    const tabs = ['tasks', 'invoices', 'details', 'update'];
 
     return (
         <Page>
@@ -19,18 +22,15 @@ export const Company = ({ companies, currentCompanyTab }) => {
             {company && (
                 <Fragment>
                     <CompanySubmenu company={company} />
-                    {currentCompanyTab === 'tasks' && (
-                        <div className='tile'>tasks</div>
+                    {!tabs.includes(tab) && (
+                        <Redirect
+                            to={`/dashboard/companies/${companies[0]._id}?tab=tasks`}
+                        />
                     )}
-                    {currentCompanyTab === 'invoices' && (
-                        <div className='tile'>invoices</div>
-                    )}
-                    {currentCompanyTab === 'details' && (
-                        <CompanyDetails company={company} />
-                    )}
-                    {currentCompanyTab === 'update' && (
-                        <CompanyUpdate company={company} />
-                    )}
+                    {tab === 'tasks' && <div className='tile'>tasks</div>}
+                    {tab === 'invoices' && <div className='tile'>invoices</div>}
+                    {tab === 'details' && <CompanyDetails company={company} />}
+                    {tab === 'update' && <CompanyUpdate company={company} />}
                 </Fragment>
             )}
         </Page>
@@ -38,11 +38,9 @@ export const Company = ({ companies, currentCompanyTab }) => {
 };
 Company.propTypes = {
     companies: PropTypes.array,
-    currentCompanyTab: PropTypes.string,
 };
 const mapStateToProps = (state) => ({
     companies: state.companies,
-    currentCompanyTab: state.session.currentCompanyTab,
 });
 
 const mapDispatchToProps = {};

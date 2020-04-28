@@ -59,7 +59,7 @@ function App() {
 
                             <PrivateRoute
                                 exact
-                                path='/dashboard/invoice'
+                                path='/dashboard/invoice/:id'
                                 component={Invoice}
                             />
                             <PrivateRoute

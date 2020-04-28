@@ -1,8 +1,6 @@
 //session
 export const AUTH_SESS = 'AUTH_SESS';
 export const END_SESS = 'END_SESS';
-export const SET_PROFILE_TAB = 'SET_PROFILE_TAB';
-export const SET_COMPANY_TAB = 'SET_COMPANY_TAB ';
 //updates
 export const SET_UPDATES = 'SET_UPDATES';
 //user

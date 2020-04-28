@@ -4,20 +4,15 @@ import { connect } from 'react-redux';
 import Page from '../../components/page/Page';
 import { companyInitDetails } from './companyInitDetails';
 import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
-import { setCompanyTab } from '../../redux/actions/session';
 import { getAllCompanies } from '../../redux/actions/companies';
 import infoIcon from '../../imgs/icons/infoIcon.png';
 
-const AddCompany = ({ getAllCompanies, setCompanyTab }) => {
-    const cb = async () => {
-        await getAllCompanies();
-        setCompanyTab('details');
-    };
+const AddCompany = ({ getAllCompanies }) => {
     const formData = {
         details: companyInitDetails,
         http: '/api/companies/',
         url: '/dashboard/companies/',
-        cb,
+        cb: getAllCompanies,
         msg: 'A new company has been created successfully.',
         reset: true,
     };
@@ -34,12 +29,10 @@ const AddCompany = ({ getAllCompanies, setCompanyTab }) => {
 };
 
 AddCompany.propTypes = {
-    setCompanyTab: PropTypes.func,
     getAllCompanies: PropTypes.func,
 };
-const mapStateToProps = (state) => ({});
+
 const mapDispatchToProps = {
-    setCompanyTab,
     getAllCompanies,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(AddCompany);
+export default connect(null, mapDispatchToProps)(AddCompany);

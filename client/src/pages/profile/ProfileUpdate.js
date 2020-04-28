@@ -5,7 +5,6 @@ import './Profile.scss';
 import CustomBuiltForm from '../../components/form/forms/CustomBuiltForm';
 import { connect } from 'react-redux';
 import { getProfile } from '../../redux/actions/profile';
-import { setProfileTab } from '../../redux/actions/session';
 import { setUpdates } from '../../redux/actions/updates';
 import { alertUnsavedChanges } from '../../components/form/utils/handleUnsavedChanges';
 
@@ -22,7 +21,6 @@ class ProfileUpdate extends Component {
         alertUnsavedChanges(
             this.props.initialState, //initial state
             this.props.profile.details, //redux updated state
-            this.props.setProfileTab,
             this.props.setUpdates,
             this.props.history
         );
@@ -43,7 +41,7 @@ class ProfileUpdate extends Component {
     }
     componentWillUnmount() {
         //auth err and logout won't trigger fun
-        this.props.authenticated || this.handleChanges();
+        if (this.props.authenticated) this.handleChanges();
         window.removeEventListener('beforeunload', this.props.clearInitState);
     }
     render() {
@@ -65,7 +63,6 @@ ProfileUpdate.propTypes = {
     details: PropTypes.array,
     getProfile: PropTypes.func,
     setAlert: PropTypes.func,
-    setProfileTab: PropTypes.func,
     setUpdates: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
@@ -75,7 +72,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
     getProfile,
-    setProfileTab,
     setUpdates,
 };
 export default connect(

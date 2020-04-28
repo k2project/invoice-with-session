@@ -4,14 +4,18 @@ import { dialogBox } from '../../alerts/alertsFuns';
 export const alertUnsavedChanges = async (
     initilState,
     state,
-    setStateTab,
     setUpdates,
     history
 ) => {
+    console.log(JSON.stringify(state) !== JSON.stringify(initilState));
     if (JSON.stringify(state) !== JSON.stringify(initilState)) {
         const targetPathname = history.location.pathname;
-        history.push('/dashboard/profile');
-        setStateTab('form');
+        //submenu link clicked
+        const targetTab = history.location.search;
+        const currentPathname = history.location.pathname;
+        console.log(history.location.search);
+        console.log(window.location);
+        history.push('/dashboard/profile?tab=update');
         const unblockRouting = history.block();
 
         const msg = `You have some unsaved changes. What would you like to do?`;
@@ -20,10 +24,19 @@ export const alertUnsavedChanges = async (
         const confirmCb = () => {
             unblockRouting();
         };
-        const cancelCb = () => {
+        const cancelCb = async () => {
             //discharge all changes and clear app changes status
             // chnages clear on reload
-            window.location.replace(window.location.origin + targetPathname);
+            if (targetPathname === currentPathname) {
+                //on clicking submenu redirect to the targeted tab
+                window.location.replace(
+                    window.location.origin + targetPathname + targetTab
+                );
+            } else {
+                window.location.replace(
+                    window.location.origin + targetPathname
+                );
+            }
         };
 
         dialogBox({

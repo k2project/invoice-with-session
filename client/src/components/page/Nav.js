@@ -7,16 +7,10 @@ import cogsIcon from '../../imgs/icons/cogs.png';
 import companiesIcon from '../../imgs/icons/companiesIcon.png';
 import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
-import { setCompanyTab } from '../../redux/actions/session';
 import NavSubmenu from './NavSubmenu';
 import { sortInputsByNamesAlphabeticaly } from '../form/utils/customFormQueries';
 
-const Nav = ({
-    setAlert,
-    profile: { createdAt, updatedAt },
-    companies,
-    setCompanyTab,
-}) => {
+const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
     companies = sortInputsByNamesAlphabeticaly(companies, 'details');
     return (
         <nav aria-label='dashboard menu' className='dashboard-nav '>
@@ -27,7 +21,7 @@ const Nav = ({
                 <div className='dashboard-nav__list-main'>
                     <li>
                         <Link
-                            to='/dashboard/profile'
+                            to='/dashboard/profile?tab=details'
                             className='dashboard-nav__link tile'
                             activeClassName='dashboard__link--is-active'
                             onMouseDown={(e) => e.preventDefault()}
@@ -51,7 +45,7 @@ const Nav = ({
                         <Fragment>
                             <li>
                                 <Link
-                                    to={`/dashboard/companies/${companies[0]._id}`}
+                                    to={`/dashboard/companies/${companies[0]._id}?tab=tasks`}
                                     className={`dashboard-nav__link tile ${
                                         /^\/dashboard\/companies/.test(
                                             window.location.pathname
@@ -61,7 +55,6 @@ const Nav = ({
                                     }`}
                                     onMouseDown={(e) => e.preventDefault()}
                                     onClick={() => {
-                                        setCompanyTab('tasks');
                                         setAlert(
                                             `Submenu listing companies now open below. `,
                                             'success'
@@ -155,7 +148,6 @@ const Nav = ({
 };
 Nav.propTypes = {
     setAlert: PropTypes.func.isRequired,
-    setCompanyTab: PropTypes.func.isRequired,
     profile: PropTypes.object,
     companies: PropTypes.array,
 };
@@ -165,6 +157,5 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
     setAlert,
-    setCompanyTab,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);

@@ -1,7 +1,5 @@
 import {
     END_SESS,
-    SET_PROFILE_TAB,
-    SET_COMPANY_TAB,
     REMOVE_PROFILE,
     CLEAR_COMPANIES,
     REMOVE_USER,
@@ -24,10 +22,4 @@ export const endSession = (err) => (dispatch) => {
     dispatch({ type: REMOVE_PROFILE });
     dispatch({ type: CLEAR_COMPANIES });
     dispatch({ type: REMOVE_USER });
-};
-export const setProfileTab = (tab) => (dispatch) => {
-    dispatch({ type: SET_PROFILE_TAB, payload: tab });
-};
-export const setCompanyTab = (tab) => (dispatch) => {
-    dispatch({ type: SET_COMPANY_TAB, payload: tab });
 };

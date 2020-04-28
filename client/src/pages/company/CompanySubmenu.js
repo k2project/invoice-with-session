@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setCompanyTab } from '../../redux/actions/session';
 import { deleteCompany } from '../../redux/actions/companies';
@@ -36,32 +36,29 @@ const CompanySubmenu = ({ company, setCompanyTab, deleteCompany, history }) => {
             <h2 className='company__title'>{companyName}</h2>
             <ul aria-label="Company's submenu links" className='submenu__list'>
                 <li className='submenu__link'>
-                    <button
+                    <Link
+                        to={`/dashboard/companies/${company._id}?tab=tasks`}
                         className='submenu__btn'
-                        onClick={() => {
-                            setCompanyTab('tasks');
-                        }}
                         onMouseDown={(e) => e.preventDefault()}
                     >
                         <img src={tasksIcon} className='submenu__icon' alt='' />
                         Tasks
-                    </button>
+                    </Link>
                 </li>
                 <li className='submenu__link'>
-                    <button
+                    <Link
+                        to={`/dashboard/invoice/${company._id}`}
                         className='submenu__btn'
                         onMouseDown={(e) => e.preventDefault()}
                     >
                         <img src={plusIcon} className='submenu__icon' alt='' />
                         New Invoice
-                    </button>
+                    </Link>
                 </li>
                 <li className='submenu__link'>
-                    <button
+                    <Link
+                        to={`/dashboard/companies/${company._id}?tab=invoices`}
                         className='submenu__btn'
-                        onClick={() => {
-                            setCompanyTab('invoices');
-                        }}
                         onMouseDown={(e) => e.preventDefault()}
                     >
                         <img
@@ -70,26 +67,22 @@ const CompanySubmenu = ({ company, setCompanyTab, deleteCompany, history }) => {
                             alt=''
                         />
                         Invoices
-                    </button>
+                    </Link>
                 </li>
                 <li className='submenu__link'>
-                    <button
+                    <Link
+                        to={`/dashboard/companies/${company._id}?tab=details`}
                         className='submenu__btn'
-                        onClick={() => {
-                            setCompanyTab('details');
-                        }}
                         onMouseDown={(e) => e.preventDefault()}
                     >
                         <img src={listIcon} className='submenu__icon' alt='' />
                         Details
-                    </button>
+                    </Link>
                 </li>
                 <li className='submenu__link'>
-                    <button
+                    <Link
+                        to={`/dashboard/companies/${company._id}?tab=update`}
                         className='submenu__btn'
-                        onClick={() => {
-                            setCompanyTab('update');
-                        }}
                         onMouseDown={(e) => e.preventDefault()}
                     >
                         <img
@@ -98,7 +91,7 @@ const CompanySubmenu = ({ company, setCompanyTab, deleteCompany, history }) => {
                             alt=''
                         />
                         Update
-                    </button>
+                    </Link>
                 </li>
                 <li className='submenu__link'>
                     <button
@@ -119,13 +112,11 @@ const CompanySubmenu = ({ company, setCompanyTab, deleteCompany, history }) => {
     );
 };
 CompanySubmenu.propTypes = {
-    setCompanyTab: PropTypes.func,
     deleteCompany: PropTypes.func,
     company: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = {
-    setCompanyTab,
     deleteCompany,
 };
 export default connect(

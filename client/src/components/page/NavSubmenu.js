@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { NavLink as Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
-import { setCompanyTab } from '../../redux/actions/session';
 import {
     sortInputsByNamesAlphabeticaly,
     getInputValueByLabel,
@@ -47,7 +46,7 @@ const NavSubmenu = ({ companies, setCompanyTab }) => {
                 return (
                     <li key={_id}>
                         <Link
-                            to={`/dashboard/companies/${_id}`}
+                            to={`/dashboard/companies/${_id}?tab=tasks`}
                             className='dashboard-subnav__link tile '
                             activeClassName='dashboard-subnav__link--is-active'
                             onMouseDown={(e) => e.preventDefault()}
@@ -77,8 +76,6 @@ const mapStateToProps = (state) => ({
     companies: state.companies,
 });
 
-const mapDispatchToProps = {
-    setCompanyTab,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavSubmenu);

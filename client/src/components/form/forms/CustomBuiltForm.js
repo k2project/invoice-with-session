@@ -107,8 +107,12 @@ const CustomBuiltForm = ({
             //clear submitted data
             if (reset) clearForm();
             //redirect
-            history.push(`${url}${res.data.id ? res.data.id : ''}`);
+            //if new company created res--->id
+            history.push(
+                `${url}${res.data.id ? res.data.id + '?tab=details' : ''}`
+            );
         } catch (err) {
+            console.log(err);
             if (err.response.data.msg === 'AuthError') {
                 endSession('Your session has expired. Please sign back in.');
                 return;
