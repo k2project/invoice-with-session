@@ -4,19 +4,17 @@ import { dialogBox } from '../../alerts/alertsFuns';
 export const alertUnsavedChanges = async (
     initilState,
     state,
+    currentPathname,
     setUpdates,
     history
 ) => {
-    console.log(JSON.stringify(state) !== JSON.stringify(initilState));
     if (JSON.stringify(state) !== JSON.stringify(initilState)) {
         const targetPathname = history.location.pathname;
-        //submenu link clicked
         const targetTab = history.location.search;
-        const currentPathname = history.location.pathname;
-        console.log(history.location.search);
-        console.log(window.location);
-        history.push('/dashboard/profile?tab=update');
+        history.push(currentPathname);
         const unblockRouting = history.block();
+
+        console.log(targetPathname, currentPathname);
 
         const msg = `You have some unsaved changes. What would you like to do?`;
         const cancelBtnText = 'Discharge changes';
@@ -34,7 +32,7 @@ export const alertUnsavedChanges = async (
                 );
             } else {
                 window.location.replace(
-                    window.location.origin + targetPathname
+                    window.location.origin + targetPathname + '?tab=tasks'
                 );
             }
         };
@@ -59,7 +57,6 @@ export const saveChangesOnLeave = async (
     http //api call
 ) => {
     try {
-        console.log(http);
         if (JSON.stringify(state) !== JSON.stringify(initilState)) {
             const config = {
                 headers: {

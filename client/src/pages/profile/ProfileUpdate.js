@@ -21,6 +21,7 @@ class ProfileUpdate extends Component {
         alertUnsavedChanges(
             this.props.initialState, //initial state
             this.props.profile.details, //redux updated state
+            '/dashboard/profile?tab=update',
             this.props.setUpdates,
             this.props.history
         );
