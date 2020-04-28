@@ -51,7 +51,6 @@ const NavSubmenu = ({ companies, setCompanyTab }) => {
                             activeClassName='dashboard-subnav__link--is-active'
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
-                                setCompanyTab('tasks');
                                 setAlert(
                                     `${name} is now desplayed on the page `,
                                     'success'
