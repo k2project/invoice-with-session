@@ -1,5 +1,5 @@
 import {
-    START_SESS,
+    AUTH_SESS,
     END_SESS,
     SET_PROFILE_TAB,
     SET_COMPANY_TAB,
@@ -13,7 +13,7 @@ const initialState = {
 
 export default function (state = initialState, { type, payload }) {
     switch (type) {
-        case START_SESS:
+        case AUTH_SESS:
             return {
                 ...state,
                 authenticated: true,

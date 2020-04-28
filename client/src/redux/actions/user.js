@@ -1,16 +1,26 @@
 import axios from 'axios';
-import { GET_USER, END_SESS } from './types';
+import { GET_USER, AUTH_SESS } from './types';
+import { endSession } from './session';
 
-export const getCurrentUser = () => async (dispatch) => {
+export const getCurrentUser = () => async (dispatch, getState) => {
     try {
         const res = await axios.get('/api/user');
+        //authorise session
+        dispatch({ type: AUTH_SESS });
         dispatch({
             type: GET_USER,
             user: res.data,
         });
     } catch (err) {
-        console.error('AUTH ERROR ON USER LOADING', err);
         console.log(err);
-        dispatch({ type: END_SESS });
+        if (
+            err.response.data.msg === 'AuthError' &&
+            getState().session.authenticated
+        ) {
+            dispatch(
+                endSession('Your session has expired. Please sign back in.')
+            );
+            return;
+        }
     }
 };

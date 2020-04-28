@@ -1,5 +1,4 @@
 import {
-    START_SESS,
     END_SESS,
     SET_PROFILE_TAB,
     SET_COMPANY_TAB,
@@ -7,21 +6,21 @@ import {
     CLEAR_COMPANIES,
     REMOVE_USER,
 } from './types';
-
+import { setAlert } from './messages';
 import { getProfile } from './profile';
 import { getAllCompanies } from './companies';
 import { getCurrentUser } from './user';
 
 export const startSession = () => async (dispatch) => {
-    dispatch({ type: START_SESS });
     await dispatch(getAllCompanies());
     await dispatch(getProfile());
     await dispatch(getCurrentUser());
 };
 
-export const endSession = () => (dispatch) => {
-    localStorage.removeItem('persist:sess');
+export const endSession = (err) => (dispatch) => {
     dispatch({ type: END_SESS });
+    if (err) dispatch(setAlert(err, 'danger', null, false, 10000));
+    localStorage.removeItem('persist:sess');
     dispatch({ type: REMOVE_PROFILE });
     dispatch({ type: CLEAR_COMPANIES });
     dispatch({ type: REMOVE_USER });

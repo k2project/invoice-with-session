@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProfile, updateProfileDetails } from '../../redux/actions/profile';
+import { endSession } from '../../redux/actions/session';
 import DetailsDisplayTable from '../../components/form/components/DetailsDisplayTable';
 import { saveChangesOnLeave } from '../../components/form/utils/handleUnsavedChanges';
 
@@ -19,6 +20,7 @@ class ProfileDetails extends Component {
             this.state.details, //initial state
             this.props.details, //redux updated state
             this.props.getProfile,
+            this.props.endSession,
             '/api/profile' //api call,
         );
     }
@@ -46,6 +48,7 @@ ProfileDetails.propTypes = {
     details: PropTypes.array,
     getProfile: PropTypes.func,
     updateProfileDetails: PropTypes.func,
+    endSession: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -56,6 +59,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     getProfile,
     updateProfileDetails,
+    endSession,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileDetails);

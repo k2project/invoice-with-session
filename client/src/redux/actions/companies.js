@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { setAlert } from './messages';
+import { endSession } from './session';
 import {
     GET_ALL_COMPANIES,
     CLEAR_COMPANIES,
     SET_CURRENT_COMPANY,
-    END_SESS,
 } from '../actions/types';
 
 export const getAllCompanies = () => async (dispatch) => {
@@ -17,8 +17,12 @@ export const getAllCompanies = () => async (dispatch) => {
         });
     } catch (err) {
         console.error('AUTH ERROR ON LOADING ALL COMPANIES', err);
-        console.log(err);
-        dispatch({ type: END_SESS });
+        if (err.response.data.msg === 'AuthError') {
+            dispatch(
+                endSession('Your session has expired. Please sign back in.')
+            );
+            return;
+        }
     }
 };
 export const clearCompanies = () => (dispatch) => {

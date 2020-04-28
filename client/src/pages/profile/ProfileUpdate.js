@@ -39,27 +39,14 @@ class ProfileUpdate extends Component {
             this.props.setUpdates(
                 JSON.parse(JSON.stringify(this.props.profile.details))
             );
-        console.log(
-            'MOUNTING____',
-            'INIT',
-            this.props.initialState,
-            'REDUX',
-            this.props.profile.details
-        );
         window.addEventListener('beforeunload', this.props.clearInitState);
     }
     componentWillUnmount() {
-        this.handleChanges();
+        //auth err and logout won't trigger fun
+        this.props.authenticated || this.handleChanges();
         window.removeEventListener('beforeunload', this.props.clearInitState);
     }
     render() {
-        console.log(
-            'REBDERING____',
-            'INIT',
-            this.props.initialState,
-            'REDUX',
-            this.props.profile.details
-        );
         const formData = {
             details: this.props.profile.details,
             http: '/api/profile',
@@ -74,6 +61,7 @@ class ProfileUpdate extends Component {
 }
 
 ProfileUpdate.propTypes = {
+    authenticated: PropTypes.bool,
     details: PropTypes.array,
     getProfile: PropTypes.func,
     setAlert: PropTypes.func,
@@ -81,6 +69,7 @@ ProfileUpdate.propTypes = {
     setUpdates: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
+    authenticated: state.session.authenticated,
     profile: state.profile,
     initialState: state.updates.initialState,
 });

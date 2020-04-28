@@ -23,7 +23,9 @@ function App() {
     const { store, persistor } = factory();
 
     useEffect(() => {
-        store.dispatch(startSession());
+        //on page refresh
+        store.getState().session.authenticated &&
+            store.dispatch(startSession());
     });
     return (
         <Provider store={store}>

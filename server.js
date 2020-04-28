@@ -11,13 +11,13 @@ const {
 
 require('dotenv').config();
 
-const TWO_HRS = 1000 * 60 * 60 * 2;
+const ONE_HR = 3.6e6;
 const {
     PORT = 5000,
     NODE_ENV = 'development',
     SESS_NAME = 'sid',
     SESS_SECRET = 'ssh!my$ecr3t4thi$se££!0n',
-    SESS_LIFETIME = TWO_HRS,
+    SESS_LIFETIME = ONE_HR,
 } = process.env;
 const IN_PROD = NODE_ENV === 'production';
 (async () => {
@@ -47,6 +47,7 @@ const IN_PROD = NODE_ENV === 'production';
                     collection: 'session',
                     ttl: parseInt(SESS_LIFETIME) / 1000,
                 }),
+                rolling: true,
                 cookie: {
                     maxAge: parseInt(SESS_LIFETIME),
                     sameSite: true,

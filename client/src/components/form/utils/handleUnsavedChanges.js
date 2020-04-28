@@ -45,6 +45,7 @@ export const saveChangesOnLeave = async (
     initilState,
     state,
     getState,
+    endSession,
     http //api call
 ) => {
     try {
@@ -58,6 +59,8 @@ export const saveChangesOnLeave = async (
             await getState();
         }
     } catch (err) {
-        console.log(err);
+        if (err.response.data.msg === 'AuthError') {
+            endSession('Your session has expired. Please sign back in.');
+        }
     }
 };

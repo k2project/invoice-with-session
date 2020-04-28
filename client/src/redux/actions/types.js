@@ -1,5 +1,5 @@
 //session
-export const START_SESS = 'START_SESS';
+export const AUTH_SESS = 'AUTH_SESS';
 export const END_SESS = 'END_SESS';
 export const SET_PROFILE_TAB = 'SET_PROFILE_TAB';
 export const SET_COMPANY_TAB = 'SET_COMPANY_TAB ';

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { GET_PROFILE, END_SESS, UPDATE_PROFILE } from './types';
-import { setAlert } from './messages';
+import { GET_PROFILE, UPDATE_PROFILE } from './types';
+import { endSession } from './session';
 
 export const getProfile = () => async (dispatch) => {
     try {
@@ -11,16 +11,12 @@ export const getProfile = () => async (dispatch) => {
         });
     } catch (err) {
         console.error('ERROR ON PROFILE LOADING', err);
-        console.log(err);
-        // dispatch(
-        //     setAlert(
-        //         "We are sorry, but an error's occurred while we tried to load your profile's details.",
-        //         'danger',
-        //         null,
-        //         false,
-        //         15000
-        //     )
-        // );
+        if (err.response.data.msg === 'AuthError') {
+            dispatch(
+                endSession('Your session has expired. Please sign back in.')
+            );
+            return;
+        }
     }
 };
 export const updateProfileDetails = (details) => (dispatch) => {

@@ -9,6 +9,7 @@ import { customInputOnChange, formErrorsStyling } from '../utils/formFuns';
 import AddCustomFields from './AddCustomFields';
 import RemoveCustomFields from './RemoveCustomFields';
 import { setAlert } from '../../../redux/actions/messages';
+import { endSession } from '../../../redux/actions/session';
 
 const CustomBuiltForm = ({
     data: {
@@ -21,6 +22,7 @@ const CustomBuiltForm = ({
         reset,
     },
     setAlert,
+    endSession,
     history,
 }) => {
     //declare Form's State
@@ -107,14 +109,12 @@ const CustomBuiltForm = ({
             //redirect
             history.push(`${url}${res.data.id ? res.data.id : ''}`);
         } catch (err) {
-            // if (err.response) {
-            //     const { status, statusText } = err.response;
-            //     setAlert(`${status} ${statusText}`, 'danger', null, false);
-            // }
-            console.log('ON CUSTOM FORM SUBMIT', err);
-            if (err.response.data) {
-                setErrors([...errors, ...err.response.data.errors]);
+            if (err.response.data.msg === 'AuthError') {
+                endSession('Your session has expired. Please sign back in.');
+                return;
             }
+            err.response.data.errors ||
+                setErrors([...errors, ...err.response.data.errors]);
         }
     };
 
@@ -179,5 +179,6 @@ const CustomBuiltForm = ({
 
 const mapDispatchToProps = {
     setAlert,
+    endSession,
 };
 export default connect(null, mapDispatchToProps)(withRouter(CustomBuiltForm));
