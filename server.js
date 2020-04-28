@@ -20,6 +20,7 @@ const {
     SESS_LIFETIME = ONE_HR,
 } = process.env;
 const IN_PROD = NODE_ENV === 'production';
+
 (async () => {
     try {
         console.log('connecting to DB...');

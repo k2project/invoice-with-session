@@ -161,7 +161,7 @@ Nav.propTypes = {
 };
 const mapStateToProps = (state) => ({
     profile: state.profile,
-    companies: state.companies.companies,
+    companies: state.companies,
 });
 const mapDispatchToProps = {
     setAlert,

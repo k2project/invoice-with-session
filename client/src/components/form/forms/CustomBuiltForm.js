@@ -40,7 +40,7 @@ const CustomBuiltForm = ({
         formState.splice(index, 1);
         setFormState([...formState]);
     };
-
+    const clearForm = () => setFormState(formState.map((i) => (i.value = '')));
     //handle input change
     const updateInput = (e, id) => {
         customInputOnChange(e, id, formState, setFormState, errors, setErrors);
@@ -105,7 +105,7 @@ const CustomBuiltForm = ({
             if (updateInitStateToReduxStateOnSubmit)
                 updateInitStateToReduxStateOnSubmit();
             //clear submitted data
-            if (reset) setFormState(formState.map((i) => (i.value = '')));
+            if (reset) clearForm();
             //redirect
             history.push(`${url}${res.data.id ? res.data.id : ''}`);
         } catch (err) {
@@ -121,6 +121,12 @@ const CustomBuiltForm = ({
     useEffect(() => {
         formErrorsStyling(errors);
     }, [errors]);
+    //clear form on component dismounting
+    useEffect(() => {
+        return () => {
+            if (reset) clearForm();
+        };
+    }, []);
 
     const orderedFields = formState
         .filter((field) => field.order)

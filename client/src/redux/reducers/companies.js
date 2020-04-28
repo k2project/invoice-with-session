@@ -1,28 +1,28 @@
 import {
     GET_ALL_COMPANIES,
     CLEAR_COMPANIES,
-    SET_CURRENT_COMPANY,
+    UPDATE_COMPANY,
 } from '../actions/types';
 
-const initialState = {
-    companies: [],
-    company: null,
-};
+const initialState = [];
 
 export default function (state = initialState, { type, payload }) {
     switch (type) {
         case GET_ALL_COMPANIES:
-            return {
-                ...state,
-                companies: payload,
-            };
-        case SET_CURRENT_COMPANY:
-            return {
-                ...state,
-                company: payload,
-            };
+            return [...payload];
+
         case CLEAR_COMPANIES:
-            return { companies: [], company: null };
+            return [];
+        case UPDATE_COMPANY:
+            const { details, id } = payload;
+            const companyToUpdateIndex = state.findIndex((c) => c._id === id);
+            const companyToUpdate = state[companyToUpdateIndex];
+            companyToUpdate.details = details;
+            return [
+                ...state.slice(0, companyToUpdateIndex),
+                companyToUpdate,
+                ...state.slice(companyToUpdateIndex + 1),
+            ];
         default:
             return state;
     }

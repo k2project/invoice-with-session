@@ -2,7 +2,6 @@ import {
     SET_ALERT,
     REMOVE_ALERT,
     SET_ERROR,
-    REMOVE_ERROR,
     CLEAR_ALL_ERRORS,
 } from '../actions/types';
 

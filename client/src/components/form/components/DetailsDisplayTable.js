@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import arrowIcon from '../../../imgs/icons/arrow.png';
 import {
@@ -29,7 +29,7 @@ export default function DetailsDisplayTable({ details, updateState }) {
             </thead>
             <tbody>
                 {tableState.map((item, index, arr) => {
-                    if (item.value)
+                    if (item.value && item.inputType !== 'textarea')
                         return (
                             <tr key={item._id} data-details-index={index}>
                                 <th scope='row'>{item.label}:</th>
@@ -109,6 +109,17 @@ export default function DetailsDisplayTable({ details, updateState }) {
                         );
                 })}
             </tbody>
+
+            {tableState
+                .filter((item) => item.inputType === 'textarea' && item.value)
+                .map((item) => (
+                    <tfoot key={item._id}>
+                        <tr>
+                            <th scope='row'>{item.label}:</th>
+                            <td colSpan='0'>{item.value}</td>
+                        </tr>
+                    </tfoot>
+                ))}
         </table>
     );
 }

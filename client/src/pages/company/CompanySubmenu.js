@@ -8,6 +8,7 @@ import { getInputValueByLabel } from '../../components/form/utils/customFormQuer
 import { dialogBox } from '../../components/alerts/alertsFuns';
 
 import updateIcon from '../../imgs/icons/updateIcon.png';
+import plusIcon from '../../imgs/icons/plusIcon.png';
 import listIcon from '../../imgs/icons/list.png';
 import deleteIcon from '../../imgs/icons/deleteIcon.png';
 import tasksIcon from '../../imgs/icons/tasksIcon.png';
@@ -44,6 +45,15 @@ const CompanySubmenu = ({ company, setCompanyTab, deleteCompany, history }) => {
                     >
                         <img src={tasksIcon} className='submenu__icon' alt='' />
                         Tasks
+                    </button>
+                </li>
+                <li className='submenu__link'>
+                    <button
+                        className='submenu__btn'
+                        onMouseDown={(e) => e.preventDefault()}
+                    >
+                        <img src={plusIcon} className='submenu__icon' alt='' />
+                        New Invoice
                     </button>
                 </li>
                 <li className='submenu__link'>

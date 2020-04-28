@@ -1,19 +1,18 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Page from '../../components/page/Page';
 import CompanySubmenu from './CompanySubmenu';
 import CompanyUpdate from './CompanyUpdate';
+import CompanyDetails from './CompanyDetails';
 
 import './Company.scss';
 
 export const Company = ({ companies, currentCompanyTab }) => {
     let { id } = useParams();
     let company = companies.find((c) => c._id === id);
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    });
+
     return (
         <Page>
             {!company && <Redirect to='/dashboard/companies' />}
@@ -27,7 +26,7 @@ export const Company = ({ companies, currentCompanyTab }) => {
                         <div className='tile'>invoices</div>
                     )}
                     {currentCompanyTab === 'details' && (
-                        <div className='tile'>details</div>
+                        <CompanyDetails company={company} />
                     )}
                     {currentCompanyTab === 'update' && (
                         <CompanyUpdate company={company} />
@@ -40,10 +39,9 @@ export const Company = ({ companies, currentCompanyTab }) => {
 Company.propTypes = {
     companies: PropTypes.array,
     currentCompanyTab: PropTypes.string,
-    setCurrentCompany: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
-    companies: state.companies.companies,
+    companies: state.companies,
     currentCompanyTab: state.session.currentCompanyTab,
 });
 

@@ -69,13 +69,13 @@ export default function AddCustomFields({
         //     .getElementById('customFieldPosition')
         //     .lastElementChild.setAttribute('selected', true);
     };
-    const getSelectedPosition = () => {
-        const el = document.getElementById('customFieldPosition');
-        setFormData({
-            ...formData,
-            customFieldPosition: el.options[el.selectedIndex].value,
-        });
-    };
+    // const getSelectedPosition = () => {
+    //     const el = document.getElementById('customFieldPosition');
+    //     setFormData({
+    //         ...formData,
+    //         customFieldPosition: el.options[el.selectedIndex].value,
+    //     });
+    // };
     useEffect(() => {
         // document
         //     .getElementById('customFieldPosition')

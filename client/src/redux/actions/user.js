@@ -18,7 +18,7 @@ export const getCurrentUser = () => async (dispatch, getState) => {
             getState().session.authenticated
         ) {
             dispatch(
-                endSession('Your session has expired. Please sign back in.')
+                endSession('Your session has ended. Please sign back in.')
             );
             return;
         }

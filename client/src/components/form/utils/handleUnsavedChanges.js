@@ -1,7 +1,5 @@
 import axios from 'axios';
 import { dialogBox } from '../../alerts/alertsFuns';
-import React from 'react';
-import { Redirect } from 'react-router-dom';
 
 export const alertUnsavedChanges = async (
     initilState,
@@ -44,7 +42,6 @@ export const alertUnsavedChanges = async (
 export const saveChangesOnLeave = async (
     initilState,
     state,
-    getState,
     endSession,
     http //api call
 ) => {
@@ -56,7 +53,7 @@ export const saveChangesOnLeave = async (
                 },
             };
             await axios.post(http, JSON.stringify(state), config);
-            await getState();
+            // await getState();
         }
     } catch (err) {
         if (err.response.data.msg === 'AuthError') {

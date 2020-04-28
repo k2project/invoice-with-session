@@ -1,4 +1,3 @@
-import React from 'react';
 import errIcon from '../../imgs/icons/errIcon.png';
 //targetEl- el to focus on cancelation for sr
 export const dialogBox = async ({

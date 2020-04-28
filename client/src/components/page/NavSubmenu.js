@@ -57,6 +57,7 @@ const NavSubmenu = ({ companies, setCompanyTab }) => {
                                     `${name} is now desplayed on the page `,
                                     'success'
                                 );
+                                window.scrollTo(0, 0);
                             }}
                         >
                             {name}
@@ -73,7 +74,7 @@ NavSubmenu.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    companies: state.companies.companies,
+    companies: state.companies,
 });
 
 const mapDispatchToProps = {

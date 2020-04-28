@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import deleteIcon from '../../../imgs/icons/deleteIcon.png';
 
 export default function RemoveCustomFields({
