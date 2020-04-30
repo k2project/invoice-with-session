@@ -13,20 +13,21 @@ import { endSession } from '../../../redux/actions/session';
 
 const CustomBuiltForm = ({
     data: {
-        details,
+        inputs,
         http,
         url,
         cb,
         updateInitStateToReduxStateOnSubmit,
         msg,
         reset,
+        customField = true,
     },
     setAlert,
     endSession,
     history,
 }) => {
     //declare Form's State
-    const [formState, setFormState] = useState(details);
+    const [formState, setFormState] = useState(inputs);
     const [errors, setErrors] = useState([]);
 
     const addCustomToFieldsFormState = (field) => {
@@ -169,20 +170,22 @@ const CustomBuiltForm = ({
                     <FormErrorsDisplay errors={errors} label='Page main form' />
                 )}
             </div>
-            <div>
-                <AddCustomFields
-                    addCustomToFieldsFormState={addCustomToFieldsFormState}
-                    maxPosition={formState.length}
-                />
-                {customFields.length > 0 && (
-                    <RemoveCustomFields
-                        customFields={customFields}
-                        removeCustomFieldsFromFormState={
-                            removeCustomFieldsFromFormState
-                        }
+            {customField && (
+                <div>
+                    <AddCustomFields
+                        addCustomToFieldsFormState={addCustomToFieldsFormState}
+                        maxPosition={formState.length}
                     />
-                )}
-            </div>
+                    {customFields.length > 0 && (
+                        <RemoveCustomFields
+                            customFields={customFields}
+                            removeCustomFieldsFromFormState={
+                                removeCustomFieldsFromFormState
+                            }
+                        />
+                    )}
+                </div>
+            )}
         </form>
     );
 };

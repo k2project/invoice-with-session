@@ -1,0 +1,45 @@
+@import '../../App.scss';
+.invoice-init {
+    font-size: 1.4rem;
+    padding-bottom: 10rem;
+    background-color: #f1f1f1;
+    ul {
+        width: 50rem;
+        // margin: auto;
+        padding: 2rem 0 2rem;
+        a {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        a:focus {
+            color: $COLOR_INFO;
+            text-decoration: none;
+        }
+    }
+}
+.incoieInit-tasks {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    line-height: 4rem;
+    font-size: 1.1rem;
+    color: #aaa;
+}
+.invoice-init__link {
+    padding-left: 0.5rem;
+    a:visited,
+    a:link,
+    a:active {
+        color: $COLOR_THEME;
+    }
+    a:hover {
+        color: $COLOR_INFO;
+    }
+}

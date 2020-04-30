@@ -46,7 +46,7 @@ class CompanyUpdate extends Component {
     }
     render() {
         const formData = {
-            details: this.props.company.details,
+            inputs: this.props.company.details,
             http: `/api/companies/details/${this.props.company._id}`,
             url: '/dashboard/companies/',
             cb: this.props.getAllCompanies,

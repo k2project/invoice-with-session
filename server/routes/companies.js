@@ -80,7 +80,7 @@ companiesRoutes.post('/details/:companyID', auth, async (req, res) => {
     }
 });
 //@route    POST api/companies/tasks/:companyID
-//@desc     Update a company details
+//@desc     Add/Update a company tasks
 //@status   Private
 companiesRoutes.post('/tasks/:companyID', auth, async (req, res) => {
     try {
@@ -97,8 +97,21 @@ companiesRoutes.post('/tasks/:companyID', auth, async (req, res) => {
                 ],
             });
         }
+        const { tasks } = company;
+        const { update, task } = req.body;
+        if (!update) {
+            //add a new task
+            tasks.push(task);
+        } else {
+            //update an existing task
+            const taskId = update;
+            const indexOftaskToUpdate = tasks.findIndex(
+                (task) => task._id === taskId
+            );
+            tasks.splice(indexOftaskToUpdate, 1, task);
+        }
 
-        company.tasks = req.body;
+        company.tasks = tasks;
         await company.save();
         //return company's id for redirection to the company's page
         res.end();

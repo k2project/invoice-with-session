@@ -47,7 +47,7 @@ class ProfileUpdate extends Component {
     }
     render() {
         const formData = {
-            details: this.props.profile.details,
+            inputs: this.props.profile.details,
             http: '/api/profile',
             url: '/dashboard/profile',
             cb: this.props.getProfile,

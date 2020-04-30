@@ -15,6 +15,7 @@ import Register from './pages/register/Register';
 import Profile from './pages/profile/Profile';
 import AddCompany from './pages/addCompany/AddCompany';
 import Company from './pages/company/Company';
+import InvoiceInit from './pages/invoice/InvoiceInit';
 import Invoice from './pages/invoice/Invoice';
 import Account from './pages/account/Account';
 import NotFound from './pages/NotFound';
@@ -57,6 +58,11 @@ function App() {
                                 component={Company}
                             />
 
+                            <PrivateRoute
+                                exact
+                                path='/dashboard/invoice/'
+                                component={InvoiceInit}
+                            />
                             <PrivateRoute
                                 exact
                                 path='/dashboard/invoice/:id'

@@ -9,7 +9,7 @@ import infoIcon from '../../imgs/icons/infoIcon.png';
 
 const AddCompany = ({ getAllCompanies }) => {
     const formData = {
-        details: companyInitDetails,
+        inputs: companyInitDetails,
         http: '/api/companies/',
         url: '/dashboard/companies/',
         cb: getAllCompanies,

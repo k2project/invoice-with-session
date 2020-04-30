@@ -24,6 +24,7 @@ export default function (state = initialState, { type, payload }) {
                 companyToUpdate,
                 ...state.slice(companyToUpdateIndex + 1),
             ];
+
         default:
             return state;
     }

@@ -23,6 +23,7 @@ export default function TasksDisplayTable({ tasks, updateState }) {
             </caption>
             <thead>
                 <tr className='sr-only'>
+                    <th scope='col'>Created at</th>
                     <th scope='col'>Task description</th>
                     <th scope='col'>Item Quantity</th>
                     <th scope='col'>Rate</th>
@@ -35,115 +36,99 @@ export default function TasksDisplayTable({ tasks, updateState }) {
                 </tr>
             </thead>
             <tbody>
-                {tableState.length === 0 && (
-                    <span className='tile'>
-                        <tr key='no-tasks' className='no-task'>
-                            <td colSpan='9'>
-                                You have currently none tasks saved.
-                            </td>
-                        </tr>
-                    </span>
-                )}
-
-                {tableState.length > 0 &&
-                    tableState.map((item, index, arr) => (
-                        <tr data-details-index={index} key={item._id}>
-                            <span className='tile' key={item._id}>
-                                <th scope='row'>{item.description}</th>
-                                <td className='td__value'>{item.qty}</td>
-                                <td className='td__value'>{item.rate}</td>
-                                <td className='td__value'>{item.amount}</td>
-                            </span>
-                            <td>
+                {tableState.map((item, index, arr) => (
+                    <tr data-details-index={index} key={item._id}>
+                        <span className='tile'>
+                            <td>{item.createdAt}</td>
+                            <th scope='row'>{item.description}</th>
+                            <td className='td__value'>{item.qty}</td>
+                            <td className='td__value'>{item.rate}</td>
+                            <td className='td__value'>{item.amount}</td>
+                        </span>
+                        <td>
+                            <button
+                                onMouseDown={(e) => e.preventDefault()}
+                                title={
+                                    item.addToInvoice
+                                        ? 'Item will be included in the new invoice.'
+                                        : ' Item will NOT be included in the new invoice.'
+                                }
+                                onClick={() => {
+                                    toggleIncludedInInvoice(
+                                        index,
+                                        tableState,
+                                        setTableState,
+                                        updateState
+                                    );
+                                }}
+                            >
+                                {item.addToInvoice ? (
+                                    <span>&#43;</span>
+                                ) : (
+                                    <span>&#45;</span>
+                                )}
+                            </button>
+                        </td>
+                        <td>
+                            {index !== 0 && (
                                 <button
                                     onMouseDown={(e) => e.preventDefault()}
-                                    title={
-                                        item.addToInvoice
-                                            ? 'Item will be included in the new invoice.'
-                                            : ' Item will NOT be included in the new invoice.'
-                                    }
-                                    onClick={() => {
-                                        toggleIncludedInInvoice(
-                                            index,
+                                    className='arrow-up'
+                                    title='Move item up'
+                                    onClick={(e) =>
+                                        moveItemUpOrDown(
+                                            e,
+                                            'up',
                                             tableState,
                                             setTableState,
                                             updateState
-                                        );
-                                    }}
+                                        )
+                                    }
                                 >
-                                    {item.addToInvoice ? (
-                                        <span>&#43;</span>
-                                    ) : (
-                                        <span>&#45;</span>
-                                    )}
+                                    <img src={arrowIcon} alt='move item up' />
                                 </button>
-                            </td>
-                            <td>
-                                {index !== 0 && (
-                                    <button
-                                        onMouseDown={(e) => e.preventDefault()}
-                                        className='arrow-up'
-                                        title='Move item up'
-                                        onClick={(e) =>
-                                            moveItemUpOrDown(
-                                                e,
-                                                'up',
-                                                tableState,
-                                                setTableState,
-                                                updateState
-                                            )
-                                        }
-                                    >
-                                        <img
-                                            src={arrowIcon}
-                                            alt='move item up'
-                                        />
-                                    </button>
-                                )}
-                            </td>
-                            <td>
-                                {index !== arr.length - 1 && (
-                                    <button
-                                        onMouseDown={(e) => e.preventDefault()}
-                                        className='arrow-down'
-                                        title='Move item down'
-                                        onClick={(e) =>
-                                            moveItemUpOrDown(
-                                                e,
-                                                'down',
-                                                tableState,
-                                                setTableState,
-                                                updateState
-                                            )
-                                        }
-                                    >
-                                        <img
-                                            src={arrowIcon}
-                                            alt='move item up'
-                                        />
-                                    </button>
-                                )}
-                            </td>
-                            <td>
+                            )}
+                        </td>
+                        <td>
+                            {index !== arr.length - 1 && (
                                 <button
                                     onMouseDown={(e) => e.preventDefault()}
-                                    className=''
-                                    title='Update task'
+                                    className='arrow-down'
+                                    title='Move item down'
+                                    onClick={(e) =>
+                                        moveItemUpOrDown(
+                                            e,
+                                            'down',
+                                            tableState,
+                                            setTableState,
+                                            updateState
+                                        )
+                                    }
                                 >
-                                    <img src={updateIcon} alt='Update task' />
+                                    <img src={arrowIcon} alt='move item up' />
                                 </button>
-                            </td>
-                            <td>
-                                <button
-                                    onMouseDown={(e) => e.preventDefault()}
-                                    className=''
-                                    title='Delete task'
-                                >
-                                    <img src={deleteIcon} alt='Delete task' />
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
+                            )}
+                        </td>
+                        <td>
+                            <button
+                                onMouseDown={(e) => e.preventDefault()}
+                                className=''
+                                title='Update task'
+                            >
+                                <img src={updateIcon} alt='Update task' />
+                            </button>
+                        </td>
+                        <td>
+                            <button
+                                onMouseDown={(e) => e.preventDefault()}
+                                className=''
+                                title='Delete task'
+                            >
+                                <img src={deleteIcon} alt='Delete task' />
+                            </button>
+                        </td>
+                    </tr>
+                ))}
             </tbody>
         </table>
     );

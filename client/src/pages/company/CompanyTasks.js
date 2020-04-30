@@ -5,6 +5,8 @@ import { updateCompanyArr } from '../../redux/actions/companies';
 import { endSession } from '../../redux/actions/session';
 import TasksDisplayTable from '../../components/form/components/TasksDisplayTable';
 import { saveChangesOnLeave } from '../../components/form/utils/handleUnsavedChanges';
+import TaskForm from '../../components/form/forms/TaskForm';
+import infoIcon from '../../imgs/icons/infoIcon.png';
 
 class CompanyTasks extends Component {
     constructor(props) {
@@ -12,9 +14,12 @@ class CompanyTasks extends Component {
         this.state = {
             //deep copy of the redux state on component load
             tasks: JSON.parse(JSON.stringify(props.company.details)),
+            company: this.props.company._id,
+            update: false,
         };
         this.handleChanges = this.handleChanges.bind(this);
         this.updateCompanyTasks = this.updateCompanyTasks.bind(this);
+        this.updateTasksArr = this.updateTasksArr.bind(this);
     }
     handleChanges() {
         // saveChangesOnLeave(
@@ -24,9 +29,11 @@ class CompanyTasks extends Component {
         //     `/api/companies/tasks/${this.props.company._id}`
         // );
     }
+    updateTasksArr() {}
     updateCompanyTasks(tasks) {
         this.props.updateCompanyArr(tasks, this.props.company._id);
     }
+
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleChanges);
     }
@@ -38,28 +45,22 @@ class CompanyTasks extends Component {
         return (
             <section className='company-tasks'>
                 <h2 className='sr-only'>Company Tasks.</h2>
-                <TasksDisplayTable
-                    tasks={this.props.company.tasks}
-                    // tasks={[
-                    //     {
-                    //         _id: 1,
-                    //         description:
-                    //             'first task to be very loang to fill up all the available space so that I can see how the desing look with oit. hahaha. And a bit more to see how it looks wider...',
-                    //         qty: '1',
-                    //         rate: '£10',
-                    //         amount: '£10',
-                    //         addToInvoice: true,
-                    //     },
-                    //     {
-                    //         _id: 2,
-                    //         description: '2nd task',
-                    //         qty: '1',
-                    //         rate: '£30',
-                    //         amount: '£30',
-                    //         addToInvoice: true,
-                    //     },
-                    // ]}
-                    updateState={this.updateCompanyTasks}
+                {this.props.company.tasks.length === 0 && (
+                    <span className='tile tile--info'>
+                        <img src={infoIcon} alt='' className='icon--md' />
+                        Currently there are no tasks saved. Add a new one now.
+                    </span>
+                )}
+                {this.props.company.tasks.length > 0 && (
+                    <TasksDisplayTable
+                        tasks={this.props.company.tasks}
+                        updateState={this.updateCompanyTasks}
+                    />
+                )}
+                <TaskForm
+                    companyID={this.state.company}
+                    update={this.state.update}
+                    updateTasksArr={this.updateTasksArr}
                 />
             </section>
         );

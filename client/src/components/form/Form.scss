@@ -276,7 +276,7 @@ textarea:focus {
     .tile {
         left: -0.5rem;
         display: grid;
-        grid-template-columns: 1fr auto auto auto;
+        grid-template-columns: auto 1fr auto auto auto;
         margin-top: 0;
     }
     button {

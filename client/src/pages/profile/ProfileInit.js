@@ -12,7 +12,7 @@ const ProfileInit = ({
     updateProfileDetails,
 }) => {
     const formData = {
-        details,
+        inputs: details,
         http: '/api/profile/',
         url: '/dashboard/profile/',
         cb: getProfile,
