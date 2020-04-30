@@ -14,10 +14,11 @@ export default function (state = initialState, { type, payload }) {
         case CLEAR_COMPANIES:
             return [];
         case UPDATE_COMPANY:
-            const { details, id } = payload;
+            const { arr, id } = payload;
             const companyToUpdateIndex = state.findIndex((c) => c._id === id);
             const companyToUpdate = state[companyToUpdateIndex];
-            companyToUpdate.details = details;
+            companyToUpdate[arr] = arr;
+
             return [
                 ...state.slice(0, companyToUpdateIndex),
                 companyToUpdate,

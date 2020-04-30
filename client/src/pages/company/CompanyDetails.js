@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { updateCompanyDetails } from '../../redux/actions/companies';
+import { updateCompanyArr } from '../../redux/actions/companies';
 import { endSession } from '../../redux/actions/session';
 import DetailsDisplayTable from '../../components/form/components/DetailsDisplayTable';
 import { saveChangesOnLeave } from '../../components/form/utils/handleUnsavedChanges';
@@ -21,11 +21,11 @@ class CompanyDetails extends Component {
             this.state.details, //initial state
             this.props.company.details, //redux updated state
             this.props.endSession,
-            `/api/companies/${this.props.company._id}`
+            `/api/companies/details/${this.props.company._id}`
         );
     }
     updateCompanyDetails(details) {
-        this.props.updateCompanyDetails(details, this.props.company._id);
+        this.props.updateCompanyArr(details, this.props.company._id);
     }
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleChanges);
@@ -37,7 +37,7 @@ class CompanyDetails extends Component {
     render() {
         return (
             <section>
-                <h2 className='sr-only'>Profile Details .</h2>
+                <h2 className='sr-only'>Company Details .</h2>
                 <DetailsDisplayTable
                     details={this.props.company.details}
                     updateState={this.updateCompanyDetails}
@@ -49,14 +49,14 @@ class CompanyDetails extends Component {
 
 CompanyDetails.propTypes = {
     company: PropTypes.object,
-    updateCompanyDetails: PropTypes.func,
+    updateCompanyArr: PropTypes.func,
     endSession: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
-    updateCompanyDetails,
+    updateCompanyArr,
     endSession,
 };
 

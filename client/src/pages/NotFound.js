@@ -17,7 +17,7 @@ const NotFound = () => {
                         to={
                             companyQuery
                                 ? '/dashboard/add-company'
-                                : '/dashboard/profile'
+                                : '/dashboard/profile?tab=details'
                         }
                         onMouseDown={(e) => e.preventDefault()}
                         className='not-found__link'

@@ -13,14 +13,14 @@ export const getCurrentUser = () => async (dispatch, getState) => {
         });
     } catch (err) {
         console.log(err);
-        if (
-            err.response.data.msg === 'AuthError' &&
-            getState().session.authenticated
-        ) {
-            dispatch(
-                endSession('Your session has ended. Please sign back in.')
-            );
-            return;
-        }
+        // if (
+        //     err.response.data.msg === 'AuthError' &&
+        //     getState().session.authenticated
+        // ) {
+        //     dispatch(
+        //         endSession('Your session has ended. Please sign back in.')
+        //     );
+        //     return;
+        // }
     }
 };

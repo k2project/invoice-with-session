@@ -47,7 +47,7 @@ class CompanyUpdate extends Component {
     render() {
         const formData = {
             details: this.props.company.details,
-            http: `/api/companies/${this.props.company._id}`,
+            http: `/api/companies/details/${this.props.company._id}`,
             url: '/dashboard/companies/',
             cb: this.props.getAllCompanies,
             updateInitStateToReduxStateOnSubmit: this

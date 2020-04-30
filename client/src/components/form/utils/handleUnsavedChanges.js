@@ -63,8 +63,8 @@ export const saveChangesOnLeave = async (
                     'Content-Type': 'application/json',
                 },
             };
+            console.log(state);
             await axios.post(http, JSON.stringify(state), config);
-            // await getState();
         }
     } catch (err) {
         if (err.response.data.msg === 'AuthError') {

@@ -14,7 +14,7 @@ const ProfileInit = ({
     const formData = {
         details,
         http: '/api/profile/',
-        url: '/dashboard/profile',
+        url: '/dashboard/profile/',
         cb: getProfile,
         msg: 'Your profile has been created successfully.',
         updateDetails: updateProfileDetails,

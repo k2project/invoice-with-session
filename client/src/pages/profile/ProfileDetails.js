@@ -20,7 +20,7 @@ class ProfileDetails extends Component {
             this.state.details, //initial state
             this.props.details, //redux updated state
             this.props.endSession,
-            '/api/profile' //api call,
+            '/api/profile/' //api call,
         );
     }
     componentDidMount() {

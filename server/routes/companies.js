@@ -51,10 +51,10 @@ companiesRoutes.post('/', auth, async (req, res) => {
         return res.status(500).send('Server error ---> updating the company');
     }
 });
-//@route    POST api/companies/:companyID
-//@desc     Update a company
+//@route    POST api/companies/details/:companyID
+//@desc     Update a company details
 //@status   Private
-companiesRoutes.post('/:companyID', auth, async (req, res) => {
+companiesRoutes.post('/details/:companyID', auth, async (req, res) => {
     try {
         let company = await Company.findOne({
             _id: req.params.companyID,
@@ -74,6 +74,34 @@ companiesRoutes.post('/:companyID', auth, async (req, res) => {
         await company.save();
         //return company's id for redirection to the company's page
         res.json({ id: company._id });
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server error ---> updating the company');
+    }
+});
+//@route    POST api/companies/tasks/:companyID
+//@desc     Update a company details
+//@status   Private
+companiesRoutes.post('/tasks/:companyID', auth, async (req, res) => {
+    try {
+        let company = await Company.findOne({
+            _id: req.params.companyID,
+        });
+
+        if (!company) {
+            return res.status(400).json({
+                errors: [
+                    {
+                        msg: 'Could not find the company.',
+                    },
+                ],
+            });
+        }
+
+        company.tasks = req.body;
+        await company.save();
+        //return company's id for redirection to the company's page
+        res.end();
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server error ---> updating the company');

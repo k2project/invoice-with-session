@@ -4,7 +4,7 @@ import arrowIcon from '../../../imgs/icons/arrow.png';
 import {
     moveItemUpOrDown,
     toggleIncludedInInvoice,
-} from '../utils/detailsDisplayTableFun';
+} from '../utils/displayTableFun';
 
 export default function DetailsDisplayTable({ details, updateState }) {
     const [tableState, setTableState] = useState(details);
@@ -20,9 +20,9 @@ export default function DetailsDisplayTable({ details, updateState }) {
             </caption>
             <thead>
                 <tr className='sr-only'>
-                    <th scope='col'>Add task to a new invoice</th>
                     <th scope='col'>Description</th>
                     <th scope='col'>Value</th>
+                    <th scope='col'>Add item to a new invoice</th>
                     <th scope='col'>Move Item Up</th>
                     <th scope='col'>Move Item Down</th>
                 </tr>
@@ -84,7 +84,7 @@ export default function DetailsDisplayTable({ details, updateState }) {
                                     )}
                                 </td>
                                 <td className='td__last'>
-                                    {/* last td of last tr disabled with css */}
+                                    {/* last td of last tr disabled with css beacuse of textarea */}
                                     <button
                                         onMouseDown={(e) => e.preventDefault()}
                                         className='arrow-down'

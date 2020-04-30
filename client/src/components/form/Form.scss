@@ -176,15 +176,24 @@ textarea:focus {
         }
     }
 }
+.tasks-table,
 .details-table {
     font-size: 1.4rem;
-    background-color: #fff;
-    margin: 0.5rem;
-    padding: 2rem 3rem;
-    border-radius: 0.4rem;
+    min-width: 50rem;
     caption {
         text-align: left;
         padding-bottom: 1rem;
+        p {
+            display: inline-block;
+        }
+    }
+    th,
+    td {
+        text-align: center;
+    }
+
+    tr {
+        vertical-align: middle;
     }
 
     button {
@@ -209,16 +218,20 @@ textarea:focus {
     .arrow-down {
         transform: rotate(180deg);
     }
+}
+
+.details-table {
+    background-color: #fff;
+    border-radius: 0.4rem;
+    padding: 2rem 3rem;
+    margin: 0.5rem;
     th,
     td {
-        text-align: center;
         background-color: #fff;
     }
 
     tr {
         background-color: #fff;
-        vertical-align: middle;
-        padding: 0 2rem;
     }
 
     th[scope='row'] {
@@ -231,9 +244,7 @@ textarea:focus {
         text-align: right;
         padding: 0 4rem 0 5rem;
     }
-    .td__last {
-        // padding-right: 2rem;
-    }
+    //hide last arrow down
     tr:last-child {
         .td__last {
             display: none;
@@ -251,5 +262,33 @@ textarea:focus {
             text-align: left;
             padding-left: 5rem;
         }
+    }
+}
+.no-task {
+    width: 45rem;
+}
+.tasks-table {
+    text-align: left;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0;
+    max-width: 80rem;
+    .tile {
+        left: -0.5rem;
+        display: grid;
+        grid-template-columns: 1fr auto auto auto;
+        margin-top: 0;
+    }
+    button {
+        border: solid 1px #111;
+        color: #111;
+    }
+
+    th[scope='row'] {
+        text-align: left;
+    }
+    .td__value {
+        width: 5rem;
+        padding: 0 0.2rem;
     }
 }

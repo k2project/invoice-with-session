@@ -6,6 +6,7 @@ import Page from '../../components/page/Page';
 import CompanySubmenu from './CompanySubmenu';
 import CompanyUpdate from './CompanyUpdate';
 import CompanyDetails from './CompanyDetails';
+import CompanyTasks from './CompanyTasks';
 
 import './Company.scss';
 
@@ -27,7 +28,7 @@ export const Company = ({ companies }) => {
                             to={`/dashboard/companies/${companies[0]._id}?tab=tasks`}
                         />
                     )}
-                    {tab === 'tasks' && <div className='tile'>tasks</div>}
+                    {tab === 'tasks' && <CompanyTasks company={company} />}
                     {tab === 'invoices' && <div className='tile'>invoices</div>}
                     {tab === 'details' && <CompanyDetails company={company} />}
                     {tab === 'update' && <CompanyUpdate company={company} />}
