@@ -41,9 +41,9 @@ export const deleteCompany = (id) => async (dispatch) => {
     }
 };
 
-export const updateCompanyArr = (arr, id) => (dispatch) => {
+export const updateCompanyArr = (property, arr, id) => (dispatch) => {
     dispatch({
         type: UPDATE_COMPANY,
-        payload: { arr, id },
+        payload: { property, arr, id },
     });
 };

@@ -25,7 +25,7 @@ class CompanyDetails extends Component {
         );
     }
     updateCompanyDetails(details) {
-        this.props.updateCompanyArr(details, this.props.company._id);
+        this.props.updateCompanyArr('details', details, this.props.company._id);
     }
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleChanges);

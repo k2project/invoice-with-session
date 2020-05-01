@@ -27,7 +27,6 @@ class ProfileDetails extends Component {
         window.addEventListener('beforeunload', this.handleChanges);
     }
     componentWillUnmount() {
-        this.handleChanges();
         window.removeEventListener('beforeunload', this.handleChanges);
     }
     render() {

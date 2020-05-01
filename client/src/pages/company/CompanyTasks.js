@@ -33,18 +33,16 @@ class CompanyTasks extends Component {
     }
 
     updateCompanyTasks(tasks) {
-        this.props.updateCompanyArr(tasks, this.props.company._id);
+        this.props.updateCompanyArr('tasks', tasks, this.props.company._id);
     }
 
     componentDidMount() {
         window.addEventListener('beforeunload', this.handleChanges);
     }
     componentWillUnmount() {
-        this.handleChanges();
         window.removeEventListener('beforeunload', this.handleChanges);
     }
     render() {
-        console.log(this.props.company.tasks);
         return (
             <section className='company-tasks'>
                 <h2 className='sr-only'>Company Tasks.</h2>
