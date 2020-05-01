@@ -4,30 +4,83 @@ import { v4 as uuidv4 } from 'uuid';
 import FormInput from '../components/FormInput';
 import FormErrorsDisplay from '../components/FormErrorsDisplay';
 import { formErrorsStyling } from '../utils/formFuns';
+import { updateCompanyArr } from '../../../redux/actions/companies';
 import {
-    getAllTasks,
-    updateCompanyArr,
-} from '../../../redux/actions/companies';
+    validateStringToQty,
+    validateStringToCurrency,
+    validateStringToPercentage,
+} from '../utils/validations';
 
 export default function TaskForm({ companyID, updateTasksArr, update }) {
     const [formData, setFormData] = useState({
         description: '',
         qty: '',
         rate: '',
-        amount: '',
+        tax: '',
         errors: [],
     });
     const handleAdd = async (e) => {
         e.preventDefault();
-        const { description, qty, rate, amount } = formData;
+        let { description, qty, rate, tax } = formData;
+        const strValues = ['free', 'n/a'];
         const errors = [];
-        if (!description.trim()) {
+
+        description = description.trim();
+        if (!description) {
             const error = {
                 param: 'description',
                 msg: 'Please describe the task.',
             };
             errors.push(error);
         }
+        //validate qty input
+        qty = qty.trim();
+        if (
+            !strValues.includes(qty.toLocaleLowerCase()) &&
+            !validateStringToQty(qty)
+        ) {
+            const error = {
+                param: 'qty',
+                msg:
+                    'Please enter Qty value in one of the following formats: 1,000.50, 1 , 3 items, FREE or N/A.',
+            };
+            errors.push(error);
+        }
+        //validate rate input
+        rate = rate.trim();
+        const rateObj = validateStringToCurrency(rate);
+        console.log(rateObj);
+        if (!strValues.includes(rate.toLocaleLowerCase()) && !rateObj) {
+            const error = {
+                param: 'rate',
+                msg:
+                    'Please enter Rate value in one of the following formats: 1,000 PLN, £ 10.50 , FREE or N/A.',
+            };
+            errors.push(error);
+        } else {
+            rate = rateObj.currency + ' ' + rateObj.numValue;
+        }
+        //validate tax input
+        tax = tax.trim();
+        const taxValue = validateStringToPercentage(tax);
+        console.log(rateObj);
+        if (!strValues.includes(tax.toLocaleLowerCase()) && !taxValue) {
+            const error = {
+                param: 'tax',
+                msg:
+                    'Please enter the Tax value in one of the following formats: 10%, 1-100 , FREE or N/A.',
+            };
+            errors.push(error);
+        } else {
+            tax = tax + ' %';
+        }
+        //calculate gross and net amount
+        const amount = {
+            currency: rateObj.currency,
+            amountGross: rateObj.numValue,
+            amountNet: (rateObj.numValue * tax) / 100,
+        };
+
         if (errors.length > 0) {
             setFormData({
                 ...formData,
@@ -46,9 +99,10 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
             const task = {
                 _id: uuidv4(),
                 description,
-                qty: 'N/A' || qty,
-                rate: 'N/A' || rate,
-                amount: 'N/A' || amount,
+                qty: qty || 'N/A',
+                rate: rate || 'N/A',
+                tax: tax || '0%',
+                amount,
                 addToInvoice: true,
                 createdAt: new Date(),
             };
@@ -76,43 +130,55 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
         formErrorsStyling(formData.errors);
     }, [formData.errors]);
     return (
-        <Fragment>
-            <fieldset className='add-task'>
+        <form className='task-form' onSubmit={handleAdd}>
+            <fieldset>
                 <legend>
-                    <b>Add a new task.</b>
+                    <b>Add a new task to bill for. {companyID}</b>
+                    <p>
+                        <small> *Required</small>
+                    </p>
                 </legend>
-                <FormInput
-                    form={{ formData, setFormData }}
-                    name='description'
-                    size='auto'
-                >
-                    Description*
-                </FormInput>
-                <FormInput
-                    form={{ formData, setFormData }}
-                    name='qty'
-                    size='auto'
-                >
-                    Qty
-                </FormInput>
-
-                <FormInput
-                    form={{ formData, setFormData }}
-                    name='rate'
-                    size='auto'
-                >
-                    Rate
-                </FormInput>
-                <FormInput
-                    form={{ formData, setFormData }}
-                    name='amount'
-                    size='auto'
-                >
-                    Amount
-                </FormInput>
-
+                <div className='grid-3-cls'>
+                    <span className='col-span-3'>
+                        <FormInput
+                            form={{ formData, setFormData }}
+                            name='description'
+                            size='auto'
+                        >
+                            Description*
+                        </FormInput>
+                    </span>
+                    <span>
+                        <FormInput
+                            form={{ formData, setFormData }}
+                            name='qty'
+                            size='auto'
+                        >
+                            Qty (eg. 1, 2.5hr, N/A, Free)
+                        </FormInput>
+                    </span>
+                    <span>
+                        {' '}
+                        <FormInput
+                            form={{ formData, setFormData }}
+                            name='rate'
+                            size='auto'
+                        >
+                            Rate (eg. £11, N/A, Free)
+                        </FormInput>
+                    </span>
+                    <span>
+                        <FormInput
+                            form={{ formData, setFormData }}
+                            name='tax'
+                            size='auto'
+                        >
+                            Tax (eg. 10%, 10)
+                        </FormInput>
+                    </span>
+                </div>
                 <button
-                    className='btn btn--grey'
+                    className='btn btn--info'
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={handleAdd}
                 >
@@ -125,6 +191,6 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
                     label='Add custom field form'
                 />
             )}
-        </Fragment>
+        </form>
     );
 }

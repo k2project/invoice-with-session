@@ -273,22 +273,61 @@ textarea:focus {
     margin-top: 0.5rem;
     padding: 0;
     max-width: 80rem;
-    .tile {
-        left: -0.5rem;
-        display: grid;
-        grid-template-columns: auto 1fr auto auto auto;
-        margin-top: 0;
+    font-size: 1.2rem;
+    tr.tile {
+        margin-left: 0;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        // display: grid;
+        // grid-template-columns: auto 1fr auto auto auto auto auto auto auto auto;
     }
     button {
         border: solid 1px #111;
         color: #111;
+        left: 0.8rem;
     }
-
+    .td__btn {
+        width: 4rem;
+    }
     th[scope='row'] {
         text-align: left;
+        width: 25rem;
     }
     .td__value {
-        width: 5rem;
+        width: 4rem;
         padding: 0 0.2rem;
+    }
+
+    .td__date {
+        color: #c5c5c5;
+        left: -0.8rem;
+        padding-right: 0.8rem;
+    }
+}
+.task-form {
+    width: 69rem;
+    margin-top: -2rem;
+
+    fieldset {
+        background-color: #fff;
+        padding: 2rem;
+        margin: 0.5rem;
+        border-radius: 0.4rem;
+    }
+
+    button {
+        display: block;
+    }
+    legend {
+        padding-top: 4rem;
+        top: 2rem;
+    }
+    .grid-3-cls {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 2rem;
+    }
+    .col-span-3 {
+        grid-column: span 3;
     }
 }

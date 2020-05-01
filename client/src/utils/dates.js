@@ -8,6 +8,17 @@ export const dateUX = (date) => {
     date = date || new Date();
     return date.toLocaleDateString('en-US', options);
 };
+export const dateNum = (date) => {
+    date = new Date(date);
+    let month = String(date.getMonth() + 1);
+    month = month.length > 1 ? month : '0' + month;
+    let day = String(date.getDate());
+    day = day.length > 1 ? day : '0' + day;
+    let year = String(date.getFullYear()).slice(2, 4);
+
+    return day + '/' + month + '/' + year;
+    // return date.slice(0, 11).replace(/-/g, '/');
+};
 const isToday = (d) => {
     d = new Date(d);
     const today = new Date();

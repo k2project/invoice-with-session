@@ -4,10 +4,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Page from '../../components/page/Page';
-import { getInputValueByLabel } from '../../components/form/utils/customFormQueries';
+import {
+    getInputValueByLabel,
+    sortInputsByNamesAlphabeticaly,
+} from '../../components/form/utils/customFormQueries';
 import infoIcon from '../../imgs/icons/infoIcon.png';
 
 export const InvoiceInit = ({ companies }) => {
+    companies = sortInputsByNamesAlphabeticaly(companies, 'details');
     return (
         <Page>
             <section className='invoice-init'>
