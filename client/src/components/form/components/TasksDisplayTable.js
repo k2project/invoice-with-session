@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import arrowIcon from '../../../imgs/icons/arrow.png';
 import updateIcon from '../../../imgs/icons/updateIcon.png';
@@ -10,8 +10,10 @@ import {
 import { dateNum } from '../../../utils/dates';
 
 export default function TasksDisplayTable({ tasks, updateState }) {
-    const [tableState, setTableState] = useState(tasks);
-    console.log(tableState);
+    const [tableState, setTableState] = useState([]);
+    useEffect(() => {
+        setTableState(tasks);
+    }, [tasks]);
     return (
         <table className='tasks-table'>
             <caption>

@@ -60,27 +60,19 @@ companiesRoutes.post('/details/:companyID', auth, async (req, res) => {
             _id: req.params.companyID,
         });
 
-        if (!company) {
-            return res.status(400).json({
-                errors: [
-                    {
-                        msg: 'Could not find the company.',
-                    },
-                ],
-            });
-        }
-
         company.details = req.body;
         await company.save();
         //return company's id for redirection to the company's page
         res.json({ id: company._id });
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Server error ---> updating the company');
+        return res
+            .status(500)
+            .send('Server error ---> updating the company details');
     }
 });
 //@route    POST api/companies/tasks/:companyID
-//@desc     Add/Update a company tasks
+//@desc     Update all tasks on autosave
 //@status   Private
 companiesRoutes.post('/tasks/:companyID', auth, async (req, res) => {
     try {
@@ -88,36 +80,44 @@ companiesRoutes.post('/tasks/:companyID', auth, async (req, res) => {
             _id: req.params.companyID,
         });
 
-        if (!company) {
-            return res.status(400).json({
-                errors: [
-                    {
-                        msg: 'Could not find the company.',
-                    },
-                ],
-            });
-        }
-        const { tasks } = company;
-        const { update, task } = req.body;
-        if (!update) {
-            //add a new task
-            tasks.push(task);
-        } else {
-            //update an existing task
-            const taskId = update;
-            const indexOftaskToUpdate = tasks.findIndex(
-                (task) => task._id === taskId
-            );
-            tasks.splice(indexOftaskToUpdate, 1, task);
-        }
+        company.tasks = req.body;
+        await company.save();
+        //return company's id for redirection to the company's page
+        res.json({ id: company._id });
+    } catch (err) {
+        console.error(err.message);
+        return res
+            .status(500)
+            .send('Server error ---> updating the company tasks');
+    }
+});
+//@route    POST api/companies/task/:companyID
+//@desc     Add/Update a tasks
+//@status   Private
+companiesRoutes.post('/task/:companyID', auth, async (req, res) => {
+    console.log(req.params.companyID);
+    try {
+        let company = await Company.findOne({
+            _id: req.params.companyID,
+        });
 
+        console.log(company);
+        const { tasks } = company;
+        const indexOfTask = Number(
+            tasks.findIndex((task) => task._id === req.body._id)
+        );
+        if (indexOfTask === -1) {
+            tasks.push(req.body);
+        } else {
+            tasks.splice(indexOfTask, 1, req.body);
+        }
         company.tasks = tasks;
         await company.save();
         //return company's id for redirection to the company's page
         res.end();
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Server error ---> updating the company');
+        return res.status(500).send('Server error ---> adding/updating a task');
     }
 });
 //@route    DELETE api/companies/:company_id

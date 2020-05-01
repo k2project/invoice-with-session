@@ -4,19 +4,19 @@ import { v4 as uuidv4 } from 'uuid';
 import FormInput from '../components/FormInput';
 import FormErrorsDisplay from '../components/FormErrorsDisplay';
 import { formErrorsStyling } from '../utils/formFuns';
-import { updateCompanyArr } from '../../../redux/actions/companies';
 import {
     validateStringToQty,
     validateStringToCurrency,
     validateStringToPercentage,
+    strToNum,
 } from '../utils/validations';
 
-export default function TaskForm({ companyID, updateTasksArr, update }) {
+export default function TaskForm({ companyID, updateTasksArr, taskID }) {
     const [formData, setFormData] = useState({
         description: '',
-        qty: '',
-        rate: '',
-        tax: '',
+        qty: 'N/A',
+        rate: 'N/A',
+        tax: 'N/A',
         errors: [],
     });
     const handleAdd = async (e) => {
@@ -35,16 +35,16 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
         }
         //validate qty input
         qty = qty.trim();
-        if (
-            !strValues.includes(qty.toLocaleLowerCase()) &&
-            !validateStringToQty(qty)
-        ) {
+        let qtyValue = validateStringToQty(qty);
+        if (!strValues.includes(qty.toLocaleLowerCase()) && !qtyValue) {
             const error = {
                 param: 'qty',
                 msg:
                     'Please enter Qty value in one of the following formats: 1,000.50, 1 , 3 items, FREE or N/A.',
             };
             errors.push(error);
+        } else {
+            if (qtyValue) qtyValue = strToNum(qtyValue);
         }
         //validate rate input
         rate = rate.trim();
@@ -58,12 +58,11 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
             };
             errors.push(error);
         } else {
-            rate = rateObj.currency + ' ' + rateObj.numValue;
+            if (rateObj) rate = rateObj.currency + rateObj.numValue;
         }
         //validate tax input
         tax = tax.trim();
         const taxValue = validateStringToPercentage(tax);
-        console.log(rateObj);
         if (!strValues.includes(tax.toLocaleLowerCase()) && !taxValue) {
             const error = {
                 param: 'tax',
@@ -72,14 +71,39 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
             };
             errors.push(error);
         } else {
-            tax = tax + ' %';
+            if (taxValue) tax = taxValue + '%';
+        }
+        //rate without qty
+        if (rateObj && strValues.includes(qty.toLocaleLowerCase())) {
+            const error = {
+                param: 'qty',
+                msg: 'Please provide quantity for entered rate.',
+            };
+            errors.push(error);
         }
         //calculate gross and net amount
-        const amount = {
-            currency: rateObj.currency,
-            amountGross: rateObj.numValue,
-            amountNet: (rateObj.numValue * tax) / 100,
-        };
+
+        let amount;
+        if (rateObj && qtyValue) {
+            const amountGross = strToNum(rateObj.numValue) * qtyValue;
+            let amountTaxed = 0;
+            if (taxValue)
+                amountTaxed = (
+                    amountGross *
+                    (strToNum(taxValue) / 100)
+                ).toFixed(2);
+            amountTaxed = strToNum(amountTaxed);
+
+            amount = {
+                currency: rateObj.currency,
+                amountGross,
+                amountTaxed,
+                amountNet: amountGross - amountTaxed,
+            };
+        } else {
+            //N/A and FREE values
+            amount = rate.toUpperCase();
+        }
 
         if (errors.length > 0) {
             setFormData({
@@ -97,7 +121,7 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
             };
             //create task
             const task = {
-                _id: uuidv4(),
+                _id: taskID || uuidv4(),
                 description,
                 qty: qty || 'N/A',
                 rate: rate || 'N/A',
@@ -106,19 +130,20 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
                 addToInvoice: true,
                 createdAt: new Date(),
             };
-            let body = { task };
-            if (update) body.update = update;
-            body = JSON.stringify(body);
-            console.log(companyID);
-            await axios.post(`/api/companies/tasks/${companyID}`, body, config);
+
+            await axios.post(
+                `/api/companies/task/${companyID}`,
+                JSON.stringify(task),
+                config
+            );
             //update company tasks
-            updateCompanyArr();
+            updateTasksArr();
             //reset state
             setFormData({
-                description: '',
-                qty: '',
-                rate: '',
-                amount: '',
+                description: ' ',
+                qty: 'N/A',
+                rate: 'N/A',
+                tax: 'N/A',
                 errors: [],
             });
         } catch (err) {
@@ -154,7 +179,7 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
                             name='qty'
                             size='auto'
                         >
-                            Qty (eg. 1, 2.5hr, N/A, Free)
+                            Qty* (eg. 1, 2.5hr, N/A, Free)
                         </FormInput>
                     </span>
                     <span>
@@ -164,7 +189,7 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
                             name='rate'
                             size='auto'
                         >
-                            Rate (eg. £11, N/A, Free)
+                            Rate* (eg. £11, N/A, Free)
                         </FormInput>
                     </span>
                     <span>
@@ -173,7 +198,7 @@ export default function TaskForm({ companyID, updateTasksArr, update }) {
                             name='tax'
                             size='auto'
                         >
-                            Tax (eg. 10%, 10)
+                            Tax* (eg. 10%, 10)
                         </FormInput>
                     </span>
                 </div>

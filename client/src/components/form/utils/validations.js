@@ -46,6 +46,9 @@ export const isValidated = (state, outputArr) => {
 export const getNumericalValueFromString = (str) => {
     return str.replace(/[^0-9,.]/g, '');
 };
+export const strToNum = (str) => {
+    return parseFloat(str.replace(/,/g, ''));
+};
 
 export const validateStringToPercentage = (str) => {
     const regExpPercentage = /^([0-9]{1,2}(\.[0-9]{1,2})?|100)\s?%?$/;
@@ -73,5 +76,8 @@ export const validateStringToCurrency = (str) => {
 
 export const validateStringToQty = (str) => {
     const regExpQty = /^[0-9]{1,3}(,?[0-9]{3})*(\.[0-9]{1,2})?[^0-9]*$/;
-    return regExpQty.test(str);
+    if (regExpQty.test(str)) {
+        return getNumericalValueFromString(str);
+    }
+    return null;
 };

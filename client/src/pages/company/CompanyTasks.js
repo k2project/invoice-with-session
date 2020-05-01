@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { updateCompanyArr } from '../../redux/actions/companies';
+import {
+    getAllCompanies,
+    updateCompanyArr,
+} from '../../redux/actions/companies';
 import { endSession } from '../../redux/actions/session';
 import TasksDisplayTable from '../../components/form/components/TasksDisplayTable';
 import { saveChangesOnLeave } from '../../components/form/utils/handleUnsavedChanges';
@@ -13,23 +16,22 @@ class CompanyTasks extends Component {
         super(props);
         this.state = {
             //deep copy of the redux state on component load
-            tasks: JSON.parse(JSON.stringify(props.company.details)),
+            tasks: JSON.parse(JSON.stringify(this.props.company.tasks)),
             company: this.props.company._id,
             update: false,
         };
         this.handleChanges = this.handleChanges.bind(this);
         this.updateCompanyTasks = this.updateCompanyTasks.bind(this);
-        this.updateTasksArr = this.updateTasksArr.bind(this);
     }
     handleChanges() {
-        // saveChangesOnLeave(
-        //     this.state.tasks, //initial state
-        //     this.props.company.tasks, //redux updated state
-        //     this.props.endSession,
-        //     `/api/companies/tasks/${this.props.company._id}`
-        // );
+        saveChangesOnLeave(
+            this.state.tasks, //initial state
+            this.props.company.tasks, //redux updated state
+            this.props.endSession,
+            `/api/companies/tasks/${this.props.company._id}`
+        );
     }
-    updateTasksArr() {}
+
     updateCompanyTasks(tasks) {
         this.props.updateCompanyArr(tasks, this.props.company._id);
     }
@@ -42,6 +44,7 @@ class CompanyTasks extends Component {
         window.removeEventListener('beforeunload', this.handleChanges);
     }
     render() {
+        console.log(this.props.company.tasks);
         return (
             <section className='company-tasks'>
                 <h2 className='sr-only'>Company Tasks.</h2>
@@ -58,9 +61,9 @@ class CompanyTasks extends Component {
                     />
                 )}
                 <TaskForm
-                    companyID={this.state.company}
+                    companyID={this.props.company._id}
                     update={this.state.update}
-                    updateTasksArr={this.updateTasksArr}
+                    updateTasksArr={this.props.getAllCompanies}
                 />
             </section>
         );
@@ -70,12 +73,14 @@ class CompanyTasks extends Component {
 CompanyTasks.propTypes = {
     company: PropTypes.object,
     updateCompanyArr: PropTypes.func,
+    getAllCompanies: PropTypes.func,
     endSession: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
+    getAllCompanies,
     updateCompanyArr,
     endSession,
 };
