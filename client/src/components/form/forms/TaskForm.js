@@ -158,7 +158,7 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
         <form className='task-form' onSubmit={handleAdd}>
             <fieldset>
                 <legend>
-                    <b>Add a new task to bill for. {companyID}</b>
+                    <b>Add a new task to bill for.</b>
                     <p>
                         <small> *Required</small>
                     </p>
@@ -170,7 +170,7 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
                             name='description'
                             size='auto'
                         >
-                            Description*
+                            <b>Description*</b>
                         </FormInput>
                     </span>
                     <span>
@@ -179,7 +179,8 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
                             name='qty'
                             size='auto'
                         >
-                            Qty* (eg. 1, 2.5hr, N/A, Free)
+                            <b>Qty* </b>
+                            <small>(e.g. 1, 2.5hr, N/A, Free)</small>
                         </FormInput>
                     </span>
                     <span>
@@ -189,7 +190,8 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
                             name='rate'
                             size='auto'
                         >
-                            Rate* (eg. £11, N/A, Free)
+                            <b>Rate* </b>
+                            <small>(e.g. £11, N/A, Free)</small>
                         </FormInput>
                     </span>
                     <span>
@@ -198,7 +200,8 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
                             name='tax'
                             size='auto'
                         >
-                            Tax* (eg. 10%, 10)
+                            <b>Tax* </b>
+                            <small>(e.g. 10%, 10, N/A, Free)</small>
                         </FormInput>
                     </span>
                 </div>

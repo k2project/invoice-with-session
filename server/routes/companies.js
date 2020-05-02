@@ -92,16 +92,14 @@ companiesRoutes.post('/tasks/:companyID', auth, async (req, res) => {
     }
 });
 //@route    POST api/companies/task/:companyID
-//@desc     Add/Update a tasks
+//@desc     Add/Update a task
 //@status   Private
 companiesRoutes.post('/task/:companyID', auth, async (req, res) => {
-    console.log(req.params.companyID);
     try {
         let company = await Company.findOne({
             _id: req.params.companyID,
         });
 
-        console.log(company);
         const { tasks } = company;
         const indexOfTask = Number(
             tasks.findIndex((task) => task._id === req.body._id)
@@ -113,7 +111,32 @@ companiesRoutes.post('/task/:companyID', auth, async (req, res) => {
         }
         company.tasks = tasks;
         await company.save();
-        //return company's id for redirection to the company's page
+        res.end();
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server error ---> adding/updating a task');
+    }
+});
+//@route    PUT api/companies/task/:companyID
+//@desc     Delete a task
+//@status   Private
+companiesRoutes.put('/task/:companyID', auth, async (req, res) => {
+    try {
+        let company = await Company.findOne({
+            _id: req.params.companyID,
+        });
+
+        const { tasks } = company;
+        const indexOfTask = Number(
+            tasks.findIndex((task) => task._id === req.body.id)
+        );
+        if (indexOfTask === -1) {
+            return res.status(400).send("Couldn't find the task to delete.");
+        } else {
+            tasks.splice(indexOfTask, 1);
+        }
+        company.tasks = tasks;
+        await company.save();
         res.end();
     } catch (err) {
         console.error(err.message);

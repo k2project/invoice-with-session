@@ -54,6 +54,7 @@ class CompanyTasks extends Component {
                 )}
                 {this.props.company.tasks.length > 0 && (
                     <TasksDisplayTable
+                        companyID={this.props.company._id}
                         tasks={this.props.company.tasks}
                         updateState={this.updateCompanyTasks}
                     />

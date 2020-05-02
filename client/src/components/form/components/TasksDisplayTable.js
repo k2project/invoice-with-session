@@ -1,19 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { setAlert } from '../../../redux/actions/messages';
 import arrowIcon from '../../../imgs/icons/arrow.png';
 import updateIcon from '../../../imgs/icons/updateIcon.png';
 import deleteIcon from '../../../imgs/icons/deleteIcon.png';
 import {
     moveItemUpOrDown,
     toggleIncludedInInvoice,
+    deleteItem,
 } from '../utils/displayTableFun';
 import { dateNum } from '../../../utils/dates';
 
-export default function TasksDisplayTable({ tasks, updateState }) {
+const TasksDisplayTable = ({ companyID, tasks, updateState, setAlert }) => {
     const [tableState, setTableState] = useState([]);
     useEffect(() => {
         setTableState(tasks);
     }, [tasks]);
+    const deleteTask = async (id) => {
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+            await axios.put(
+                `/api/companies/task/${companyID}`,
+                JSON.stringify({ id }),
+                config
+            );
+            deleteItem(id, tableState, setTableState, updateState);
+            setAlert(
+                'Task has been deleted successfully.',
+                'success',
+                null,
+                false
+            );
+        } catch (err) {
+            setAlert(
+                "We are sorry, but couldn't delete the task.",
+                'danger',
+                null,
+                false
+            );
+        }
+    };
     return (
         <table className='tasks-table'>
             <caption>
@@ -61,21 +93,23 @@ export default function TasksDisplayTable({ tasks, updateState }) {
                         </td>
                         <td className='td__btn'>
                             <button
-                                onMouseDown={(e) => e.preventDefault()}
-                                className=''
                                 title='Delete task'
+                                onMouseDown={(e) => e.preventDefault()}
+                                onClick={() => {
+                                    deleteTask(item._id);
+                                }}
                             >
                                 <img src={deleteIcon} alt='Delete task' />
                             </button>
                         </td>
                         <td className='td__btn'>
                             <button
-                                onMouseDown={(e) => e.preventDefault()}
                                 title={
                                     item.addToInvoice
                                         ? 'Item will be included in the new invoice.'
                                         : ' Item will NOT be included in the new invoice.'
                                 }
+                                onMouseDown={(e) => e.preventDefault()}
                                 onClick={() => {
                                     toggleIncludedInInvoice(
                                         index,
@@ -137,7 +171,13 @@ export default function TasksDisplayTable({ tasks, updateState }) {
             </tbody>
         </table>
     );
-}
+};
 TasksDisplayTable.propTypes = {
     tasks: PropTypes.array,
 };
+
+const mapDispatchToProps = {
+    setAlert,
+};
+
+export default connect(null, mapDispatchToProps)(TasksDisplayTable);

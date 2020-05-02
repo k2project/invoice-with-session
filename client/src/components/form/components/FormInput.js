@@ -74,7 +74,6 @@ const FormInput = ({ type = 'text', name, size = 'sml', children, form }) => {
 
 FormInput.propTypes = {
     name: PropTypes.string.isRequired,
-    children: PropTypes.string.isRequired,
     form: PropTypes.object.isRequired,
 };
 
