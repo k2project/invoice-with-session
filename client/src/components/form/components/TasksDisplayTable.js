@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { setAlert } from '../../../redux/actions/messages';
+import { setCurrentTask } from '../../../redux/actions/session';
+import { updateCompanyArr } from '../../../redux/actions/companies';
 import arrowIcon from '../../../imgs/icons/arrow.png';
 import updateIcon from '../../../imgs/icons/updateIcon.png';
 import deleteIcon from '../../../imgs/icons/deleteIcon.png';
+import calendarIcon from '../../../imgs/icons/calendar.png';
 import {
     moveItemUpOrDown,
     toggleIncludedInInvoice,
@@ -13,12 +16,42 @@ import {
 } from '../utils/displayTableFun';
 import { dateNum } from '../../../utils/dates';
 
-const TasksDisplayTable = ({ companyID, tasks, updateState, setAlert }) => {
+const TasksDisplayTable = ({
+    currentCompany,
+    tasks,
+    updateCompanyArr,
+    currentTask,
+    setCurrentTask,
+    setAlert,
+}) => {
     const [tableState, setTableState] = useState([]);
     useEffect(() => {
         setTableState(tasks);
     }, [tasks]);
-    const deleteTask = async (id) => {
+    useEffect(() => {
+        const trArr = Array.from(document.querySelectorAll('.tasks-table tr'));
+        if (currentTask) {
+            trArr.forEach((tr) => {
+                if (tr.getAttribute('id') !== currentTask._id) {
+                    tr.style.display = 'none';
+                }
+            });
+        } else {
+            trArr.forEach((tr) => (tr.style.display = 'grid'));
+        }
+    }, [currentTask]);
+
+    const updateState = (tasks) => {
+        updateCompanyArr('tasks', tasks, currentCompany);
+    };
+    const updateTask = (e, task) => {
+        setCurrentTask(task);
+        const firstInput = document.querySelector('.task-form #description');
+        firstInput.focus();
+        firstInput.scrollIntoView();
+    };
+    const deleteTask = async (e, id) => {
+        setCurrentTask(null);
         try {
             const config = {
                 headers: {
@@ -26,7 +59,7 @@ const TasksDisplayTable = ({ companyID, tasks, updateState, setAlert }) => {
                 },
             };
             await axios.put(
-                `/api/companies/task/${companyID}`,
+                `/api/companies/task/${currentCompany}`,
                 JSON.stringify({ id }),
                 config
             );
@@ -46,6 +79,7 @@ const TasksDisplayTable = ({ companyID, tasks, updateState, setAlert }) => {
             );
         }
     };
+
     return (
         <table className='tasks-table'>
             <caption>
@@ -57,7 +91,7 @@ const TasksDisplayTable = ({ companyID, tasks, updateState, setAlert }) => {
                 </p>
             </caption>
             <thead>
-                <tr className='sr-only'>
+                <tr className='sr-only' id='task-table-tr-head'>
                     <th scope='col'>Created at</th>
                     <th scope='col'>Task description</th>
                     <th scope='col'>Item Quantity</th>
@@ -76,17 +110,31 @@ const TasksDisplayTable = ({ companyID, tasks, updateState, setAlert }) => {
                         data-details-index={index}
                         key={item._id}
                         className='tile'
+                        id={item._id}
                     >
-                        <td className='td__date'>{dateNum(item.createdAt)}</td>
+                        <td
+                            className='td__date'
+                            title={dateNum(item.createdAt)}
+                        >
+                            <img
+                                src={calendarIcon}
+                                alt={`Created at ${dateNum(item.createdAt)}`}
+                            />
+                            <span aria-hidden='true'>
+                                {dateNum(item.createdAt).slice(0, 2)}
+                            </span>
+                        </td>
                         <th scope='row'>{item.description}</th>
                         <td className='td__value'>{item.qty}</td>
                         <td className='td__value'>{item.rate}</td>
                         <td className='td__value'>{item.tax}</td>
                         <td className='td__btn'>
                             <button
-                                onMouseDown={(e) => e.preventDefault()}
-                                className=''
                                 title='Update task'
+                                onMouseDown={(e) => e.preventDefault()}
+                                onClick={(e) => {
+                                    updateTask(e, item);
+                                }}
                             >
                                 <img src={updateIcon} alt='Update task' />
                             </button>
@@ -95,8 +143,8 @@ const TasksDisplayTable = ({ companyID, tasks, updateState, setAlert }) => {
                             <button
                                 title='Delete task'
                                 onMouseDown={(e) => e.preventDefault()}
-                                onClick={() => {
-                                    deleteTask(item._id);
+                                onClick={(e) => {
+                                    deleteTask(e, item._id);
                                 }}
                             >
                                 <img src={deleteIcon} alt='Delete task' />
@@ -173,11 +221,22 @@ const TasksDisplayTable = ({ companyID, tasks, updateState, setAlert }) => {
     );
 };
 TasksDisplayTable.propTypes = {
+    currentCompany: PropTypes.string,
     tasks: PropTypes.array,
+    setAlert: PropTypes.func,
+    setCurrentTask: PropTypes.func,
+    updateCompanyArr: PropTypes.func,
 };
-
+const mapStateToProps = (state) => ({
+    currentCompany: state.session.currentCompany,
+    currentTask: state.session.currentTask,
+    tasks: state.companies.find((c) => c._id === state.session.currentCompany)
+        .tasks,
+});
 const mapDispatchToProps = {
     setAlert,
+    updateCompanyArr,
+    setCurrentTask,
 };
 
-export default connect(null, mapDispatchToProps)(TasksDisplayTable);
+export default connect(mapStateToProps, mapDispatchToProps)(TasksDisplayTable);

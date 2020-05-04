@@ -67,6 +67,9 @@ CompanyUpdate.propTypes = {
 const mapStateToProps = (state) => ({
     authenticated: state.session.authenticated,
     initialState: state.updates.initialState,
+    company: state.companies.find(
+        (c) => c._id === state.session.currentCompany
+    ),
 });
 
 const mapDispatchToProps = {

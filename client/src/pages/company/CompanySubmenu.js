@@ -115,7 +115,11 @@ CompanySubmenu.propTypes = {
     deleteCompany: PropTypes.func,
     company: PropTypes.object.isRequired,
 };
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    company: state.companies.find(
+        (c) => c._id === state.session.currentCompany
+    ),
+});
 const mapDispatchToProps = {
     deleteCompany,
 };

@@ -1,6 +1,9 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getAllCompanies } from '../../../redux/actions/companies';
 import FormInput from '../components/FormInput';
 import FormErrorsDisplay from '../components/FormErrorsDisplay';
 import { formErrorsStyling } from '../utils/formFuns';
@@ -10,16 +13,31 @@ import {
     validateStringToPercentage,
     strToNum,
 } from '../utils/validations';
+import { setCurrentTask } from '../../../redux/actions/session';
 
-export default function TaskForm({ companyID, updateTasksArr, taskID }) {
-    const [formData, setFormData] = useState({
+export const TaskForm = ({
+    currentCompany,
+    getAllCompanies,
+    currentTask,
+    setCurrentTask,
+}) => {
+    const initState = {
         description: '',
         qty: 'N/A',
         rate: 'N/A',
-        tax: 'N/A',
+        tax: '0%',
         errors: [],
-    });
-    const handleAdd = async (e) => {
+    };
+    const [formData, setFormData] = useState(initState);
+    useEffect(() => {
+        if (currentTask) {
+            setFormData({ ...currentTask, errors: [] });
+        } else {
+            //clear form on curent task deletion
+            setFormData(initState);
+        }
+    }, [currentTask]);
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let { description, qty, rate, tax } = formData;
         const strValues = ['free', 'n/a'];
@@ -49,7 +67,6 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
         //validate rate input
         rate = rate.trim();
         const rateObj = validateStringToCurrency(rate);
-        console.log(rateObj);
         if (!strValues.includes(rate.toLocaleLowerCase()) && !rateObj) {
             const error = {
                 param: 'rate',
@@ -63,11 +80,11 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
         //validate tax input
         tax = tax.trim();
         const taxValue = validateStringToPercentage(tax);
-        if (!strValues.includes(tax.toLocaleLowerCase()) && !taxValue) {
+        if (!taxValue) {
             const error = {
                 param: 'tax',
                 msg:
-                    'Please enter the Tax value in one of the following formats: 10%, 1-100 , FREE or N/A.',
+                    'Please enter the Tax value in one of the following formats: 0% - 100% or 0-100',
             };
             errors.push(error);
         } else {
@@ -86,12 +103,13 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
         let amount;
         if (rateObj && qtyValue) {
             const amountGross = strToNum(rateObj.numValue) * qtyValue;
-            let amountTaxed = 0;
+            let amountTaxed = '0';
             if (taxValue)
                 amountTaxed = (
                     amountGross *
                     (strToNum(taxValue) / 100)
                 ).toFixed(2);
+            console.log(amountTaxed);
             amountTaxed = strToNum(amountTaxed);
 
             amount = {
@@ -121,31 +139,25 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
             };
             //create task
             const task = {
-                _id: taskID || uuidv4(),
                 description,
                 qty: qty || 'N/A',
                 rate: rate || 'N/A',
                 tax: tax || '0%',
                 amount,
-                addToInvoice: true,
-                createdAt: new Date(),
             };
+            task._id = currentTask ? currentTask._id : uuidv4();
+            task.addToInvoice = currentTask ? currentTask.addToInvoice : true;
+            task.createdAt = currentTask ? currentTask.createdAt : new Date();
 
             await axios.post(
-                `/api/companies/task/${companyID}`,
+                `/api/companies/task/${currentCompany}`,
                 JSON.stringify(task),
                 config
             );
-            //update company tasks
-            updateTasksArr();
+            getAllCompanies();
+            setCurrentTask(null);
             //reset state
-            setFormData({
-                description: ' ',
-                qty: 'N/A',
-                rate: 'N/A',
-                tax: 'N/A',
-                errors: [],
-            });
+            setFormData(initState);
         } catch (err) {
             console.log(err);
         }
@@ -155,7 +167,7 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
         formErrorsStyling(formData.errors);
     }, [formData.errors]);
     return (
-        <form className='task-form' onSubmit={handleAdd}>
+        <form className='task-form' onSubmit={handleSubmit}>
             <fieldset>
                 <legend>
                     <b>Add a new task to bill for.</b>
@@ -205,13 +217,23 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
                         </FormInput>
                     </span>
                 </div>
+
                 <button
                     className='btn btn--info'
                     onMouseDown={(e) => e.preventDefault()}
-                    onClick={handleAdd}
+                    onClick={handleSubmit}
                 >
-                    Add Item
+                    {currentTask ? 'Update ' : 'Add '} Item
                 </button>
+                {currentTask && (
+                    <button
+                        className='btn btn--grey'
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => setCurrentTask(null)}
+                    >
+                        Cancel
+                    </button>
+                )}
             </fieldset>
             {formData.errors.length > 0 && (
                 <FormErrorsDisplay
@@ -221,4 +243,21 @@ export default function TaskForm({ companyID, updateTasksArr, taskID }) {
             )}
         </form>
     );
-}
+};
+
+TaskForm.propTypes = {
+    company: PropTypes.object,
+    getAllCompanies: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+    currentCompany: state.session.currentCompany,
+    currentTask: state.session.currentTask,
+});
+
+const mapDispatchToProps = {
+    getAllCompanies,
+    setCurrentTask,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskForm);

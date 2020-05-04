@@ -327,6 +327,9 @@ a:focus {
 .btn--sibling {
     margin-right: 1rem;
 }
+.btn--disabled {
+    opacity: 0.1;
+}
 //====================
 //  HEADINGS STYLING
 //====================

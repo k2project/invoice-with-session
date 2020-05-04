@@ -5,7 +5,7 @@ import {
     getAllCompanies,
     updateCompanyArr,
 } from '../../redux/actions/companies';
-import { endSession } from '../../redux/actions/session';
+import { endSession, setCurrentTask } from '../../redux/actions/session';
 import TasksDisplayTable from '../../components/form/components/TasksDisplayTable';
 import { saveChangesOnLeave } from '../../components/form/utils/handleUnsavedChanges';
 import TaskForm from '../../components/form/forms/TaskForm';
@@ -40,6 +40,7 @@ class CompanyTasks extends Component {
         window.addEventListener('beforeunload', this.handleChanges);
     }
     componentWillUnmount() {
+        this.props.setCurrentTask(null);
         window.removeEventListener('beforeunload', this.handleChanges);
     }
     render() {
@@ -52,18 +53,8 @@ class CompanyTasks extends Component {
                         Currently there are no tasks saved. Add a new one now.
                     </span>
                 )}
-                {this.props.company.tasks.length > 0 && (
-                    <TasksDisplayTable
-                        companyID={this.props.company._id}
-                        tasks={this.props.company.tasks}
-                        updateState={this.updateCompanyTasks}
-                    />
-                )}
-                <TaskForm
-                    companyID={this.props.company._id}
-                    update={this.state.update}
-                    updateTasksArr={this.props.getAllCompanies}
-                />
+                {this.props.company.tasks.length > 0 && <TasksDisplayTable />}
+                <TaskForm />
             </section>
         );
     }
@@ -76,11 +67,16 @@ CompanyTasks.propTypes = {
     endSession: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    company: state.companies.find(
+        (c) => c._id === state.session.currentCompany
+    ),
+});
 
 const mapDispatchToProps = {
     getAllCompanies,
     updateCompanyArr,
+    setCurrentTask,
     endSession,
 };
 

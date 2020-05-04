@@ -272,40 +272,53 @@ textarea:focus {
     margin-left: 0.5rem;
     margin-top: 0.5rem;
     padding: 0;
-    max-width: 80rem;
+    width: 100%;
     font-size: 1.2rem;
     tr.tile {
         margin-left: 0;
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
-        // display: grid;
-        // grid-template-columns: auto 1fr auto auto auto auto auto auto auto auto;
+        display: grid;
+        grid-template-columns: auto 1fr auto auto auto auto auto auto auto auto;
     }
     button {
         border: solid 1px #111;
         color: #111;
         left: 0.8rem;
     }
+
     .td__btn {
         width: 4rem;
     }
     th[scope='row'] {
         text-align: left;
-        width: 25rem;
+        padding-right: 1rem;
+        // min-width: 25rem;
     }
     .td__value {
-        width: 4rem;
-        padding: 0 0.2rem;
+        min-width: 4rem;
+        padding: 0 0.5rem;
     }
 
     .td__date {
-        color: #c5c5c5;
+        img {
+            height: 2.8rem;
+        }
+        span {
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            width: 90%;
+            text-align: center;
+            top: 0.9rem;
+        }
         left: -0.8rem;
-        padding-right: 0.8rem;
+        padding-right: 0.5rem;
+        opacity: 0.2;
     }
 }
 .task-form {
-    width: 69rem;
+    width: 100%;
     margin-top: -2rem;
 
     fieldset {
@@ -316,7 +329,12 @@ textarea:focus {
     }
 
     button {
-        display: block;
+        display: inline-block;
+        margin-right: 1rem;
+    }
+    .btn--grey {
+        padding: 1.3rem 1rem;
+        min-width: 15rem;
     }
     legend {
         padding-top: 4rem;

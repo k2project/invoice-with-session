@@ -52,7 +52,11 @@ CompanyDetails.propTypes = {
     endSession: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    company: state.companies.find(
+        (c) => c._id === state.session.currentCompany
+    ),
+});
 
 const mapDispatchToProps = {
     updateCompanyArr,

@@ -1,6 +1,8 @@
 //session
 export const AUTH_SESS = 'AUTH_SESS';
 export const END_SESS = 'END_SESS';
+export const SET_CURRENT_COMPANY = 'SET_CURRENT_COMPANY';
+export const SET_CURRENT_TASK = 'SET_CURRENT_TASK';
 //updates
 export const SET_UPDATES = 'SET_UPDATES';
 //user

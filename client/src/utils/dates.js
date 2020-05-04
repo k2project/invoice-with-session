@@ -5,7 +5,7 @@ export const dateUX = (date) => {
         month: 'long',
         day: 'numeric',
     };
-    date = date || new Date();
+    date = new Date(date) || new Date();
     return date.toLocaleDateString('en-US', options);
 };
 export const dateNum = (date) => {
