@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import InvoiceDoc from './InvoiceDoc';
+import InvoiceDoc from './invoiceDoc/InvoiceDoc';
 import FormInput from '../../components/form/components/FormInput';
 
 export const NewInvoice = ({ company, history }) => {

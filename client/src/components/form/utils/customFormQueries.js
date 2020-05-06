@@ -5,6 +5,11 @@ export const getInputObjById = (arr, id) => {
 export const getInputValueByLabel = (arr, l) => {
     return arr.find((input) => input.label === l).value;
 };
+export const getInputValueByLabelIfVisible = (arr, l) => {
+    const input = arr.find((input) => input.label);
+    if (input.addToInvoice) return input.value;
+    return null;
+};
 
 //arr1 -> obj with arr2 ( obj with value property  that position in arr2 chnages dinamicaly )
 export const sortInputsByNamesAlphabeticaly = (arr, subarr) => {
