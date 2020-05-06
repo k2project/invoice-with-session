@@ -14,7 +14,7 @@ export const Header = ({
     profile: { createdAt, updatedAt },
 }) => {
     const updated = createdAt !== updatedAt;
-    const today = dateUX();
+    const today = dateUX(new Date());
     const messages = [
         `Today is ${today}.`,
         `${

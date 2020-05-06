@@ -8,6 +8,7 @@ import CompanySubmenu from './CompanySubmenu';
 import CompanyUpdate from './CompanyUpdate';
 import CompanyDetails from './CompanyDetails';
 import CompanyTasks from './CompanyTasks';
+import NewInvoice from './NewInvoice';
 
 import './Company.scss';
 
@@ -23,7 +24,7 @@ export const Company = ({ companies, setCurrentCompany }) => {
     }, []);
 
     const tab = useLocation().search.slice(5);
-    const tabs = ['tasks', 'invoices', 'details', 'update'];
+    const tabs = ['tasks', 'new-invoice', 'invoices', 'details', 'update'];
 
     return (
         <Page>
@@ -37,6 +38,7 @@ export const Company = ({ companies, setCurrentCompany }) => {
                         />
                     )}
                     {tab === 'tasks' && <CompanyTasks />}
+                    {tab === 'new-invoice' && <NewInvoice />}
                     {tab === 'invoices' && <div className='tile'>invoices</div>}
                     {tab === 'details' && <CompanyDetails />}
                     {tab === 'update' && <CompanyUpdate />}

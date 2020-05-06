@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setCompanyTab } from '../../redux/actions/session';
 import { deleteCompany } from '../../redux/actions/companies';
 import { getInputValueByLabel } from '../../components/form/utils/customFormQueries';
 import { dialogBox } from '../../components/alerts/alertsFuns';
@@ -14,7 +13,7 @@ import deleteIcon from '../../imgs/icons/deleteIcon.png';
 import tasksIcon from '../../imgs/icons/tasksIcon.png';
 import invoicesIcon from '../../imgs/icons/invoicesIcon.png';
 
-const CompanySubmenu = ({ company, setCompanyTab, deleteCompany, history }) => {
+const CompanySubmenu = ({ company, deleteCompany, history }) => {
     //details | tasks |invoices | update | delete
     let companyName = getInputValueByLabel(company.details, 'Name');
     const handleDelete = (e) => {
@@ -47,7 +46,7 @@ const CompanySubmenu = ({ company, setCompanyTab, deleteCompany, history }) => {
                 </li>
                 <li className='submenu__link'>
                     <Link
-                        to={`/dashboard/invoice/${company._id}`}
+                        to={`/dashboard/companies/${company._id}?tab=new-invoice`}
                         className='submenu__btn'
                         onMouseDown={(e) => e.preventDefault()}
                     >

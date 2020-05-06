@@ -1,12 +1,12 @@
 export const dateUX = (date) => {
     const options = {
-        weekday: 'long',
+        weekday: 'short',
         year: 'numeric',
         month: 'long',
         day: 'numeric',
     };
-    date = new Date(date) || new Date();
-    return date.toLocaleDateString('en-US', options);
+    date = new Date(date).toLocaleDateString('en-US', options);
+    return date.slice(0, 3) + ':' + date.slice(4);
 };
 export const dateNum = (date) => {
     date = new Date(date);

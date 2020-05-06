@@ -1,5 +1,5 @@
 @import '../../App.scss';
-.invoice-init {
+.invoice {
     font-size: 1.4rem;
     padding-bottom: 10rem;
     background-color: #f1f1f1;
@@ -22,7 +22,7 @@
         }
     }
 }
-.incoieInit-tasks {
+.incoie-tasks {
     width: 4rem;
     height: 4rem;
     border-radius: 100%;
@@ -32,7 +32,7 @@
     font-size: 1.1rem;
     color: #aaa;
 }
-.invoice-init__link {
+.invoice__link {
     padding-left: 0.5rem;
     a:visited,
     a:link,

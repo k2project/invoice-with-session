@@ -1,16 +1,61 @@
 import React from 'react';
+import './Invoice.scss';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Page from '../../components/page/Page';
+import {
+    getInputValueByLabel,
+    sortInputsByNamesAlphabeticaly,
+} from '../../components/form/utils/customFormQueries';
+import infoIcon from '../../imgs/icons/infoIcon.png';
 
-export const Invoice = () => {
-    return <Page>invoice</Page>;
+export const InvoiceInit = ({ companies }) => {
+    companies = sortInputsByNamesAlphabeticaly(companies, 'details');
+    return (
+        <Page>
+            <section className='invoice'>
+                <div className='tile tile--info'>
+                    <img src={infoIcon} alt='' className='icon--md' />
+                    Select a company to start on your invoice.
+                </div>
+                <ul aria-label='List of companies'>
+                    {companies.map((c) => (
+                        <li className='tile' key={`incoieInit-list-${c._id}`}>
+                            <Link
+                                to={`/dashboard/companies/${c._id}?tab=new-invoice`}
+                            >
+                                {getInputValueByLabel(c.details, 'Name')}
+                                <span
+                                    className='incoie-tasks'
+                                    title='Number of current tasks saved'
+                                >
+                                    {c.tasks.length}
+                                </span>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+                <div className='invoice__link'>
+                    <p>
+                        To start a new invoice you need to provide company's
+                        information.
+                    </p>
+                    <Link to='/dashboard/add-company'>
+                        Create a new company's profile now.
+                    </Link>
+                </div>
+            </section>
+        </Page>
+    );
 };
 
-Invoice.propTypes = {};
+InvoiceInit.propTypes = {};
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    companies: state.companies,
+});
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Invoice);
+export default connect(mapStateToProps, mapDispatchToProps)(InvoiceInit);

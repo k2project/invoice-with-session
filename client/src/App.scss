@@ -240,7 +240,8 @@ a:focus {
     }
 }
 .btn:hover {
-    background-color: darken($COLOR_THEME, 10%);
+    background-color: darken($COLOR_GREY, 10%);
+    border-color: darken($COLOR_GREY, 10%);
 }
 .btn:focus {
     border: dashed 0.1rem #111;

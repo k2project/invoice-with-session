@@ -1,0 +1,32 @@
+header {
+}
+.bg {
+    background-color: orange;
+    padding: 2rem;
+}
+#header h1 {
+    font-size: 2rem;
+}
+@media print {
+    header {
+        background-color: crimson;
+    }
+    h1 {
+        font-size: 20px;
+        font-weight: normal;
+        font-family: 'Audiowide', serif;
+    }
+    .bg {
+        background-color: orange;
+        padding: 2rem;
+    }
+}
+@page {
+    margin: -10px;
+}
+@media print and (color) {
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

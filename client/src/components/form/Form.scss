@@ -47,8 +47,12 @@ option span:hover {
     padding: 0.8rem 1rem;
     font-size: 1.5rem;
 }
-.form__input--sml {
-    width: 40rem;
+.form__input--sm {
+    width: 30rem;
+    display: inline-block;
+    margin: 0 0.7rem;
+    padding: 1.2rem;
+    font-size: 1.3rem;
 }
 .form__input--md {
     width: 50rem;
