@@ -9,13 +9,18 @@ import updateIcon from '../../../../imgs/icons/updateIcon.png';
 const InvoiceDocHeader = ({ profile, invoice, changeInvoiceColors }) => {
     const [settings, setSettings] = useState(false);
     const profileDetails = profile.details.map((input) => {
+        //Name displayed differently
         if (input.label === 'Name' && input.addToInvoice) {
             return (
                 <li key={input._id}>
                     <b>{input.value}</b>
                 </li>
             );
-        } else if (input.addToInvoice) {
+        }
+
+        //exclude banking details from header
+        const banking_details = ['Bank Name', 'Sort Code', 'Account Number'];
+        if (input.addToInvoice && !banking_details.includes(input.label)) {
             return <li key={input._id}>{input.value}</li>;
         }
     });
@@ -118,11 +123,13 @@ const InvoiceDocHeader = ({ profile, invoice, changeInvoiceColors }) => {
                 </button>
                 <div>
                     <h1>invoice</h1>
+                    <b>#RTE-2020-04-00001</b>
                 </div>
                 <div className='txt--right'>
                     <button
                         className='invoice__btn'
                         title='Change Profile details'
+                        onMouseDown={(e) => e.preventDefault()}
                     >
                         <img src={updateIcon} alt='Change Profile details' />
                     </button>

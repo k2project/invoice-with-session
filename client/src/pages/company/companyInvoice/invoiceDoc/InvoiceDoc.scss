@@ -1,14 +1,13 @@
 @import '../../../../App.scss';
 #invoice {
-    font-size: 1.4rem;
-    line-height: 1.4;
+    font-size: 1.2rem;
     margin-bottom: 3rem;
     .txt--right {
         text-align: right;
     }
     .invoice__btn {
         position: absolute;
-        right: -3.4rem;
+        right: -8.4rem;
         top: 0.2rem;
         img {
             height: 2rem;
@@ -17,7 +16,7 @@
     }
     .icon_iSettings {
         top: 2rem;
-        right: 2rem;
+        right: -3rem;
     }
     .close {
         position: absolute;
@@ -34,21 +33,25 @@
     header {
         display: flex;
         align-items: center;
-        padding: 5rem;
+        padding: 7rem 5rem 4rem;
         div {
             width: 50%;
             display: inline-block;
         }
         b {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        li {
+            padding: 0.2rem 0;
         }
     }
     h1 {
         font-family: $FONT_LOGO;
-        font-size: 5.6rem;
-        font-weight: bold;
-    }
-    .invoice__profile-details {
+        font-size: 7rem;
+        margin-bottom: -1rem;
+        margin-top: -2rem;
     }
 }
 .color-picker {
@@ -111,7 +114,6 @@
 }
 .bg-yellow {
     background-color: #ffc108;
-    color: #000;
 }
 .bg-yellow-green {
     background-color: #cddd39;
