@@ -63,9 +63,10 @@ const InvoiceDocHeader = ({
             title={color[0]}
         >
             <button
-                onClick={() =>
-                    changeInvoiceColors([color[1], invoice.text_color])
-                }
+                onClick={() => {
+                    changeInvoiceColors([color[1], invoice.text_color]);
+                    localStorage.setItem('invoice_bg', color[1]);
+                }}
                 onMouseDown={(e) => e.preventDefault()}
             >
                 <span className='sr-only'>color[1]</span>
@@ -83,9 +84,10 @@ const InvoiceDocHeader = ({
             title={color[0]}
         >
             <button
-                onClick={() =>
-                    changeInvoiceColors([invoice.bg_color, color[1]])
-                }
+                onClick={() => {
+                    changeInvoiceColors([invoice.bg_color, color[1]]);
+                    localStorage.setItem('invoice_txt', color[1]);
+                }}
                 onMouseDown={(e) => e.preventDefault()}
             >
                 <span className='sr-only'>color[1]</span>

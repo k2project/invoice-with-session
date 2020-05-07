@@ -48,8 +48,8 @@ class NewInvoice extends Component {
         } else {
             //a new invoice
             invoiceInitState = {
-                bg_color: 'blue',
-                text_color: 'white',
+                bg_color: localStorage.invoice_bg || 'blue',
+                text_color: localStorage.invoice_txt || 'white',
                 notes: null,
                 profile: JSON.parse(JSON.stringify(this.props.profile.details)),
                 company: JSON.parse(JSON.stringify(this.props.company.details)),
