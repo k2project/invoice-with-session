@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import './InvoiceDoc.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import settingsIcon from '../../../imgs/icons/cogs.png';
-import updateIcon from '../../../imgs/icons/updateIcon.png';
+import settingsIcon from '../../../../imgs/icons/cogs.png';
+import updateIcon from '../../../../imgs/icons/updateIcon.png';
 
-const InvoiceDoc = ({ profile }) => {
+const InvoiceDocHeader = ({ profile }) => {
     const [settings, setSettings] = useState(false);
     const profileDetails = profile.details.map((input) => {
         if (input.label === 'Name' && input.addToInvoice) {
@@ -20,7 +20,7 @@ const InvoiceDoc = ({ profile }) => {
     });
 
     return (
-        <article id='invoice'>
+        <Fragment>
             {settings && (
                 <section className='tile'>
                     <h3>Choose invoice color theme.</h3>
@@ -32,7 +32,7 @@ const InvoiceDoc = ({ profile }) => {
                     </button>
                 </section>
             )}
-            <header className='bg'>
+            <header>
                 <button
                     className='icon_iSettings'
                     title='Change invoice settings'
@@ -53,14 +53,13 @@ const InvoiceDoc = ({ profile }) => {
                     <ul>{profileDetails}</ul>
                 </div>
             </header>
-            {}
-        </article>
+        </Fragment>
     );
 };
 
-InvoiceDoc.propTypes = {};
+InvoiceDocHeader.propTypes = {};
 const mapStateToProps = (state) => ({
     profile: state.profile,
 });
 
-export default connect(mapStateToProps)(InvoiceDoc);
+export default connect(mapStateToProps)(InvoiceDocHeader);

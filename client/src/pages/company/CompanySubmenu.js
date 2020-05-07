@@ -46,7 +46,7 @@ const CompanySubmenu = ({ company, deleteCompany, history }) => {
                 </li>
                 <li className='submenu__link'>
                     <Link
-                        to={`/dashboard/companies/${company._id}?tab=new-invoice`}
+                        to={`/dashboard/companies/${company._id}?tab=invoice`}
                         className='submenu__btn'
                         onMouseDown={(e) => e.preventDefault()}
                     >

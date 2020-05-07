@@ -6,6 +6,7 @@ import messages from './messages';
 import user from './user';
 import profile from './profile';
 import companies from './companies';
+import invoice from './invoice';
 
 export default combineReducers({
     session,
@@ -14,4 +15,5 @@ export default combineReducers({
     user,
     profile,
     companies,
+    invoice,
 });

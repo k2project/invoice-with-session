@@ -23,7 +23,7 @@ export const InvoiceInit = ({ companies }) => {
                     {companies.map((c) => (
                         <li className='tile' key={`incoieInit-list-${c._id}`}>
                             <Link
-                                to={`/dashboard/companies/${c._id}?tab=new-invoice`}
+                                to={`/dashboard/companies/${c._id}?tab=invoice`}
                             >
                                 {getInputValueByLabel(c.details, 'Name')}
                                 <span

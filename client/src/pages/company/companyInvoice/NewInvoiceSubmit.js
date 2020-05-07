@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import InvoiceDoc from './invoiceDoc/InvoiceDoc';
-import FormInput from '../../components/form/components/FormInput';
+import FormInput from '../../../components/form/components/FormInput';
 
-export const NewInvoice = ({ company, history }) => {
+export const NewInvoiceSubmit = ({ company, history }) => {
     const downloadInvoice = () => {
         const invoice = document.getElementById('invoice').innerHTML;
         const pdf = window.open();
@@ -40,9 +39,8 @@ export const NewInvoice = ({ company, history }) => {
     };
 
     return (
-        <section className='company-invoice'>
-            <h2 className='sr-only'>Create a new invoice.</h2>
-            <InvoiceDoc />
+        <section>
+            <h3 className='sr-only'>Save or download invoice form.</h3>
             {saveAs && (
                 <form>
                     <FormInput
@@ -93,7 +91,7 @@ export const NewInvoice = ({ company, history }) => {
     );
 };
 
-NewInvoice.propTypes = {
+NewInvoiceSubmit.propTypes = {
     company: PropTypes.object,
 };
 
@@ -108,4 +106,4 @@ const mapDispatchToProps = {};
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(NewInvoice));
+)(withRouter(NewInvoiceSubmit));

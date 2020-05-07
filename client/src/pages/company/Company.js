@@ -8,7 +8,7 @@ import CompanySubmenu from './CompanySubmenu';
 import CompanyUpdate from './CompanyUpdate';
 import CompanyDetails from './CompanyDetails';
 import CompanyTasks from './CompanyTasks';
-import NewInvoice from './NewInvoice';
+import NewInvoice from './companyInvoice/NewInvoice';
 
 import './Company.scss';
 
@@ -23,8 +23,9 @@ export const Company = ({ companies, setCurrentCompany }) => {
         };
     }, []);
 
-    const tab = useLocation().search.slice(5);
-    const tabs = ['tasks', 'new-invoice', 'invoices', 'details', 'update'];
+    const searchArr = useLocation().search.split('&');
+    const tab = searchArr[0].slice(5);
+    const tabs = ['tasks', 'invoice', 'invoices', 'details', 'update'];
 
     return (
         <Page>
@@ -38,7 +39,12 @@ export const Company = ({ companies, setCurrentCompany }) => {
                         />
                     )}
                     {tab === 'tasks' && <CompanyTasks />}
-                    {tab === 'new-invoice' && <NewInvoice />}
+                    {tab === 'invoice' && <NewInvoice />}
+                    {/* <Link
+                        to={`/dashboard/companies/${company._id}?tab=invoice&invoice=327h2gds7gdb83`}
+                        className='submenu__btn'
+                        onMouseDown={(e) => e.preventDefault()}
+                    /> */}
                     {tab === 'invoices' && <div className='tile'>invoices</div>}
                     {tab === 'details' && <CompanyDetails />}
                     {tab === 'update' && <CompanyUpdate />}
