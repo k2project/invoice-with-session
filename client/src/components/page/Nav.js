@@ -4,6 +4,7 @@ import { NavLink as Link } from 'react-router-dom';
 import plusIcon from '../../imgs/icons/plusIcon.png';
 import profileIcon from '../../imgs/icons/profileIcon.png';
 import cogsIcon from '../../imgs/icons/cogs.png';
+import helpIcon from '../../imgs/icons/helpIcon.png';
 import companiesIcon from '../../imgs/icons/companiesIcon.png';
 import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
@@ -129,7 +130,7 @@ const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
                         onMouseDown={(e) => e.preventDefault()}
                         onClick={() => {
                             setAlert(
-                                `Create a new invoice form now desplayed on the page `,
+                                `Settings desplayed on the page `,
                                 'success'
                             );
                         }}
@@ -140,6 +141,27 @@ const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
                             alt=''
                         />
                         Account
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        to='/dashboard/help'
+                        className='dashboard-nav__link tile'
+                        activeClassName='dashboard__link--is-active'
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => {
+                            setAlert(
+                                `FAQ and contact details desplayed on the page `,
+                                'success'
+                            );
+                        }}
+                    >
+                        <img
+                            src={helpIcon}
+                            className='dashboard__icon'
+                            alt=''
+                        />
+                        Help
                     </Link>
                 </li>
             </ul>

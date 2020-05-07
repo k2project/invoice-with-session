@@ -1,11 +1,13 @@
-import { SET_INVOICE_INIT_STATE } from '../actions/types';
+import {
+    SET_INVOICE_INIT_STATE,
+    CHANGE_INVOICE_COLORS,
+} from '../actions/types';
 
 const initialState = {
-    _id: null,
-    color: null,
+    // _id, createdAt, savedAs,
+    bg_color: 'orange',
+    text_color: '#111',
     notes: null,
-    savedAs: null,
-    createdAt: null,
     profile: [],
     company: [],
     tasks: [],
@@ -15,8 +17,8 @@ export default function (state = initialState, { type, payload }) {
     switch (type) {
         case SET_INVOICE_INIT_STATE:
             return { ...payload };
-        // case UPDATE_INVOICE:
-        //     return { ...state, details: [...payload] };
+        case CHANGE_INVOICE_COLORS:
+            return { ...state, bg_color: payload[0], text_color: payload[1] };
         default:
             return state;
     }

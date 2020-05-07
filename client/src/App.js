@@ -17,6 +17,7 @@ import AddCompany from './pages/addCompany/AddCompany';
 import Company from './pages/company/Company';
 import Invoice from './pages/invoice/Invoice';
 import Account from './pages/account/Account';
+import Help from './pages/help/Help';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -65,6 +66,11 @@ function App() {
                                 exact
                                 path='/dashboard/account'
                                 component={Account}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/dashboard/help'
+                                component={Help}
                             />
                             <Route to='*' component={NotFound} />
                         </Switch>

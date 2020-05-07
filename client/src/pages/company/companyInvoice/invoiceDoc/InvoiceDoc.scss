@@ -6,30 +6,35 @@
     .txt--right {
         text-align: right;
     }
-    button {
+    .invoice__btn {
         position: absolute;
         right: -3.4rem;
         top: 0.2rem;
-    }
-    button img {
-        height: 2rem;
-        opacity: 0.5;
+        img {
+            height: 2rem;
+            opacity: 0.5;
+        }
     }
     .icon_iSettings {
         top: 2rem;
         right: 2rem;
     }
     .close {
-        top: 1rem;
+        position: absolute;
+        line-height: 2rem;
+        top: 1.5rem;
         right: 2rem;
         font-size: 3rem;
+        z-index: 9;
+    }
+    .invoice__btn:focus,
+    .close:focus {
+        border: dashed 0.1rem #111;
     }
     header {
         display: flex;
         align-items: center;
-        background-color: $COLOR_THEME;
         padding: 5rem;
-        color: #fff;
         div {
             width: 50%;
             display: inline-block;
@@ -44,5 +49,118 @@
         font-weight: bold;
     }
     .invoice__profile-details {
+    }
+}
+.color-picker {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    background-color: #fff;
+    margin: 0.5rem 0;
+    border-radius: 0.4rem;
+    padding: 2rem;
+    ul {
+        display: block;
+        max-width: 35rem;
+        margin-top: 2rem;
+        margin-right: 3rem;
+    }
+    li {
+        width: 3rem;
+        height: 3rem;
+        display: inline-block;
+        margin: 0.1rem 0.2rem;
+
+        button {
+            width: 100%;
+            height: 100%;
+        }
+        button:focus {
+            border: dashed 0.1rem #111;
+        }
+    }
+    li:first-child {
+        border: solid 0.1rem #333;
+
+        top: -0.1rem;
+        button:focus {
+            border: dashed 0.1rem #fff;
+        }
+    }
+}
+.txt-white {
+    color: #fff;
+}
+.txt-black {
+    color: #111;
+}
+.bg-black {
+    background-color: #000;
+    color: #fff;
+}
+.bg-grey {
+    background-color: #5f7c8a;
+}
+.bg-brown {
+    background-color: #785447;
+}
+.bg-bright-orange {
+    background-color: #ff5623;
+}
+.bg-orange {
+    background-color: #eb9346;
+}
+.bg-yellow {
+    background-color: #ffc108;
+    color: #000;
+}
+.bg-yellow-green {
+    background-color: #cddd39;
+}
+.bg-light-green {
+    background-color: #8bc34a;
+}
+.bg-green {
+    background-color: #4baf50;
+}
+.bg-dark-green {
+    background-color: #009688;
+}
+.bg-see-blue {
+    background-color: #01bcd5;
+}
+.bg-light-blue {
+    background-color: #03a9f4;
+}
+.bg-blue {
+    background-color: #2065a8;
+}
+.bg-dark-blue {
+    background-color: #203354;
+}
+.bg-dark-purple {
+    background-color: #3f50b6;
+}
+.bg-purple {
+    background-color: #673bb7;
+}
+.bg-purple-pink {
+    background-color: #9c27b0;
+}
+.bg-pink {
+    background-color: #e91f63;
+}
+.bg-dark-pink {
+    background-color: #d5133a;
+}
+.bg-red {
+    background-color: #f44337;
+}
+
+//fit invoice to a smaller screen
+@media only screen and (max-width: 1200px) {
+    #invoice {
+        transform: scale(0.8);
+        left: -8rem;
+        margin-top: -2.2rem;
     }
 }

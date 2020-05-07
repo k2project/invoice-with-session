@@ -48,7 +48,8 @@ class NewInvoice extends Component {
         } else {
             //a new invoice
             invoiceInitState = {
-                color: null,
+                bg_color: 'orange',
+                text_color: '#111',
                 notes: null,
                 profile: this.props.profile.details,
                 company: this.props.company.details,
