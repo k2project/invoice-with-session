@@ -7,6 +7,7 @@ import {
 } from '../utils/displayTableFun';
 
 export default function DetailsDisplayTable({ details, updateState }) {
+    console.log(updateState);
     const [tableState, setTableState] = useState(details);
     return (
         <table className='details-table'>

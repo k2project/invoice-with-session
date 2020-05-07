@@ -3,6 +3,10 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+* {
+    margin: 0px;
+    padding: 0px;
+}
 .txt--right {
     text-align: right;
 }
@@ -23,16 +27,16 @@ body {
     background-color: #785447;
 }
 .bg-bright-orange {
-    background-color: #ff5623;
+    background-color: #ff872b;
 }
 .bg-orange {
     background-color: #eb9346;
 }
 .bg-yellow {
-    background-color: #ffc108;
+    background-color: #ffd455;
 }
 .bg-yellow-green {
-    background-color: #cddd39;
+    background-color: #d8e465;
 }
 .bg-light-green {
     background-color: #8bc34a;
@@ -78,8 +82,8 @@ li {
 }
 header {
     display: flex;
-    align-items: center;
-    padding: 40px 55px 20px;
+    align-items: flex-end;
+    padding: 70px 60px 50px;
 }
 header div {
     width: 50%;
@@ -90,6 +94,9 @@ header b {
     display: block;
     margin-bottom: 5px;
 }
+header ul {
+    margin-bottom: 0;
+}
 header li {
     padding: 1px 0;
 }
@@ -97,9 +104,9 @@ h1 {
     font-family: 'Audiowide', serif;
     font-size: 60px;
     font-weight: normal;
-    margin-top: -20px;
     margin-bottom: -5px;
 }
+.details-table,
 .color-picker,
 .invoice__btn,
 .close {
@@ -108,23 +115,12 @@ h1 {
 
 @media print {
 }
-/* @page {
-    margin: -10px;
-} */
+@page {
+    margin: 0px;
+}
 @media print and (color) {
     * {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
-    }
-}
-@page {
-    size: A4;
-    margin: -10px;
-}
-@media print {
-    html,
-    body {
-        width: 210mm;
-        height: 297mm;
     }
 }

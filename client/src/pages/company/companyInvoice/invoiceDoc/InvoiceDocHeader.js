@@ -2,13 +2,22 @@ import React, { useState, useEffect, Fragment } from 'react';
 import './InvoiceDoc.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { changeInvoiceColors } from '../../../../redux/actions/invoice';
+import {
+    changeInvoiceColors,
+    updateInvoiceProfile,
+} from '../../../../redux/actions/invoice';
+import DetailsDisplayTable from '../../../../components/form/components/DetailsDisplayTable';
 import settingsIcon from '../../../../imgs/icons/cogs.png';
-import updateIcon from '../../../../imgs/icons/updateIcon.png';
+import profileIcon from '../../../../imgs/icons/profileIcon.png';
 
-const InvoiceDocHeader = ({ profile, invoice, changeInvoiceColors }) => {
+const InvoiceDocHeader = ({
+    invoice,
+    changeInvoiceColors,
+    updateInvoiceProfile,
+}) => {
     const [settings, setSettings] = useState(false);
-    const profileDetails = profile.details.map((input) => {
+    const [showProfile, setShowProfile] = useState(false);
+    const profileDetails = invoice.profile.map((input) => {
         //Name displayed differently
         if (input.label === 'Name' && input.addToInvoice) {
             return (
@@ -29,10 +38,10 @@ const InvoiceDocHeader = ({ profile, invoice, changeInvoiceColors }) => {
         ['#000', 'black'],
         ['#5F7C8A', 'grey'],
         ['#785447', 'brown'],
-        ['#F76B00', 'bright-orange'],
         ['#EB9346', 'orange'],
-        ['#FFC108', 'yellow'],
-        ['#CDDD39', 'yellow-green'],
+        ['#ff872b', 'bright-orange'],
+        ['#ffd455', 'yellow'],
+        ['#d8e465', 'yellow-green'],
         ['#8BC34A', 'light-green'],
         ['#4BAF50', 'green'],
         ['#009688', 'dark-green'],
@@ -64,8 +73,8 @@ const InvoiceDocHeader = ({ profile, invoice, changeInvoiceColors }) => {
         </li>
     ));
     const TXT_COLORS = [
-        ['#FFF', 'white'],
         ['#000', 'black'],
+        ['#FFF', 'white'],
     ];
     const txtColorPicker = TXT_COLORS.map((color) => (
         <li
@@ -89,14 +98,14 @@ const InvoiceDocHeader = ({ profile, invoice, changeInvoiceColors }) => {
                 <section className='color-picker'>
                     <section>
                         <h3 id='bg-color-picker'>
-                            Choose invoice background colors theme.
+                            Choose invoice background colour theme.
                         </h3>
                         <ul aria-labelledby='bg-color-picker'>
                             {bgColorPicker}
                         </ul>
                     </section>
                     <section>
-                        <h3 id='txt-color-picker'>Choose text color.</h3>
+                        <h3 id='txt-color-picker'>Choose text colour.</h3>
                         <ul aria-labelledby='txt-color-picker'>
                             {txtColorPicker}
                         </ul>
@@ -106,7 +115,7 @@ const InvoiceDocHeader = ({ profile, invoice, changeInvoiceColors }) => {
                         onClick={() => setSettings(false)}
                         onMouseDown={(e) => e.preventDefault()}
                     >
-                        &times;
+                        <span>&times;</span>
                     </button>
                 </section>
             )}
@@ -130,27 +139,43 @@ const InvoiceDocHeader = ({ profile, invoice, changeInvoiceColors }) => {
                         className='invoice__btn'
                         title='Change Profile details'
                         onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => setShowProfile(true)}
                     >
-                        <img src={updateIcon} alt='Change Profile details' />
+                        <img src={profileIcon} alt='Change Profile details' />
                     </button>
                     <ul>{profileDetails}</ul>
                 </div>
             </header>
+            {showProfile && (
+                <section>
+                    <DetailsDisplayTable
+                        details={invoice.profile}
+                        updateState={updateInvoiceProfile}
+                    />
+                    <button
+                        className='close'
+                        onClick={() => setShowProfile(false)}
+                        onMouseDown={(e) => e.preventDefault()}
+                    >
+                        <span>&times;</span>
+                    </button>
+                </section>
+            )}
         </Fragment>
     );
 };
 
 InvoiceDocHeader.propTypes = {
-    profile: PropTypes.object,
-    changeInvoiceColors: PropTypes.func,
     invoice: PropTypes.object,
+    changeInvoiceColors: PropTypes.func,
+    updateInvoiceProfile: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
-    profile: state.profile,
     invoice: state.invoice,
 });
 const mapDispatchToProps = {
     changeInvoiceColors,
+    updateInvoiceProfile,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InvoiceDocHeader);

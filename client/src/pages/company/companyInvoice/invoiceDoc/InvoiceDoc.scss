@@ -7,24 +7,30 @@
     }
     .invoice__btn {
         position: absolute;
-        right: -8.4rem;
+        right: -8.6rem;
         top: 0.2rem;
         img {
-            height: 2rem;
+            height: 2.2rem;
             opacity: 0.5;
         }
     }
     .icon_iSettings {
         top: 2rem;
-        right: -3rem;
+        right: -3.5rem;
     }
     .close {
         position: absolute;
-        line-height: 2rem;
-        top: 1.5rem;
-        right: 2rem;
+        top: 0;
+        right: 0;
+        width: 3rem;
+        height: 3rem;
         font-size: 3rem;
         z-index: 9;
+        background-color: #cfcfcf;
+        color: #fff;
+        span {
+            top: -0.5rem;
+        }
     }
     .invoice__btn:focus,
     .close:focus {
@@ -32,7 +38,7 @@
     }
     header {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         padding: 7rem 5rem 4rem;
         div {
             width: 50%;
@@ -49,9 +55,15 @@
     }
     h1 {
         font-family: $FONT_LOGO;
-        font-size: 7rem;
+        font-size: 6.7rem;
         margin-bottom: -1rem;
-        margin-top: -2rem;
+    }
+    .details-table {
+        width: 100%;
+        margin-left: 0;
+        caption {
+            @extend .sr-only;
+        }
     }
 }
 .color-picker {
@@ -89,6 +101,10 @@
             border: dashed 0.1rem #fff;
         }
     }
+    li:nth-child(2) {
+        border: solid 0.1rem #5f7c8a;
+        top: -0.1rem;
+    }
 }
 .txt-white {
     color: #fff;
@@ -107,16 +123,16 @@
     background-color: #785447;
 }
 .bg-bright-orange {
-    background-color: #ff5623;
+    background-color: #ff872b;
 }
 .bg-orange {
     background-color: #eb9346;
 }
 .bg-yellow {
-    background-color: #ffc108;
+    background-color: #ffd455;
 }
 .bg-yellow-green {
-    background-color: #cddd39;
+    background-color: #d8e465;
 }
 .bg-light-green {
     background-color: #8bc34a;

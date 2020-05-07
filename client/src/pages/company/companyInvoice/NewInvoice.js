@@ -11,7 +11,7 @@ class NewInvoice extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            invoice: {},
+            invoice: null,
         };
         this.handleChanges = this.handleChanges.bind(this);
         this.clearInitState = this.clearInitState.bind(this);
@@ -48,12 +48,12 @@ class NewInvoice extends Component {
         } else {
             //a new invoice
             invoiceInitState = {
-                bg_color: 'orange',
-                text_color: '#111',
+                bg_color: 'blue',
+                text_color: 'white',
                 notes: null,
-                profile: this.props.profile.details,
-                company: this.props.company.details,
-                tasks: this.props.company.tasks,
+                profile: JSON.parse(JSON.stringify(this.props.profile.details)),
+                company: JSON.parse(JSON.stringify(this.props.company.details)),
+                tasks: JSON.parse(JSON.stringify(this.props.company.tasks)),
             };
         }
         //set init state for comparison on component unmounting
@@ -74,7 +74,7 @@ class NewInvoice extends Component {
         return (
             <section className='company-invoice'>
                 <h2 className='sr-only'>Create a new invoice.</h2>
-                <InvoiceDoc />
+                {this.state.invoice && <InvoiceDoc />}
                 <NewInvoiceSubmit />
             </section>
         );
