@@ -2,12 +2,22 @@ import React, { useState, useEffect, Fragment } from 'react';
 import './InvoiceDoc.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { updateInvoiceCompany } from '../../../../redux/actions/invoice';
+import {
+    updateInvoiceCompany,
+    updateInvoiceIssueDate,
+    updateInvoiceDueDate,
+} from '../../../../redux/actions/invoice';
 import DetailsDisplayTable from '../../../../components/form/components/DetailsDisplayTable';
 import companiesIcon from '../../../../imgs/icons/companiesIcon.png';
+import calendarIcon from '../../../../imgs/icons/calendar.png';
 import { Calendar } from '../../../../components/calendar/Calendar';
 
-const InvoiceDocRecepient = ({ invoice, updateInvoiceCompany }) => {
+const InvoiceDocRecepient = ({
+    invoice,
+    updateInvoiceCompany,
+    updateInvoiceIssueDate,
+    updateInvoiceDueDate,
+}) => {
     //display recepient details in the invoice
     const companyDetails = invoice.company.map((input) => {
         //Name displayed differently
@@ -42,9 +52,30 @@ const InvoiceDocRecepient = ({ invoice, updateInvoiceCompany }) => {
     );
     const [showCompanyDetails, setShowCompanyDetails] = useState(false);
     const open_company_details = async () => {
+        if (showCompanyDetails === true) return setShowCompanyDetails(false);
         await setShowCompanyDetails(true);
         //set focus on first button for screen reader users
         document.querySelector('.invoice__company-details button').focus();
+    };
+
+    const [showIssueDateCalendar, setShowIssueDateCalendar] = useState(false);
+    const [showDueDateCalendar, setShowDueDateCalendar] = useState(false);
+    const open_issue_date_calendar = async (date) => {
+        if (showIssueDateCalendar === true)
+            return setShowIssueDateCalendar(false);
+        await setShowIssueDateCalendar(true);
+        //set focus on first button for screen reader users
+        document
+            .querySelector('.calendar__issue-date .days__list button')
+            .focus();
+    };
+    const open_due_date_calendar = async (date) => {
+        if (showDueDateCalendar === true) return setShowDueDateCalendar(false);
+        await setShowDueDateCalendar(true);
+        //set focus on first button for screen reader users
+        document
+            .querySelector('.calendar__due-date .days__list button')
+            .focus();
     };
     const cb = (d) => {
         console.log(d);
@@ -102,6 +133,22 @@ const InvoiceDocRecepient = ({ invoice, updateInvoiceCompany }) => {
                             alt='Change recepient details'
                         />
                     </button>
+                    <button
+                        className='invoice__btn icon_issue-date'
+                        title='Change issue date'
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={open_issue_date_calendar}
+                    >
+                        <img src={calendarIcon} alt='Change issue date' />
+                    </button>
+                    <button
+                        className='invoice__btn icon_due-date'
+                        title='Change due date'
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={open_due_date_calendar}
+                    >
+                        <img src={calendarIcon} alt='Change due date' />
+                    </button>
                 </div>
             </section>
             {showCompanyDetails && (
@@ -119,19 +166,56 @@ const InvoiceDocRecepient = ({ invoice, updateInvoiceCompany }) => {
                     </button>
                 </section>
             )}
-            <Calendar cb={cb} />
+
+            <section className='invoice__calendar'>
+                {showIssueDateCalendar && (
+                    <div className='calendar__issue-date'>
+                        <h3>
+                            Invoice <strong>issue date</strong>.
+                        </h3>
+                        <Calendar cb={(date) => updateInvoiceIssueDate(date)} />
+                        <button
+                            className='close'
+                            onClick={() => setShowIssueDateCalendar(false)}
+                            onMouseDown={(e) => e.preventDefault()}
+                        >
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                )}
+                {showDueDateCalendar && (
+                    <div className='calendar__due-date'>
+                        <h3>
+                            Invoice <strong>due date</strong>.
+                        </h3>
+                        <Calendar cb={(date) => updateInvoiceDueDate(date)} />
+                        <button
+                            className='close'
+                            onClick={() => setShowDueDateCalendar(false)}
+                            onMouseDown={(e) => e.preventDefault()}
+                        >
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                )}
+            </section>
         </Fragment>
     );
 };
 
 InvoiceDocRecepient.propTypes = {
     invoice: PropTypes.object,
+    updateInvoiceCompany: PropTypes.func,
+    updateInvoiceIssueDate: PropTypes.func,
+    updateInvoiceDueDate: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     invoice: state.invoice,
 });
 const mapDispatchToProps = {
     updateInvoiceCompany,
+    updateInvoiceIssueDate,
+    updateInvoiceDueDate,
 };
 
 export default connect(

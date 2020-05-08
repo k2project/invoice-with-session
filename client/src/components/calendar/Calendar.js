@@ -67,7 +67,7 @@ export function Calendar({ cb }) {
                 ))}
             </ul>
 
-            <ul aria-label='month days and dates'>
+            <ul aria-label='month days and dates' className='days__list'>
                 {num_of_days_to_display.fill(null).map((_, index) => {
                     let d = index - (empty_days - 1);
                     if (d < 1) return <li key={'calendar-day-' + index}></li>;

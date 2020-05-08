@@ -3,6 +3,8 @@ import {
     CHANGE_INVOICE_COLORS,
     UPDATE_INVOICE_PROFILE,
     UPDATE_INVOICE_COMPANY,
+    UPDATE_INVOICE_ISSUE_DATE,
+    UPDATE_INVOICE_DUE_DATE,
 } from '../actions/types';
 
 const initialState = {
@@ -25,6 +27,10 @@ export default function (state = initialState, { type, payload }) {
             return { ...state, profile: [...payload] };
         case UPDATE_INVOICE_COMPANY:
             return { ...state, company: [...payload] };
+        case UPDATE_INVOICE_ISSUE_DATE:
+            return { ...state, issue_date: payload };
+        case UPDATE_INVOICE_DUE_DATE:
+            return { ...state, due_date: payload };
         default:
             return state;
     }

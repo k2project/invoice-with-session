@@ -18,6 +18,12 @@
         top: 2rem;
         right: -3.5rem;
     }
+    .icon_issue-date {
+        top: 5.2rem;
+    }
+    .icon_due-date {
+        top: 9.6rem;
+    }
     .close {
         position: absolute;
         top: 0;
@@ -38,6 +44,9 @@
     }
     .close:hover {
         background-color: #aaa;
+    }
+    .invoice__calendar .close {
+        top: 0.5rem;
     }
     header {
         display: flex;
@@ -212,6 +221,20 @@
 .invoice__recepient-name {
     font-size: 1.4rem;
     padding-bottom: 0.4rem;
+}
+.invoice__calendar {
+    display: flex;
+    justify-content: flex-end;
+    h3 {
+        position: absolute;
+        z-index: 2;
+        top: 2rem;
+        left: 3rem;
+        strong {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    }
 }
 
 //fit invoice to a smaller screen

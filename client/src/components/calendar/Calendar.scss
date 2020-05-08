@@ -1,8 +1,8 @@
 @import '../../App.scss';
 .calendar {
     display: inline-block;
-    padding: 3rem;
-    margin: 0.5rem 0;
+    padding: 5rem 5.85rem 3rem;
+    margin: 0.5rem 0 0.5rem 0.5rem;
     background-color: #fff;
     border-radius: 0.4rem;
     ul {
@@ -25,12 +25,13 @@
     }
 }
 .calendar__header {
-    width: 80%;
+    width: 100%;
     margin: auto;
-    padding-bottom: 1rem;
+    padding: 2rem 10% 1rem;
     display: grid;
     grid-template-columns: 3rem 1fr 3rem;
     text-align: center;
+    border-top: solid 0.1rem $COLOR_GREY;
     button {
         font-size: 2rem;
         display: inline-block;

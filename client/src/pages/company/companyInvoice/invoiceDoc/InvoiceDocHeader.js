@@ -43,6 +43,7 @@ const InvoiceDocHeader = ({
 
     const [showProfile, setShowProfile] = useState(false);
     const open_profile = async () => {
+        if (showProfile === true) return setShowProfile(false);
         await setShowProfile(true);
         //set focus on first button for screen reader users
         document.querySelector('.details-table button').focus();
@@ -50,6 +51,7 @@ const InvoiceDocHeader = ({
 
     const [settings, setSettings] = useState(false);
     const open_settings = async () => {
+        if (settings === true) return setSettings(false);
         await setSettings(true);
         //set focus on first button for screen reader users
         document.querySelector('.color-picker button').focus();
