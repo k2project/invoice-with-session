@@ -6,6 +6,8 @@ import { setInvoiceInitState } from '../../../redux/actions/invoice';
 import InvoiceDoc from './invoiceDoc/InvoiceDoc';
 import NewInvoiceSubmit from './NewInvoiceSubmit';
 import { alertUnsavedChanges } from '../../../components/form/utils/handleUnsavedChanges';
+import { getInputValueByLabel } from '../../../components/form/utils/customFormQueries';
+import { date_YYYY_MM } from '../../../utils/dates';
 
 class NewInvoice extends Component {
     constructor(props) {
@@ -46,11 +48,32 @@ class NewInvoice extends Component {
                 _id: invoiceID,
             };
         } else {
+            let company_abbr = getInputValueByLabel(
+                this.props.company.details,
+                'Name'
+            ).split(' ');
+            if (company_abbr.length > 1) {
+                company_abbr = company_abbr
+                    .map((el) => el[0].toUpperCase())
+                    .join('');
+            } else {
+                company_abbr = company_abbr[0].slice(0, 3).toUpperCase();
+            }
+            let invoices_num = '1';
+            if (this.props.company.invoices)
+                invoices_num = String(this.props.company.invoices.length + 1);
+            while (invoices_num.length < 5) {
+                invoices_num = '0' + invoices_num;
+            }
+            let saved_as = company_abbr + '-';
+            saved_as += date_YYYY_MM(new Date()) + '-';
+            saved_as += invoices_num;
+            console.log(saved_as);
             //a new invoice
             invoiceInitState = {
+                saved_as,
                 bg_color: localStorage.invoice_bg || 'blue',
                 text_color: localStorage.invoice_txt || 'white',
-                notes: null,
                 profile: JSON.parse(JSON.stringify(this.props.profile.details)),
                 company: JSON.parse(JSON.stringify(this.props.company.details)),
                 tasks: JSON.parse(JSON.stringify(this.props.company.tasks)),
@@ -75,7 +98,7 @@ class NewInvoice extends Component {
             <section className='company-invoice'>
                 <h2 className='sr-only'>Create a new invoice.</h2>
                 {this.state.invoice && <InvoiceDoc />}
-                <NewInvoiceSubmit />
+                {this.state.invoice && <NewInvoiceSubmit />}
             </section>
         );
     }

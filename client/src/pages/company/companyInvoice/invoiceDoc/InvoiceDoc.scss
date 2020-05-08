@@ -36,6 +36,9 @@
     .close:focus {
         border: dashed 0.1rem #111;
     }
+    .close:hover {
+        background-color: #aaa;
+    }
     header {
         display: flex;
         align-items: flex-end;
@@ -48,15 +51,24 @@
             font-size: 1.6rem;
             display: block;
             margin-bottom: 1rem;
-        }
-        li {
-            padding: 0.2rem 0;
+            padding-bottom: 0.4rem;
         }
     }
     h1 {
         font-family: $FONT_LOGO;
         font-size: 6.7rem;
         margin-bottom: -1rem;
+    }
+    p {
+        margin: 0.2rem 0;
+    }
+    //top of address
+    .invoice__address-top {
+        margin: 1rem 0 0.4rem;
+    }
+    //bottom of address
+    .invoice__address-btm {
+        margin: 0.4rem 0 1em;
     }
     .details-table {
         width: 100%;
@@ -172,6 +184,34 @@
 }
 .bg-red {
     background-color: #f44337;
+}
+
+.invoice-recepient {
+    background-color: #fff;
+    padding: 4rem 5rem 2rem;
+    display: flex;
+    div {
+        padding-bottom: 4rem;
+        border-bottom: solid 0.1rem #111;
+    }
+    b {
+        // color: #a8a8a8;
+        // font-weight: normal;
+        display: block;
+        margin-bottom: 0.2rem;
+        margin-top: 1rem;
+    }
+}
+.invoice-recepient__bill-to {
+    padding-right: 4rem;
+    flex-grow: 1;
+}
+.invoice-recepient__banking {
+    padding-left: 4rem;
+}
+.invoice__recepient-name {
+    font-size: 1.4rem;
+    padding-bottom: 0.4rem;
 }
 
 //fit invoice to a smaller screen

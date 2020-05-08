@@ -2,6 +2,7 @@ import {
     SET_INVOICE_INIT_STATE,
     CHANGE_INVOICE_COLORS,
     UPDATE_INVOICE_PROFILE,
+    UPDATE_INVOICE_COMPANY,
 } from './types';
 
 export const setInvoiceInitState = (invoice) => (dispatch) => {
@@ -19,6 +20,12 @@ export const changeInvoiceColors = (colors) => (dispatch) => {
 export const updateInvoiceProfile = (details) => (dispatch) => {
     dispatch({
         type: UPDATE_INVOICE_PROFILE,
+        payload: details,
+    });
+};
+export const updateInvoiceCompany = (details) => (dispatch) => {
+    dispatch({
+        type: UPDATE_INVOICE_COMPANY,
         payload: details,
     });
 };

@@ -1,3 +1,4 @@
+//Wed: May 8, 2020
 export const dateUX = (date) => {
     const options = {
         weekday: 'short',
@@ -8,6 +9,7 @@ export const dateUX = (date) => {
     date = new Date(date).toLocaleDateString('en-US', options);
     return date.slice(0, 3) + ':' + date.slice(4);
 };
+//format:DD/MM/YY
 export const dateNum = (date) => {
     date = new Date(date);
     let month = String(date.getMonth() + 1);
@@ -18,6 +20,13 @@ export const dateNum = (date) => {
 
     return day + '/' + month + '/' + year;
     // return date.slice(0, 11).replace(/-/g, '/');
+};
+//format:YYYY-MM
+export const date_YYYY_MM = (date) => {
+    date = new Date(date);
+    let month = String(date.getMonth() + 1);
+    month = month.length > 1 ? month : '0' + month;
+    return date.getFullYear() + '-' + month;
 };
 const isToday = (d) => {
     d = new Date(d);

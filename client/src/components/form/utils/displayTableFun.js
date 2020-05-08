@@ -43,7 +43,6 @@ export function toggleIncludedInInvoice(
     const item = tableState[index];
     item.addToInvoice = !item.addToInvoice;
     setTableState([...tableState]);
-    console.log(tableState, updateState);
     updateState([...tableState]);
 }
 

@@ -353,3 +353,6 @@ textarea:focus {
         grid-column: span 3;
     }
 }
+.form__save-as input:focus {
+    border-color: $COLOR_THEME;
+}

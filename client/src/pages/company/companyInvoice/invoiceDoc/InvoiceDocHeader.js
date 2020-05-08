@@ -15,24 +15,45 @@ const InvoiceDocHeader = ({
     changeInvoiceColors,
     updateInvoiceProfile,
 }) => {
-    const [settings, setSettings] = useState(false);
-    const [showProfile, setShowProfile] = useState(false);
+    //display profile details in the invoice header
     const profileDetails = invoice.profile.map((input) => {
         //Name displayed differently
         if (input.label === 'Name' && input.addToInvoice) {
             return (
-                <li key={input._id}>
+                <p key={input._id}>
                     <b>{input.value}</b>
-                </li>
+                </p>
             );
         }
 
         //exclude banking details from header
         const banking_details = ['Bank Name', 'Sort Code', 'Account Number'];
         if (input.addToInvoice && !banking_details.includes(input.label)) {
-            return <li key={input._id}>{input.value}</li>;
+            let cls;
+            //style address differently
+            if (input.label === 'Address Line 1') cls = 'invoice__address-top ';
+            if (input.label === 'Postcode') cls = 'invoice__address-btm ';
+            return (
+                <p key={input._id} className={cls}>
+                    {input.value}
+                </p>
+            );
         }
     });
+
+    const [showProfile, setShowProfile] = useState(false);
+    const open_profile = async () => {
+        await setShowProfile(true);
+        //set focus on first button for screen reader users
+        document.querySelector('.details-table button').focus();
+    };
+
+    const [settings, setSettings] = useState(false);
+    const open_settings = async () => {
+        await setSettings(true);
+        //set focus on first button for screen reader users
+        document.querySelector('.color-picker button').focus();
+    };
 
     const BG_COLORS = [
         ['#000', 'black'],
@@ -69,7 +90,7 @@ const InvoiceDocHeader = ({
                 }}
                 onMouseDown={(e) => e.preventDefault()}
             >
-                <span className='sr-only'>color[1]</span>
+                <span className='sr-only'>Pick {color[1]} colour.</span>
             </button>
         </li>
     ));
@@ -90,7 +111,7 @@ const InvoiceDocHeader = ({
                 }}
                 onMouseDown={(e) => e.preventDefault()}
             >
-                <span className='sr-only'>color[1]</span>
+                <span className='sr-only'>Pick {color[1]} colour.</span>
             </button>
         </li>
     ));
@@ -127,25 +148,25 @@ const InvoiceDocHeader = ({
                 <button
                     className='invoice__btn icon_iSettings'
                     title='Change invoice settings'
-                    onClick={() => setSettings(true)}
+                    onClick={open_settings}
                     onMouseDown={(e) => e.preventDefault()}
                 >
                     <img src={settingsIcon} alt='Invoice settings' />
                 </button>
                 <div>
                     <h1>invoice</h1>
-                    <b>#RTE-2020-04-00001</b>
+                    <b>#{invoice.saved_as}</b>
                 </div>
                 <div className='txt--right'>
                     <button
                         className='invoice__btn'
                         title='Change Profile details'
                         onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => setShowProfile(true)}
+                        onClick={open_profile}
                     >
                         <img src={profileIcon} alt='Change Profile details' />
                     </button>
-                    <ul>{profileDetails}</ul>
+                    {profileDetails}
                 </div>
             </header>
             {showProfile && (

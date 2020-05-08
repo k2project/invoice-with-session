@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import FormInput from '../../../components/form/components/FormInput';
 
-export const NewInvoiceSubmit = ({ company, history }) => {
+export const NewInvoiceSubmit = ({ company, invoice, history }) => {
     const downloadInvoice = () => {
         const invoice = document.getElementById('invoice').innerHTML;
         const pdf = window.open();
@@ -27,8 +27,12 @@ export const NewInvoiceSubmit = ({ company, history }) => {
         }, 100);
     };
     const [saveAs, setSaveAs] = useState(false);
+    const show_form = async () => {
+        await setSaveAs(true);
+        document.querySelector('.form__save-as input').focus();
+    };
     const [formData, setFormData] = useState({
-        saveAs: 'new-invoice',
+        saveAs: invoice.saved_as,
         errors: [],
     });
     const saveInvoice = () => {
@@ -42,7 +46,7 @@ export const NewInvoiceSubmit = ({ company, history }) => {
         <section>
             <h3 className='sr-only'>Save or download invoice form.</h3>
             {saveAs && (
-                <form>
+                <form className='form__save-as'>
                     <FormInput
                         form={{ formData, setFormData }}
                         name='saveAs'
@@ -65,10 +69,7 @@ export const NewInvoiceSubmit = ({ company, history }) => {
             )}
 
             {!saveAs && (
-                <button
-                    className='btn btn--sibling'
-                    onClick={() => setSaveAs(true)}
-                >
+                <button className='btn btn--sibling' onClick={show_form}>
                     Save
                 </button>
             )}
@@ -93,12 +94,14 @@ export const NewInvoiceSubmit = ({ company, history }) => {
 
 NewInvoiceSubmit.propTypes = {
     company: PropTypes.object,
+    invoice: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
     company: state.companies.find(
         (c) => c._id === state.session.currentCompany
     ),
+    invoice: state.invoice,
 });
 
 const mapDispatchToProps = {};
