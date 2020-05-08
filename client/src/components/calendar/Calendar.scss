@@ -2,7 +2,7 @@
 .calendar {
     display: inline-block;
     padding: 3rem;
-    margin: 0.5rem;
+    margin: 0.5rem 0;
     background-color: #fff;
     border-radius: 0.4rem;
     ul {
@@ -34,8 +34,11 @@
     button {
         font-size: 2rem;
         display: inline-block;
+        color: $COLOR_GREY;
     }
-
+    button:hover {
+        color: #111;
+    }
     button:first-child {
         transform: rotate(180deg);
     }
@@ -48,8 +51,8 @@
     border: solid 0.1rem #fff;
     text-align: center;
 }
-.day__name {
-    margin-bottom: 0.5rem;
+.days__named {
+    margin-bottom: 1rem;
     border-bottom: solid 0.1rem $COLOR_GREY;
     border-top: solid 0.1rem $COLOR_GREY;
 }
@@ -61,4 +64,5 @@
     height: 3rem;
     border-radius: 100%;
     background-color: $COLOR_THEME;
+    color: #fff;
 }

@@ -42,10 +42,11 @@ export function Calendar({ cb }) {
                     onClick={() => setDate(new Date(year, month - 1, 1))}
                     onMouseDown={(e) => e.preventDefault()}
                 >
-                    <span>&#x27A4;</span>
+                    <span aria-hidden='true'>&#x27A4;</span>
+                    <span className='sr-only'>Previous month</span>
                 </button>
                 <div>
-                    <b>
+                    <b role='alert'>
                         {MONTHS[month]} {year}
                     </b>
                 </div>
@@ -54,18 +55,19 @@ export function Calendar({ cb }) {
                     onClick={() => setDate(new Date(year, month + 1, 1))}
                     onMouseDown={(e) => e.preventDefault()}
                 >
-                    <span>&#x27A4;</span>
+                    <span aria-hidden='true'>&#x27A4;</span>
+                    <span className='sr-only'>Next month.</span>
                 </button>
             </div>
-            <ul>
+            <ul className='days__named' aria-label='week days'>
                 {DAYS_OF_THE_WEEK.map((d) => (
-                    <li key={'cal-day-names-' + d} className='day day__name'>
+                    <li key={'cal-day-names-' + d} className='day'>
                         {d}
                     </li>
                 ))}
             </ul>
 
-            <ul>
+            <ul aria-label='month days and dates'>
                 {num_of_days_to_display.fill(null).map((_, index) => {
                     let d = index - (empty_days - 1);
                     if (d < 1) return <li key={'calendar-day-' + index}></li>;
@@ -91,6 +93,10 @@ export function Calendar({ cb }) {
                                     }
                                 >
                                     {d}
+                                </span>
+                                <span className='sr-only'>
+                                    {' '}
+                                    {MONTHS[month]} {year}{' '}
                                 </span>
                             </button>
                         </li>
