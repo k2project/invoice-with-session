@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { updateInvoiceCompany } from '../../../../redux/actions/invoice';
 import DetailsDisplayTable from '../../../../components/form/components/DetailsDisplayTable';
 import companiesIcon from '../../../../imgs/icons/companiesIcon.png';
+import { Calendar } from '../../../../components/calendar/Calendar';
 
 const InvoiceDocRecepient = ({ invoice, updateInvoiceCompany }) => {
     //display recepient details in the invoice
@@ -45,6 +46,9 @@ const InvoiceDocRecepient = ({ invoice, updateInvoiceCompany }) => {
         //set focus on first button for screen reader users
         document.querySelector('.invoice__company-details button').focus();
     };
+    const cb = (d) => {
+        console.log(d);
+    };
     return (
         <Fragment>
             <section className='invoice-recepient'>
@@ -61,11 +65,11 @@ const InvoiceDocRecepient = ({ invoice, updateInvoiceCompany }) => {
                     </p>
                     <p>
                         <b>ISSUE DATE</b>
-                        01/04/2020
+                        {invoice.issue_date}
                     </p>
                     <p>
                         <b>DUE DATE</b>
-                        15/04/2020
+                        {invoice.due_date}
                     </p>
                 </div>
                 <div className='invoice-recepient__banking txt--right'>
@@ -115,6 +119,7 @@ const InvoiceDocRecepient = ({ invoice, updateInvoiceCompany }) => {
                     </button>
                 </section>
             )}
+            <Calendar cb={cb} />
         </Fragment>
     );
 };

@@ -9,14 +9,18 @@ export const dateUX = (date) => {
     date = new Date(date).toLocaleDateString('en-US', options);
     return date.slice(0, 3) + ':' + date.slice(4);
 };
-//format:DD/MM/YY
-export const dateNum = (date) => {
+//add zero to single digit
+export const dayFormating = (day) => (String(day).length > 1 ? day : '0' + day);
+export const monthFormating = (month) =>
+    String(month).length > 1 ? month : '0' + month;
+//format:DD/MM/YYYY
+export const date_DD_MM_YYYY = (date) => {
     date = new Date(date);
     let month = String(date.getMonth() + 1);
-    month = month.length > 1 ? month : '0' + month;
+    month = monthFormating(month);
     let day = String(date.getDate());
-    day = day.length > 1 ? day : '0' + day;
-    let year = String(date.getFullYear()).slice(2, 4);
+    day = dayFormating(day);
+    let year = date.getFullYear();
 
     return day + '/' + month + '/' + year;
     // return date.slice(0, 11).replace(/-/g, '/');
@@ -28,7 +32,7 @@ export const date_YYYY_MM = (date) => {
     month = month.length > 1 ? month : '0' + month;
     return date.getFullYear() + '-' + month;
 };
-const isToday = (d) => {
+export const isToday = (d) => {
     d = new Date(d);
     const today = new Date();
     return (
@@ -73,3 +77,35 @@ export const getDateAndTimeUX = (date) => {
     if (wasYesterday(date)) return ' yesterday at ' + t;
     return ' on ' + dateUX(date) + ' at ' + t;
 };
+// (int) The current year
+export const THIS_YEAR = +new Date().getFullYear();
+
+// (int) The current month starting from 1 - 12
+// 1 => January, 12 => December
+export const THIS_MONTH = +new Date().getMonth() + 1;
+
+export const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+export const DAYS_LEAP = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+export const DAYS_OF_THE_WEEK = [
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun',
+];
+export const MONTHS = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
+];

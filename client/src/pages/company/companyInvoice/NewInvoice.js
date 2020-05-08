@@ -7,7 +7,10 @@ import InvoiceDoc from './invoiceDoc/InvoiceDoc';
 import NewInvoiceSubmit from './NewInvoiceSubmit';
 import { alertUnsavedChanges } from '../../../components/form/utils/handleUnsavedChanges';
 import { getInputValueByLabel } from '../../../components/form/utils/customFormQueries';
-import { date_YYYY_MM } from '../../../utils/dates';
+import {
+    date_YYYY_MM,
+    date_DD_MM_YYYY,
+} from '../../../components/calendar/dates';
 
 class NewInvoice extends Component {
     constructor(props) {
@@ -48,6 +51,7 @@ class NewInvoice extends Component {
                 _id: invoiceID,
             };
         } else {
+            //create invoice name
             let company_abbr = getInputValueByLabel(
                 this.props.company.details,
                 'Name'
@@ -68,10 +72,14 @@ class NewInvoice extends Component {
             let saved_as = company_abbr + '-';
             saved_as += date_YYYY_MM(new Date()) + '-';
             saved_as += invoices_num;
-            console.log(saved_as);
+            //generate due date in 14 days
+            const TWO_WEEKS = 1.21e9;
+            let due_date = date_DD_MM_YYYY(new Date().getTime() + TWO_WEEKS);
             //a new invoice
             invoiceInitState = {
                 saved_as,
+                issue_date: date_DD_MM_YYYY(new Date()),
+                due_date,
                 bg_color: localStorage.invoice_bg || 'blue',
                 text_color: localStorage.invoice_txt || 'white',
                 profile: JSON.parse(JSON.stringify(this.props.profile.details)),

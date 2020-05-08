@@ -14,7 +14,7 @@ import {
     toggleIncludedInInvoice,
     deleteItem,
 } from '../utils/displayTableFun';
-import { dateNum } from '../../../utils/dates';
+import { date_DD_MM_YYYY } from '../../calendar/dates';
 
 const TasksDisplayTable = ({
     currentCompany,
@@ -114,14 +114,16 @@ const TasksDisplayTable = ({
                     >
                         <td
                             className='td__date'
-                            title={dateNum(item.createdAt)}
+                            title={date_DD_MM_YYYY(item.createdAt)}
                         >
                             <img
                                 src={calendarIcon}
-                                alt={`Created at ${dateNum(item.createdAt)}`}
+                                alt={`Created at ${date_DD_MM_YYYY(
+                                    item.createdAt
+                                )}`}
                             />
                             <span aria-hidden='true'>
-                                {dateNum(item.createdAt).slice(0, 2)}
+                                {date_DD_MM_YYYY(item.createdAt).slice(0, 2)}
                             </span>
                         </td>
                         <th scope='row'>{item.description}</th>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { setAlert } from '../../redux/actions/messages';
 import { endSession } from '../../redux/actions/session';
-import { dateUX, getDateAndTimeUX } from '../../utils/dates';
+import { dateUX, getDateAndTimeUX } from '../../components/calendar/dates';
 
 export const Header = ({
     setAlert,
