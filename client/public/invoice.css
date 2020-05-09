@@ -202,7 +202,10 @@ p.invoice__address-btm {
 @media print {
 }
 @page {
-    margin: 0px;
+    margin: 60px 0px 50px;
+}
+@page :first {
+    margin: 0px 0px 50px;
 }
 @media print and (color) {
     * {
