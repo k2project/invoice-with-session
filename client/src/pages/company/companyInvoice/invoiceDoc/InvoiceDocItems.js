@@ -15,6 +15,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
     const tasksDetails = tasks
         .filter((t) => t.addToInvoice)
         .map((t) => {
+            //before tax
             let amount = String(t.amount.currency + t.amount.amountNet);
             amount = numberWithCommas(amount);
             return (
@@ -42,7 +43,8 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
 
     const [showTasks, setShowTasks] = useState(false);
     const open_tasks = async () => {
-        if (showTasks === true) return setShowTasks(false);
+        if (showTasks === true || tasks.length === 0)
+            return setShowTasks(false);
         await setShowTasks(true);
         document.querySelector('.tasks-table tbody').focus();
     };
@@ -72,7 +74,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
     };
 
     return (
-        <Fragment>
+        <div className='invoice__items-box'>
             <section className='invoice__items'>
                 <h2 className='sr-only'>Invoice items display.</h2>
                 <div>
@@ -115,9 +117,9 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                     </thead>
                     <tbody>{tasksDetails}</tbody>
                 </table>
-                <div>
+                <div className='invoice__items-btm'>
                     <button
-                        className='invoice__btn .icon_iAdd-task'
+                        className='invoice__btn icon_iAdd-task'
                         title='Add a new item.'
                         onMouseDown={(e) => e.preventDefault()}
                         onClick={open_task_form}
@@ -127,7 +129,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                 </div>
             </section>
 
-            {showTasks && (
+            {showTasks && tasks.length > 0 && (
                 <section className='invoice__tasks'>
                     <h3 className='sr-only'>
                         Change <strong>items list</strong>.
@@ -157,7 +159,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                     </button>
                 </section>
             )}
-        </Fragment>
+        </div>
     );
 };
 

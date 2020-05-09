@@ -103,21 +103,19 @@ export const TaskForm = ({
 
         let amount;
         if (rateObj && qtyValue) {
-            const amountGross = strToNum(rateObj.numValue) * qtyValue;
+            //net : excluding vat
+            const amountNet = strToNum(rateObj.numValue) * qtyValue;
             let amountTaxed = '0';
             if (taxValue)
-                amountTaxed = (
-                    amountGross *
-                    (strToNum(taxValue) / 100)
-                ).toFixed(2);
-            console.log(amountTaxed);
+                amountTaxed = (amountNet * (strToNum(taxValue) / 100)).toFixed(
+                    2
+                );
             amountTaxed = strToNum(amountTaxed);
 
             amount = {
                 currency: rateObj.currency,
-                amountGross,
+                amountNet,
                 amountTaxed,
-                amountNet: amountGross - amountTaxed,
             };
         } else {
             //N/A and FREE values

@@ -12,11 +12,18 @@
         top: 0.2rem;
         img {
             height: 2.2rem;
+            opacity: 0.2;
+        }
+        img:hover {
             opacity: 0.5;
+            transition: 0.5s;
         }
     }
     .invice__btn--rel {
-        top: 1.8rem;
+        // top: 1.8rem;
+        right: -6.2rem;
+        top: -0.3rem;
+        position: relative;
     }
     .icon_iSettings {
         top: 2rem;
@@ -32,7 +39,7 @@
         top: 1.7rem;
     }
     .icon_iAdd-task {
-        top: -1.7rem;
+        right: -8.4rem;
     }
     .close {
         position: absolute;
@@ -250,8 +257,11 @@
         }
     }
 }
-.invoice__items {
+.invoice__items-box {
+    min-height: 30rem;
     background-color: #fff;
+}
+.invoice__items {
     padding: 0 5rem;
     td,
     th {
@@ -265,7 +275,14 @@
     }
     thead {
         font-weight: bold;
+        th:first-child {
+            width: 80rem;
+        }
     }
+}
+.invoice__items-btm {
+    padding: 1.5em 5rem;
+    margin-top: 1.5rem;
 }
 .invoice__tasks {
     margin: 1rem 0 0.5rem;
@@ -274,7 +291,6 @@
         display: none;
     }
 
-    .td__btn.delete,
     .td__btn.update {
         display: none;
     }

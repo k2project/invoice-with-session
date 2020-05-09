@@ -93,7 +93,7 @@ const InvoiceDocRecepient = ({
                         {invoice.saved_as}
                     </p>
                     <p>
-                        <b>ISSUE DATE</b>
+                        <b>INVOICE DATE</b>
                         {invoice.issue_date}
                     </p>
                     <p>
