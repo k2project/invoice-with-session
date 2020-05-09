@@ -20,6 +20,7 @@ export const TaskForm = ({
     getAllCompanies,
     currentTask,
     setCurrentTask,
+    tasks,
 }) => {
     const initState = {
         description: '',
@@ -66,6 +67,7 @@ export const TaskForm = ({
             if (qtyValue) qtyValue = strToNum(qtyValue);
         }
         //validate rate input
+        console.log(tasks);
         rate = rate.trim();
         const rateObj = validateStringToCurrency(rate);
         if (!strValues.includes(rate.toLocaleLowerCase()) && !rateObj) {
@@ -76,8 +78,29 @@ export const TaskForm = ({
             };
             errors.push(error);
         } else {
-            if (rateObj) rate = rateObj.currency + rateObj.numValue;
+            if (rateObj) {
+                //check if different currency has been used
+                const different_currencies = [];
+                tasks.forEach((el) => {
+                    if (
+                        el.amount.currency &&
+                        el.amount.currency !== rateObj.currency
+                    ) {
+                        different_currencies.push(1);
+                    }
+                });
+                if (different_currencies.length > 0) {
+                    const error = {
+                        param: 'rate',
+                        msg:
+                            'Please provide the same currency for all entries.',
+                    };
+                    errors.push(error);
+                }
+                rate = rateObj.currency + rateObj.numValue;
+            }
         }
+
         //validate tax input
         tax = tax.trim();
         const taxValue = validateStringToPercentage(tax);
@@ -91,7 +114,7 @@ export const TaskForm = ({
         } else {
             if (taxValue) tax = taxValue + '%';
         }
-        //rate without qty
+        //rate value without qty value
         if (rateObj && strValues.includes(qty.toLocaleLowerCase())) {
             const error = {
                 param: 'qty',
@@ -99,8 +122,7 @@ export const TaskForm = ({
             };
             errors.push(error);
         }
-        //calculate gross and net amount
-
+        //calculate taxed and net amount
         let amount;
         if (rateObj && qtyValue) {
             //net : excluding vat
@@ -247,11 +269,14 @@ export const TaskForm = ({
 TaskForm.propTypes = {
     company: PropTypes.object,
     getAllCompanies: PropTypes.func,
+    tasks: PropTypes.array,
 };
 
 const mapStateToProps = (state) => ({
     currentCompany: state.session.currentCompany,
     currentTask: state.session.currentTask,
+    tasks: state.companies.find((c) => c._id === state.session.currentCompany)
+        .tasks,
 });
 
 const mapDispatchToProps = {
