@@ -28,6 +28,7 @@ export const TaskForm = ({
         tax: '0%',
         errors: [],
     };
+
     const [formData, setFormData] = useState(initState);
     useEffect(() => {
         if (currentTask) {

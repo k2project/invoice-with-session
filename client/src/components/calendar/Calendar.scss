@@ -3,8 +3,10 @@
     display: inline-block;
     padding: 5rem 5.85rem 3rem;
     margin: 0.5rem 0 0.5rem 0.5rem;
+    left: -0.5rem;
     background-color: #fff;
     border-radius: 0.4rem;
+    height: 42rem;
     ul {
         display: grid;
         grid-template-columns: repeat(7, 1fr);

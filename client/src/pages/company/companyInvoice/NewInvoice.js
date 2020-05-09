@@ -25,6 +25,7 @@ class NewInvoice extends Component {
         );
     }
     handleChanges() {
+        //BECAUSE TASKS CAN BE AMENDED UPDATED IN FORM HENCE NEED TO CHECK INIT STATE AGAINST COMPANY.TASKS NOT INVOICE.TASKS!!!
         // alertUnsavedChanges(
         //     this.state.invoice, //initial state
         //     this.props.invoice, //redux updated state

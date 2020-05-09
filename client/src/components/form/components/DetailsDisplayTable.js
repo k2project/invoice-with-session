@@ -125,4 +125,5 @@ export default function DetailsDisplayTable({ details, updateState }) {
 }
 DetailsDisplayTable.propTypes = {
     details: PropTypes.array,
+    updateState: PropTypes.func,
 };

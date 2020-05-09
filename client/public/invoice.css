@@ -110,19 +110,19 @@ p {
 }
 
 p.invoice__address-top {
-    margin: 10px 0 4px;
+    margin: 5px 0 4px;
 }
 
 p.invoice__address-btm {
-    margin: 4px 0 10px;
+    margin: 4px 0 5px;
 }
 .invoice-recepient {
     background-color: #fff;
-    padding: 40px 60px 20px;
+    padding: 30px 60px 10px;
     display: flex;
 }
 .invoice-recepient div {
-    padding-bottom: 40px;
+    padding-bottom: 30px;
     border-bottom: solid 0.5px #111;
 }
 
@@ -142,11 +142,13 @@ p.invoice__address-btm {
     font-size: 14px;
     padding-bottom: 4px;
 }
-
+.invoice__task-form,
+.invoice__tasks,
 .invoice__calendar,
 .details-table,
 .color-picker,
 .invoice__btn,
+.sr-only,
 .close {
     display: none;
 }

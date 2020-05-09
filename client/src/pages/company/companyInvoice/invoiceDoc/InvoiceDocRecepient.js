@@ -77,9 +77,7 @@ const InvoiceDocRecepient = ({
             .querySelector('.calendar__due-date .days__list button')
             .focus();
     };
-    const cb = (d) => {
-        console.log(d);
-    };
+
     return (
         <Fragment>
             <section className='invoice-recepient'>
@@ -118,7 +116,7 @@ const InvoiceDocRecepient = ({
                     )}
                     {bank_account_num && (
                         <p>
-                            <b>ACCOUNT NUMBER:</b>
+                            <b>ACCOUNT No:</b>
                             {bank_account_num.value}
                         </p>
                     )}
@@ -168,36 +166,44 @@ const InvoiceDocRecepient = ({
             )}
 
             <section className='invoice__calendar'>
-                {showIssueDateCalendar && (
-                    <div className='calendar__issue-date'>
-                        <h3>
-                            Invoice <strong>issue date</strong>.
-                        </h3>
-                        <Calendar cb={(date) => updateInvoiceIssueDate(date)} />
-                        <button
-                            className='close'
-                            onClick={() => setShowIssueDateCalendar(false)}
-                            onMouseDown={(e) => e.preventDefault()}
-                        >
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                )}
-                {showDueDateCalendar && (
-                    <div className='calendar__due-date'>
-                        <h3>
-                            Invoice <strong>due date</strong>.
-                        </h3>
-                        <Calendar cb={(date) => updateInvoiceDueDate(date)} />
-                        <button
-                            className='close'
-                            onClick={() => setShowDueDateCalendar(false)}
-                            onMouseDown={(e) => e.preventDefault()}
-                        >
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                )}
+                <div>
+                    {showIssueDateCalendar && (
+                        <div className='calendar__issue-date'>
+                            <h3>
+                                Invoice <strong>issue date</strong>.
+                            </h3>
+                            <Calendar
+                                cb={(date) => updateInvoiceIssueDate(date)}
+                            />
+                            <button
+                                className='close'
+                                onClick={() => setShowIssueDateCalendar(false)}
+                                onMouseDown={(e) => e.preventDefault()}
+                            >
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                    )}
+                </div>
+                <div>
+                    {showDueDateCalendar && (
+                        <div className='calendar__due-date'>
+                            <h3>
+                                Invoice <strong>due date</strong>.
+                            </h3>
+                            <Calendar
+                                cb={(date) => updateInvoiceDueDate(date)}
+                            />
+                            <button
+                                className='close'
+                                onClick={() => setShowDueDateCalendar(false)}
+                                onMouseDown={(e) => e.preventDefault()}
+                            >
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                    )}
+                </div>
             </section>
         </Fragment>
     );

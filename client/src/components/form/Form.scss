@@ -320,6 +320,9 @@ textarea:focus {
         padding-right: 0.5rem;
         opacity: 0.2;
     }
+    tbody:focus {
+        outline: none;
+    }
 }
 .task-form {
     width: 100%;

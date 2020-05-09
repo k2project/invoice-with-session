@@ -1,4 +1,5 @@
 @import '../../../../App.scss';
+//width: 80rem;
 #invoice {
     font-size: 1.2rem;
     margin-bottom: 3rem;
@@ -14,6 +15,9 @@
             opacity: 0.5;
         }
     }
+    .invice__btn--rel {
+        top: 1.8rem;
+    }
     .icon_iSettings {
         top: 2rem;
         right: -3.5rem;
@@ -23,6 +27,12 @@
     }
     .icon_due-date {
         top: 9.6rem;
+    }
+    .icon_iTasks {
+        top: 1.7rem;
+    }
+    .icon_iAdd-task {
+        top: -1.7rem;
     }
     .close {
         position: absolute;
@@ -47,6 +57,10 @@
     }
     .invoice__calendar .close {
         top: 0.5rem;
+        right: 0.5rem;
+    }
+    .invoice__task-form .close {
+        top: 3.8rem;
     }
     header {
         display: flex;
@@ -197,10 +211,10 @@
 
 .invoice-recepient {
     background-color: #fff;
-    padding: 4rem 5rem 2rem;
+    padding: 3rem 5rem 1rem;
     display: flex;
     div {
-        padding-bottom: 4rem;
+        padding-bottom: 3rem;
         border-bottom: solid 0.1rem #111;
     }
     b {
@@ -223,8 +237,8 @@
     padding-bottom: 0.4rem;
 }
 .invoice__calendar {
-    display: flex;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     h3 {
         position: absolute;
         z-index: 2;
@@ -233,6 +247,71 @@
         strong {
             font-weight: bold;
             text-transform: uppercase;
+        }
+    }
+}
+.invoice__items {
+    background-color: #fff;
+    padding: 0 5rem;
+    td,
+    th {
+        padding: 2rem 0 2rem 2rem;
+        text-align: right;
+    }
+    td:first-child,
+    th:first-child {
+        text-align: left;
+        padding-left: 0;
+    }
+    thead {
+        font-weight: bold;
+    }
+}
+.invoice__tasks {
+    margin: 1rem 0 0.5rem;
+    padding-top: 2.5rem;
+    caption {
+        display: none;
+    }
+
+    .td__btn.delete,
+    .td__btn.update {
+        display: none;
+    }
+    .tile {
+        margin: 0.5rem 0;
+        left: -0.5rem;
+    }
+}
+
+.invoice__td-desc {
+    text-align: left;
+    width: 80rem;
+}
+.invoice__td-rate {
+    width: 5rem;
+}
+.invoice__td-qty {
+    width: 5rem;
+}
+.invoice__td-tax {
+    width: 5rem;
+}
+.invoice__td-amount {
+    width: 10rem;
+}
+.invoice__td-btn {
+    right: 0;
+    width: 0.1rem;
+    padding: 0;
+    position: absolute;
+}
+.invoice__task-form {
+    margin: 0.5rem 0;
+    .task-form {
+        margin-top: -4rem;
+        fieldset {
+            margin: 0;
         }
     }
 }

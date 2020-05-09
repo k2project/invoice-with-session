@@ -81,3 +81,6 @@ export const validateStringToQty = (str) => {
     }
     return null;
 };
+export const numberWithCommas = (n) => {
+    return n.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+};

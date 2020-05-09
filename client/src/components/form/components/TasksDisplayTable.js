@@ -104,7 +104,7 @@ const TasksDisplayTable = ({
                     <th scope='col'>Delete Task</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody tabIndex='0'>
                 {tableState.map((item, index, arr) => (
                     <tr
                         data-details-index={index}
@@ -130,7 +130,7 @@ const TasksDisplayTable = ({
                         <td className='td__value'>{item.qty}</td>
                         <td className='td__value'>{item.rate}</td>
                         <td className='td__value'>{item.tax}</td>
-                        <td className='td__btn'>
+                        <td className='td__btn update'>
                             <button
                                 title='Update task'
                                 onMouseDown={(e) => e.preventDefault()}
@@ -141,7 +141,7 @@ const TasksDisplayTable = ({
                                 <img src={updateIcon} alt='Update task' />
                             </button>
                         </td>
-                        <td className='td__btn'>
+                        <td className='td__btn delete'>
                             <button
                                 title='Delete task'
                                 onMouseDown={(e) => e.preventDefault()}
@@ -152,7 +152,7 @@ const TasksDisplayTable = ({
                                 <img src={deleteIcon} alt='Delete task' />
                             </button>
                         </td>
-                        <td className='td__btn'>
+                        <td className='td__btn included'>
                             <button
                                 title={
                                     item.addToInvoice

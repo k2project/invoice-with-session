@@ -44,16 +44,17 @@ class CompanyTasks extends Component {
         window.removeEventListener('beforeunload', this.handleChanges);
     }
     render() {
+        const tasks = this.props.company.tasks;
         return (
             <section className='company-tasks'>
                 <h2 className='sr-only'>Company Tasks.</h2>
-                {this.props.company.tasks.length === 0 && (
+                {tasks.length === 0 && (
                     <span className='tile tile--info'>
                         <img src={infoIcon} alt='' className='icon--md' />
                         Currently there are no tasks saved. Add a new one now.
                     </span>
                 )}
-                {this.props.company.tasks.length > 0 && <TasksDisplayTable />}
+                {tasks.length > 0 && <TasksDisplayTable />}
                 <TaskForm />
             </section>
         );

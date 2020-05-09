@@ -83,7 +83,7 @@ export const NewInvoiceSubmit = ({ company, invoice, history }) => {
                 <small>
                     You can either print or save the invoice in pdf format.{' '}
                     <br />
-                    We recomend using Chrome broweser for the best experience.
+                    We recommend using Chrome broweser for the best experience.
                     On clicking this button follow your browsers specification
                     on how to handle the process.
                 </small>
