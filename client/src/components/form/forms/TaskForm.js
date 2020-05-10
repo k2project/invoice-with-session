@@ -67,7 +67,6 @@ export const TaskForm = ({
             if (qtyValue) qtyValue = strToNum(qtyValue);
         }
         //validate rate input
-        console.log(tasks);
         rate = rate.trim();
         const rateObj = validateStringToCurrency(rate);
         if (!strValues.includes(rate.toLocaleLowerCase()) && !rateObj) {

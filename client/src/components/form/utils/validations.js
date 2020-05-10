@@ -81,6 +81,18 @@ export const validateStringToQty = (str) => {
     }
     return null;
 };
-export const numberWithCommas = (n) => {
-    return n.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+export const numberWithCommas = (num) => {
+    num = (+num).toFixed(2);
+    let n = String(num),
+        p = n.indexOf('.');
+    return n.replace(/\d(?=(?:\d{3})+(?:\.|$))/g, (m, i) =>
+        p < 0 || i < p ? `${m},` : m
+    );
+};
+//format $1,000.99 or 'N/A' or 'FREE'
+export const amountDisplay = (amount) => {
+    // 'N/A' and 'FREE'
+    if (typeof amount === 'string') return amount;
+    //numerical value with commas and two digits after dot
+    return amount.currency + numberWithCommas(amount.amountNet);
 };

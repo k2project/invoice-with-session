@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import InvoiceDocHeader from './InvoiceDocHeader';
 import InvoiceDocRecepient from './InvoiceDocRecepient';
 import InvoiceDocItems from './InvoiceDocItems';
+import InvoiceDocFooter from './InvoiceDocFooter';
 
 const InvoiceDoc = ({ profile }) => {
     return (
@@ -12,6 +13,7 @@ const InvoiceDoc = ({ profile }) => {
             <InvoiceDocHeader />
             <InvoiceDocRecepient />
             <InvoiceDocItems />
+            <InvoiceDocFooter />
         </article>
     );
 };

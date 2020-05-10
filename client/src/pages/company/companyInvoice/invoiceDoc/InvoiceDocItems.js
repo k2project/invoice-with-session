@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setCurrentTask } from '../../../../redux/actions/session';
 import TaskDisplayTable from '../../../../components/form/components/TasksDisplayTable';
-import { numberWithCommas } from '../../../../components/form/utils/validations';
+import { amountDisplay } from '../../../../components/form/utils/validations';
 import TaskForm from '../../../../components/form/forms/TaskForm';
 import plusIcon from '../../../../imgs/icons/plusIcon.png';
 import updateIcon from '../../../../imgs/icons/updateIcon.png';
@@ -16,8 +16,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
         .filter((t) => t.addToInvoice)
         .map((t) => {
             //before tax
-            let amount = String(t.amount.currency + t.amount.amountNet);
-            amount = numberWithCommas(amount);
+            let amount = amountDisplay(t.amount);
             return (
                 <tr key={`i-list-${t._id}`}>
                     <th scope='row' className='invoice__td-desc'>
@@ -40,7 +39,34 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                 </tr>
             );
         });
-
+    //create page break
+    // useEffect(() => {
+    //     // create page-break el
+    //     let el = document.createElement('tbody');
+    //     el.setAttribute('aria-hidden', 'true');
+    //     el.className = 'page-break';
+    //     el.innerHTML = `<tr><td colSpan="5" ></td><th></th></tr>`;
+    //     //calculate the break
+    //     const tr_arr = document.querySelectorAll('.invoice__items-tbody tr');
+    //     const invoice = document.getElementById('invoice');
+    //     const invoice_top = invoice.getBoundingClientRect().top;
+    //     //A4 = 2480 x 3508 px
+    //     //invoice width 800px
+    //     const A4_HEIGHT = (3508 * 800) / 2480;
+    //     const PAGE_MARGIN_BTM = 50;
+    //     const page_height = A4_HEIGHT - PAGE_MARGIN_BTM;
+    //     console.log(invoice_top, page_height);
+    //     tr_arr.forEach((tr, i) => {
+    //         let tr_top = tr.getBoundingClientRect().top;
+    //         tr_top = tr_top - invoice_top;
+    //         console.log(i + 1, ':', tr_top);
+    //     });
+    //     //insert page-break el
+    //     // const tr = document.querySelector(
+    //     //     '.invoice__items-tbody tr:nth-child(3)'
+    //     // );
+    //     // tr.after(el);
+    // }, [tasks]);
     const [showTasks, setShowTasks] = useState(false);
     const open_tasks = async () => {
         if (showTasks === true || tasks.length === 0)
@@ -115,7 +141,9 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody>{tasksDetails}</tbody>
+                    <tbody className='invoice__items-tbody'>
+                        {tasksDetails}
+                    </tbody>
                 </table>
                 <div className='invoice__items-btm'>
                     <button

@@ -20,10 +20,9 @@
         }
     }
     .invice__btn--rel {
-        // top: 1.8rem;
-        right: -6.2rem;
-        top: -0.3rem;
-        position: relative;
+        right: -7rem;
+        top: 1.2rem;
+        position: absolute;
     }
     .icon_iSettings {
         top: 2rem;
@@ -106,6 +105,13 @@
         caption {
             @extend .sr-only;
         }
+    }
+    footer {
+        background-color: #fff;
+        padding: 2rem 5rem 5rem;
+        text-align: center;
+        color: #c5c5c5;
+        font-size: 1rem;
     }
 }
 .color-picker {
@@ -263,8 +269,9 @@
     padding: 0 5rem;
     td,
     th {
-        padding: 2rem 0 2rem 2rem;
+        padding: 1.5rem 0 1.5rem 2rem;
         text-align: right;
+        vertical-align: top;
     }
     td:first-child,
     th:first-child {
@@ -275,6 +282,21 @@
         font-weight: bold;
         th:first-child {
             width: 80rem;
+        }
+    }
+    .page-break {
+        padding: 5rem 0;
+        margin-bottom: 4rem;
+        td {
+            position: absolute;
+            width: 81rem;
+            left: -6rem;
+            background-color: #f1f1f1;
+            padding: 2rem 6rem;
+            margin: 5rem 0;
+        }
+        th {
+            padding: 7rem;
         }
     }
 }
@@ -314,10 +336,11 @@
 .invoice__td-amount {
     width: 10rem;
 }
+tr > .invoice__td-btn {
+    display: flex;
+    align-items: stretch;
+}
 .invoice__td-btn {
-    right: 0;
-    width: 0.1rem;
-    padding: 0;
     position: absolute;
 }
 .invoice__task-form {
@@ -329,7 +352,46 @@
         }
     }
 }
+.invoice__footer {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    background-color: #fff;
+    section {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+}
+.invoice__notes {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 5rem;
+    padding-right: 3rem;
+    text-align: left;
+    h3 {
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+    }
+}
+.invoice__total {
+    display: flex;
+    align-items: flex-end;
+    padding-left: 3rem;
+    padding-right: 5rem;
+    text-align: right;
 
+    div {
+        width: 100%;
+    }
+}
+.invoice__cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.4;
+}
 //fit invoice to a smaller screen
 @media only screen and (max-width: 1200px) {
     #invoice {
