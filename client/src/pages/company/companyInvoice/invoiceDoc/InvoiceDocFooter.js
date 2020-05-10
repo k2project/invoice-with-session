@@ -7,7 +7,10 @@ import {
     updateInvoiceDiscount,
     updateInvoiceCurrency,
 } from '../../../../redux/actions/invoice';
-import { toNumberWithCommas } from '../../../../components/form/utils/validations';
+import {
+    toNumberWithCommas,
+    validateRateInputToObj,
+} from '../../../../components/form/utils/validations';
 import notesIcon from '../../../../imgs/icons/notesIcon.png';
 import discountIcon from '../../../../imgs/icons/discountIcon.png';
 
@@ -19,11 +22,71 @@ const InvoiceDocFooter = ({
     tasks,
 }) => {
     const currency = invoice.currency || '';
+    const [errors, setErrors] = useState(null);
     useEffect(() => {
         const itemWithCurrency = tasks.find((t) => t.amount.currency);
         if (itemWithCurrency)
             updateInvoiceCurrency(itemWithCurrency.amount.currency);
     }, [tasks]);
+
+    const TXT_INIT_TEXT = 'Edit your notes here...';
+    const [notes, setNotes] = useState(TXT_INIT_TEXT);
+    const handle_notes_edit = (e) => {
+        let notes = e.target.value;
+        setNotes(notes);
+        updateInvoiceNotes(notes);
+    };
+    const [showDiscount, setShowDiscount] = useState(false);
+    const [discount, setDiscount] = useState(0);
+    const show_discount = async () => {
+        if (showDiscount) {
+            //reset discount on hidding
+            setDiscount(0);
+            updateInvoiceDiscount(0);
+            return setShowDiscount(false);
+        }
+        await setShowDiscount(true);
+        edit_input('discount', discount);
+    };
+    const handle_discount_edit = (e) => {
+        setErrors(null);
+        let discount = e.target.value;
+        //return {currency, numValue}
+        discount = validateRateInputToObj(discount);
+        if (discount) {
+            console.log(discount, net_total_num);
+            //alert when discount > net total
+            if (discount.numValue > net_total_num) {
+                discount = 0;
+                setErrors('Discount value is greater than the subtotal.');
+            } else {
+                discount = discount.numValue;
+            }
+        } else {
+            // invalid input
+            discount = 0;
+            e.target.value = `${currency}0.00`;
+            setErrors(
+                'Inavalid discount input. Please enter the value in format £100.00 !'
+            );
+
+            //disable when no items in the arr
+        }
+        setDiscount(discount);
+        updateInvoiceDiscount(discount);
+    };
+    const edit_input = (input, stateValue) => {
+        if (input === 'textarea')
+            input = document.getElementById('invoice-notes');
+        if (input === 'discount')
+            input = document.getElementById('invoice-discount');
+        //move cursor to the end of text by reseting value to empty string befor setting focus on the el
+        input.value = '';
+        input.focus();
+        input.value = stateValue || `${currency}0.00`;
+    };
+
+    //TOTAL CALCULATION
 
     const net_total_num = tasks.reduce((sum, t) => {
         if (t.amount.amountNet) return sum + t.amount.amountNet;
@@ -37,30 +100,9 @@ const InvoiceDocFooter = ({
     }, 0);
     const tax_total_str = toNumberWithCommas(tax_total_num) || '0.00';
 
-    const invoice_total_num = net_total_num + tax_total_num;
+    let invoice_total_num = net_total_num - discount;
+    invoice_total_num = invoice_total_num + tax_total_num;
     const invoice_total_str = toNumberWithCommas(invoice_total_num);
-
-    const TXT_INIT_TEXT = 'Edit your notes here...';
-    const [notes, setNotes] = useState(TXT_INIT_TEXT);
-    const handle_notes_edit = (e) => {
-        let notes = e.target.value;
-        setNotes(notes);
-        updateInvoiceNotes(notes);
-    };
-    const [discount, setDiscount] = useState('0');
-    const handle_discount_edit = (e) => {
-        let discount = e.target.value;
-        setDiscount(discount);
-        updateInvoiceDiscount(discount);
-    };
-    const edit_input = (input, stateValue) => {
-        if (input === 'textarea')
-            input = document.getElementById('invoice-notes');
-        //move cursor to the end of text by reseting value to empty string befor setting focus on the el
-        input.value = '';
-        input.focus();
-        input.value = stateValue;
-    };
 
     return (
         <Fragment>
@@ -77,7 +119,7 @@ const InvoiceDocFooter = ({
                     className='invoice__btn icon_iDiscount'
                     title='Edit discount'
                     onMouseDown={(e) => e.preventDefault()}
-                    // onClick={edit_notes}
+                    onClick={show_discount}
                 >
                     <img src={discountIcon} alt='Edit discount' />
                 </button>
@@ -119,17 +161,31 @@ const InvoiceDocFooter = ({
                             </b>
                         </span>
                     </div>
+                    {showDiscount && (
+                        <Fragment>
+                            <div className='invoice__discount-display'>
+                                <span>Discount:</span>
+                                <span>
+                                    <b>
+                                        {currency}
+                                        0.00
+                                    </b>
+                                </span>
+                            </div>
+                            <form className='invoice__discount-form'>
+                                <label htmlFor='invoice-discount'>
+                                    Discount:
+                                </label>
+                                <input
+                                    type='text'
+                                    id='invoice-discount'
+                                    onChange={handle_discount_edit}
+                                />
+                            </form>
+                        </Fragment>
+                    )}
                     <div>
-                        <span>Discount amount:</span>
-                        <span>
-                            <b>
-                                {currency}
-                                0.00
-                            </b>
-                        </span>
-                    </div>
-                    <div>
-                        <span>Tax amount:</span>
+                        <span>Tax:</span>
                         <span>
                             <b>
                                 {currency}
@@ -137,12 +193,12 @@ const InvoiceDocFooter = ({
                             </b>
                         </span>
                     </div>
-                    <div>
+                    {/* <div>
                         <span>Other fees*:</span>
                         <span>
                             <b>{currency}0.00</b>
                         </span>
-                    </div>
+                    </div> */}
                     <div>
                         <span>Total:</span>
                         <span className='invoice__total-sum'>
@@ -152,7 +208,11 @@ const InvoiceDocFooter = ({
                     </div>
                 </section>
             </section>
-
+            {errors && (
+                <div className='tile tile--err' role='alert'>
+                    Error: {errors}
+                </div>
+            )}
             <footer>Thank you for your business!</footer>
         </Fragment>
     );

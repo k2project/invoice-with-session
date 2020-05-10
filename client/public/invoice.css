@@ -244,6 +244,7 @@ footer {
     color: #c5c5c5;
     font-size: 9px;
 }
+.invoice__discount-form,
 .invoice__notes-form,
 .page-break,
 .invoice__task-form,

@@ -62,14 +62,15 @@ export const validateTaxInputValueToNum = (str) => {
 export const validateRateInputToObj = (str) => {
     const regExpCurrency = /^[^0-9]*[0-9]{1,3}(,?[0-9]{3})*(\.[0-9]{1,2})?[^0-9]*$/;
     if (regExpCurrency.test(str)) {
-        let numValue = str.replace(/[^0-9,.]/g, '').trim();
+        let num = str.replace(/[^0-9,.]/g, '').trim();
         const currency = str
-            .replace(numValue, '')
+            .replace(num, '')
             .trim()
             .toUpperCase()
             .split(' ')[0];
 
-        numValue = +numValue;
+        let numValue = strWithCommasToNum(num);
+        console.log(numValue);
         return {
             currency,
             numValue,

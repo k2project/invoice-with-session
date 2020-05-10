@@ -11,6 +11,7 @@ import {
     validateQtyInputToNum,
     validateRateInputToObj,
     validateTaxInputValueToNum,
+    toNumberWithCommas,
 } from '../utils/validations';
 import { setCurrentTask } from '../../../redux/actions/session';
 
@@ -107,8 +108,7 @@ export const TaskForm = ({
                     errors.push(error);
                 }
                 rate =
-                    rate_obj.currency +
-                    parseFloat(rate_obj.numValue).toFixed(2);
+                    rate_obj.currency + toNumberWithCommas(rate_obj.numValue);
             }
         }
         console.log(rate_obj);

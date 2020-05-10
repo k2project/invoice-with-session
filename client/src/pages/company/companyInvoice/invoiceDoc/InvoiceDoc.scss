@@ -364,16 +364,12 @@ tr > .invoice__td-btn {
     display: grid;
     grid-template-columns: 3fr 2fr;
     background-color: #fff;
-    section {
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-    }
+    padding-bottom: 4rem;
 }
 .invoice__notes {
     display: flex;
     align-items: flex-start;
-    padding-left: 5rem;
-    padding-right: 3rem;
+    padding: 4rem 3rem 4rem 5rem;
     text-align: left;
     h3 {
         text-transform: uppercase;
@@ -386,6 +382,7 @@ tr > .invoice__td-btn {
 }
 //hide on web
 //display on print
+.invoice__discount-display,
 .invoice__notes-display {
     display: none;
 }
@@ -401,29 +398,54 @@ tr > .invoice__td-btn {
         width: 100%;
         background-color: transparent;
         resize: none;
+        max-height: 1rem;
     }
     textarea:focus {
         // border: dashed 0.1rem rgba(0, 0, 0, 0.5);
     }
 }
+
 .invoice__total {
-    display: grid;
-    align-content: end;
-    padding-left: 3rem;
-    padding-right: 5rem;
+    padding: 4rem 5rem 4rem 3rem;
     text-align: right;
     font-size: 1.4rem;
+    display: grid;
+    align-content: end;
 
     div {
         width: 100%;
         margin-bottom: 0.5rem;
         display: grid;
         grid-template-columns: auto 1fr;
+        align-items: end;
+    }
+    .invoice__discount-display {
+        display: none;
     }
 }
+.invoice__discount-form {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    label {
+        opacity: 1;
+        font-size: 1.4rem;
+        text-align: left;
+    }
+    input {
+        text-align: right;
+        font-size: 1.4rem;
+        color: inherit;
+        font-weight: bold;
+    }
+}
+
 .invoice__total-sum {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
+    top: 0.2rem;
 }
 .invoice__cover {
     position: absolute;
