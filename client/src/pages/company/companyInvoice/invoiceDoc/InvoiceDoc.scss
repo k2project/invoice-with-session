@@ -40,6 +40,14 @@
     .icon_iAdd-task {
         right: -8.4rem;
     }
+    .icon_iNotes {
+        right: -3.3rem;
+        top: 4rem;
+    }
+    .icon_iDiscount {
+        right: -3.3rem;
+        top: 7rem;
+    }
     .close {
         position: absolute;
         top: 0;
@@ -371,6 +379,31 @@ tr > .invoice__td-btn {
         text-transform: uppercase;
         margin-bottom: 1rem;
         font-size: 1.2rem;
+    }
+    div {
+        width: 100%;
+    }
+}
+//hide on web
+//display on print
+.invoice__notes-display {
+    display: none;
+}
+.invoice__notes-form {
+    display: block;
+
+    textarea {
+        border-radius: 0;
+        border: none;
+        padding: 1rem 0;
+        font-size: 1.2rem;
+        min-height: 10rem;
+        width: 100%;
+        background-color: transparent;
+        resize: none;
+    }
+    textarea:focus {
+        // border: dashed 0.1rem rgba(0, 0, 0, 0.5);
     }
 }
 .invoice__total {

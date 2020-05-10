@@ -5,6 +5,8 @@ import {
     UPDATE_INVOICE_COMPANY,
     UPDATE_INVOICE_ISSUE_DATE,
     UPDATE_INVOICE_DUE_DATE,
+    UPDATE_INVOICE_NOTES,
+    UPDATE_INVOICE_DISCOUNT,
 } from './types';
 
 export const setInvoiceInitState = (invoice) => (dispatch) => {
@@ -41,5 +43,17 @@ export const updateInvoiceDueDate = (date) => (dispatch) => {
     dispatch({
         type: UPDATE_INVOICE_DUE_DATE,
         payload: date,
+    });
+};
+export const updateInvoiceNotes = (notes) => (dispatch) => {
+    dispatch({
+        type: UPDATE_INVOICE_NOTES,
+        payload: notes,
+    });
+};
+export const updateInvoiceDiscount = (discount) => (dispatch) => {
+    dispatch({
+        type: UPDATE_INVOICE_DISCOUNT,
+        payload: discount,
     });
 };

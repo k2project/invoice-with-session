@@ -214,6 +214,10 @@ p.invoice__address-btm {
     margin-bottom: 7px;
     font-size: 11px;
 }
+.invoice__notes-display {
+    display: block;
+    white-space: pre-wrap;
+}
 
 .invoice__total {
     padding-left: 20px;
@@ -240,7 +244,7 @@ footer {
     color: #c5c5c5;
     font-size: 9px;
 }
-
+.invoice__notes-form,
 .page-break,
 .invoice__task-form,
 .invoice__tasks,
@@ -476,6 +480,10 @@ PRINT PAGE - PDF
         margin-bottom: 7px;
         font-size: 11px;
     }
+    .invoice__notes-display {
+        display: block;
+        white-space: pre-wrap;
+    }
 
     .invoice__total {
         padding-left: 20px;
@@ -502,7 +510,7 @@ PRINT PAGE - PDF
         color: #c5c5c5;
         font-size: 9px;
     }
-
+    .invoice__notes-form,
     .page-break,
     .invoice__task-form,
     .invoice__tasks,

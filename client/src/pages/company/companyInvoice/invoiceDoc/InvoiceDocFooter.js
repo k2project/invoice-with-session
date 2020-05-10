@@ -2,37 +2,76 @@ import React, { useState, useEffect, Fragment } from 'react';
 import './InvoiceDoc.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TaskDisplayTable from '../../../../components/form/components/TasksDisplayTable';
+import { updateInvoiceNotes } from '../../../../redux/actions/invoice';
 import { numberWithCommas } from '../../../../components/form/utils/validations';
-import TaskForm from '../../../../components/form/forms/TaskForm';
-import plusIcon from '../../../../imgs/icons/plusIcon.png';
-import updateIcon from '../../../../imgs/icons/updateIcon.png';
-import tasksIcon from '../../../../imgs/icons/tasksIcon.png';
+import notesIcon from '../../../../imgs/icons/notesIcon.png';
+import discountIcon from '../../../../imgs/icons/discountIcon.png';
 
-const InvoiceDocFooter = ({ invoice, tasks }) => {
-    const [showNotesForm, setShowNotesForm] = useState(false);
-    const open_notes_form = async () => {
-        if (showNotesForm === true) return setShowNotesForm(false);
-        await setShowNotesForm(true);
-        // document.querySelector('.tasks-table tbody').focus();
+const InvoiceDocFooter = ({ invoice, updateInvoiceNotes, tasks }) => {
+    // const [showNotesForm, setShowNotesForm] = useState(false);
+    // const open_notes_form = async () => {
+    //     if (showNotesForm === true) return setShowNotesForm(false);
+    //     await setShowNotesForm(true);
+    //     // document.querySelector('.tasks-table tbody').focus();
+    // };
+    const TXT_INIT_TEXT = 'Edit your notes here...';
+    const [notes, setNotes] = useState(TXT_INIT_TEXT);
+    const handleNotesEdit = (e) => {
+        let notes = e.target.value;
+        setNotes(notes);
+        updateInvoiceNotes(notes);
+    };
+    const edit_notes = () => {
+        //move cursor to the end of text by reseting value to empty string befor setting focus on the el
+        const textarea = document.getElementById('invoice-notes');
+        textarea.value = '';
+        textarea.focus();
+        textarea.value = notes;
     };
 
     return (
         <Fragment>
             <section className='invoice__footer'>
+                <button
+                    className='invoice__btn icon_iNotes'
+                    title='Edit notes'
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={edit_notes}
+                >
+                    <img src={notesIcon} alt='Edit notes' />
+                </button>
+                <button
+                    className='invoice__btn icon_iDiscount'
+                    title='Add discount'
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={edit_notes}
+                >
+                    <img src={discountIcon} alt='Add discount' />
+                </button>
+
                 <section className='invoice__notes'>
-                    <div>
+                    <div className='invoice__notes-display'>
                         <h3>
                             <b>Notes:</b>
                         </h3>
-                        You can either print or save the invoice in pdf format.
-                        We recommend using Chrome broweser for the best
-                        experience. On clicking this button follow your browsers
-                        specification on how to handle the process.
+                        <p>{notes}</p>
                     </div>
                     <div
                         className={`bg-${invoice.bg_color}  invoice__cover`}
                     ></div>
+                    <div className='invoice__notes-form'>
+                        <form>
+                            <label for='invoice-notes'>
+                                <b> Notes:</b>
+                            </label>
+                            <textarea
+                                id='invoice-notes'
+                                onChange={handleNotesEdit}
+                            >
+                                {TXT_INIT_TEXT}
+                            </textarea>
+                        </form>
+                    </div>
                 </section>
                 <section
                     className={`bg-${invoice.bg_color} txt-${invoice.text_color} invoice__total`}
@@ -41,6 +80,7 @@ const InvoiceDocFooter = ({ invoice, tasks }) => {
                     <div>Total: £0.00</div>
                 </section>
             </section>
+
             <footer>Thank you for your business!</footer>
         </Fragment>
     );
@@ -49,12 +89,15 @@ const InvoiceDocFooter = ({ invoice, tasks }) => {
 InvoiceDocFooter.propTypes = {
     invoice: PropTypes.object,
     tasks: PropTypes.array,
+    updateInvoiceNotes: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     invoice: state.invoice,
     tasks: state.companies.find((c) => c._id === state.session.currentCompany)
         .tasks,
 });
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    updateInvoiceNotes,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(InvoiceDocFooter);
