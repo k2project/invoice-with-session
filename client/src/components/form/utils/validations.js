@@ -90,7 +90,7 @@ export const numberWithCommas = (num) => {
     );
 };
 //format $1,000.99 or 'N/A' or 'FREE'
-export const amountDisplay = (amount) => {
+export const amountDisplayWithComas = (amount) => {
     // 'N/A' and 'FREE'
     if (typeof amount === 'string') return amount;
     //numerical value with commas and two digits after dot

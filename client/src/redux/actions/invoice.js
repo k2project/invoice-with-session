@@ -7,6 +7,7 @@ import {
     UPDATE_INVOICE_DUE_DATE,
     UPDATE_INVOICE_NOTES,
     UPDATE_INVOICE_DISCOUNT,
+    UPDATE_INVOICE_CURRENCY,
 } from './types';
 
 export const setInvoiceInitState = (invoice) => (dispatch) => {
@@ -55,5 +56,11 @@ export const updateInvoiceDiscount = (discount) => (dispatch) => {
     dispatch({
         type: UPDATE_INVOICE_DISCOUNT,
         payload: discount,
+    });
+};
+export const updateInvoiceCurrency = (currency) => (dispatch) => {
+    dispatch({
+        type: UPDATE_INVOICE_CURRENCY,
+        payload: currency,
     });
 };

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setCurrentTask } from '../../../../redux/actions/session';
 import TaskDisplayTable from '../../../../components/form/components/TasksDisplayTable';
-import { amountDisplay } from '../../../../components/form/utils/validations';
+import { amountDisplayWithComas } from '../../../../components/form/utils/validations';
 import TaskForm from '../../../../components/form/forms/TaskForm';
 import plusIcon from '../../../../imgs/icons/plusIcon.png';
 import updateIcon from '../../../../imgs/icons/updateIcon.png';
@@ -16,7 +16,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
         .filter((t) => t.addToInvoice)
         .map((t) => {
             //before tax
-            let amount = amountDisplay(t.amount);
+            let amount = amountDisplayWithComas(t.amount);
             return (
                 <tr key={`i-list-${t._id}`}>
                     <th scope='row' className='invoice__td-desc'>

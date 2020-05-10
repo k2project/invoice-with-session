@@ -42,11 +42,11 @@
     }
     .icon_iNotes {
         right: -3.3rem;
-        top: 4rem;
+        top: 3rem;
     }
     .icon_iDiscount {
         right: -3.3rem;
-        top: 7rem;
+        top: 6rem;
     }
     .close {
         position: absolute;
@@ -395,9 +395,9 @@ tr > .invoice__td-btn {
     textarea {
         border-radius: 0;
         border: none;
-        padding: 1rem 0;
+        margin-top: 1rem;
+        padding: 0;
         font-size: 1.2rem;
-        min-height: 10rem;
         width: 100%;
         background-color: transparent;
         resize: none;
@@ -407,15 +407,23 @@ tr > .invoice__td-btn {
     }
 }
 .invoice__total {
-    display: flex;
-    align-items: flex-end;
+    display: grid;
+    align-content: end;
     padding-left: 3rem;
     padding-right: 5rem;
     text-align: right;
+    font-size: 1.4rem;
 
     div {
         width: 100%;
+        margin-bottom: 0.5rem;
+        display: grid;
+        grid-template-columns: auto 1fr;
     }
+}
+.invoice__total-sum {
+    font-size: 2.5rem;
+    font-weight: bold;
 }
 .invoice__cover {
     position: absolute;

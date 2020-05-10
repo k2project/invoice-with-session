@@ -7,10 +7,11 @@ import {
     UPDATE_INVOICE_DUE_DATE,
     UPDATE_INVOICE_NOTES,
     UPDATE_INVOICE_DISCOUNT,
+    UPDATE_INVOICE_CURRENCY,
 } from '../actions/types';
 
 const initialState = {
-    // _id, created_at, saved_as, issue_date, due_date, notes, discount
+    // _id, created_at, saved_as, issue_date, due_date, notes, discount, currency
     bg_color: 'orange',
     text_color: '#111',
     notes: null,
@@ -37,6 +38,8 @@ export default function (state = initialState, { type, payload }) {
             return { ...state, notes: payload };
         case UPDATE_INVOICE_DISCOUNT:
             return { ...state, discount: payload };
+        case UPDATE_INVOICE_CURRENCY:
+            return { ...state, currency: payload };
         default:
             return state;
     }
