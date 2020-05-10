@@ -47,9 +47,7 @@ export function toggleIncludedInInvoice(
 }
 
 export function deleteItem(id, tableState, setTableState, updateState) {
-    console.log(id, tableState);
     const index = tableState.findIndex((el) => el._id === id);
-    console.log(index);
     tableState.splice(index, 1);
     setTableState([...tableState]);
     updateState([...tableState]);

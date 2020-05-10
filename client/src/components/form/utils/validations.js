@@ -43,29 +43,33 @@ export const isValidated = (state, outputArr) => {
     });
 };
 
-export const getNumericalValueFromString = (str) => {
-    return str.replace(/[^0-9,.]/g, '');
-};
-export const strToNum = (str) => {
+export const strWithCommasToNum = (str) => {
     return parseFloat(str.replace(/,/g, ''));
 };
+export const getNumericalValueFromString = (str) => {
+    // return str.replace(/[^0-9,.]/g, '');
+    return Number(str.replace(/[^0-9.]/g, ''));
+};
 
-export const validateStringToPercentage = (str) => {
+export const validateTaxInputValueToNum = (str) => {
     const regExpPercentage = /^([0-9]{1,2}(\.[0-9]{1,2})?|100)\s?%?$/;
     if (regExpPercentage.test(str)) {
+        str = str.replace(/%/g, '').trim();
         return getNumericalValueFromString(str);
     }
     return null;
 };
-export const validateStringToCurrency = (str) => {
+export const validateRateInputToObj = (str) => {
     const regExpCurrency = /^[^0-9]*[0-9]{1,3}(,?[0-9]{3})*(\.[0-9]{1,2})?[^0-9]*$/;
     if (regExpCurrency.test(str)) {
-        const numValue = str.replace(/[^0-9,.]/g, '').trim();
+        let numValue = str.replace(/[^0-9,.]/g, '').trim();
         const currency = str
             .replace(numValue, '')
             .trim()
             .toUpperCase()
             .split(' ')[0];
+
+        numValue = +numValue;
         return {
             currency,
             numValue,
@@ -74,14 +78,14 @@ export const validateStringToCurrency = (str) => {
     return null;
 };
 
-export const validateStringToQty = (str) => {
+export const validateQtyInputToNum = (str) => {
     const regExpQty = /^[0-9]{1,3}(,?[0-9]{3})*(\.[0-9]{1,2})?[^0-9]*$/;
     if (regExpQty.test(str)) {
         return getNumericalValueFromString(str);
     }
     return null;
 };
-export const numberWithCommas = (num) => {
+export const toNumberWithCommas = (num) => {
     num = (+num).toFixed(2);
     let n = String(num),
         p = n.indexOf('.');
@@ -94,5 +98,5 @@ export const amountDisplayWithComas = (amount) => {
     // 'N/A' and 'FREE'
     if (typeof amount === 'string') return amount;
     //numerical value with commas and two digits after dot
-    return amount.currency + numberWithCommas(amount.amountNet);
+    return amount.currency + toNumberWithCommas(amount.amountNet);
 };

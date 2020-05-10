@@ -7,7 +7,7 @@ import {
     updateInvoiceDiscount,
     updateInvoiceCurrency,
 } from '../../../../redux/actions/invoice';
-import { numberWithCommas } from '../../../../components/form/utils/validations';
+import { toNumberWithCommas } from '../../../../components/form/utils/validations';
 import notesIcon from '../../../../imgs/icons/notesIcon.png';
 import discountIcon from '../../../../imgs/icons/discountIcon.png';
 
@@ -18,29 +18,27 @@ const InvoiceDocFooter = ({
     updateInvoiceCurrency,
     tasks,
 }) => {
-    const CURRENCY = invoice.currency || '';
+    const currency = invoice.currency || '';
     useEffect(() => {
         const itemWithCurrency = tasks.find((t) => t.amount.currency);
         if (itemWithCurrency)
             updateInvoiceCurrency(itemWithCurrency.amount.currency);
     }, [tasks]);
 
-    let calculate_net_total = tasks.reduce((sum, t) => {
+    const net_total_num = tasks.reduce((sum, t) => {
         if (t.amount.amountNet) return sum + t.amount.amountNet;
         return sum;
     }, 0);
-    calculate_net_total = numberWithCommas(calculate_net_total);
-    let amount_net_total = calculate_net_total || '0.00';
+    const net_total_str = toNumberWithCommas(net_total_num) || '0.00';
 
-    let calculate_tax_total = tasks.reduce((sum, t) => {
+    const tax_total_num = tasks.reduce((sum, t) => {
         if (t.amount.amountTaxed) return sum + t.amount.amountTaxed;
         return sum;
     }, 0);
-    calculate_tax_total = numberWithCommas(calculate_tax_total);
-    let amount_tax_total = calculate_tax_total || '0.00';
+    const tax_total_str = toNumberWithCommas(tax_total_num) || '0.00';
 
-    let invoice_total = +amount_net_total + +amount_tax_total;
-    invoice_total = numberWithCommas(invoice_total);
+    const invoice_total_num = net_total_num + tax_total_num;
+    const invoice_total_str = toNumberWithCommas(invoice_total_num);
 
     const TXT_INIT_TEXT = 'Edit your notes here...';
     const [notes, setNotes] = useState(TXT_INIT_TEXT);
@@ -116,8 +114,8 @@ const InvoiceDocFooter = ({
                         <span>Subtotal:</span>
                         <span>
                             <b>
-                                {CURRENCY}
-                                {amount_net_total}
+                                {currency}
+                                {net_total_str}
                             </b>
                         </span>
                     </div>
@@ -125,7 +123,7 @@ const InvoiceDocFooter = ({
                         <span>Discount amount:</span>
                         <span>
                             <b>
-                                {CURRENCY}
+                                {currency}
                                 0.00
                             </b>
                         </span>
@@ -134,22 +132,22 @@ const InvoiceDocFooter = ({
                         <span>Tax amount:</span>
                         <span>
                             <b>
-                                {CURRENCY}
-                                {amount_tax_total}
+                                {currency}
+                                {tax_total_str}
                             </b>
                         </span>
                     </div>
                     <div>
                         <span>Other fees*:</span>
                         <span>
-                            <b>{CURRENCY}0.00</b>
+                            <b>{currency}0.00</b>
                         </span>
                     </div>
                     <div>
                         <span>Total:</span>
                         <span className='invoice__total-sum'>
-                            {CURRENCY}
-                            {invoice_total}
+                            {currency}
+                            {invoice_total_str}
                         </span>
                     </div>
                 </section>

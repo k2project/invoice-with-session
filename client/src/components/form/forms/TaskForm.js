@@ -8,10 +8,9 @@ import FormInput from '../components/FormInput';
 import FormErrorsDisplay from '../components/FormErrorsDisplay';
 import { formErrorsStyling } from '../utils/formFuns';
 import {
-    validateStringToQty,
-    validateStringToCurrency,
-    validateStringToPercentage,
-    strToNum,
+    validateQtyInputToNum,
+    validateRateInputToObj,
+    validateTaxInputValueToNum,
 } from '../utils/validations';
 import { setCurrentTask } from '../../../redux/actions/session';
 
@@ -42,7 +41,7 @@ export const TaskForm = ({
     const handleSubmit = async (e) => {
         e.preventDefault();
         let { description, qty, rate, tax } = formData;
-        const strValues = ['free', 'n/a'];
+        const non_numerical_inputs = ['FREE', 'N/A'];
         const errors = [];
 
         description = description.trim();
@@ -53,23 +52,25 @@ export const TaskForm = ({
             };
             errors.push(error);
         }
-        //validate qty input
+        //validate qty input value
         qty = qty.trim();
-        let qtyValue = validateStringToQty(qty);
-        if (!strValues.includes(qty.toLocaleLowerCase()) && !qtyValue) {
+        const qty_numerical_value = validateQtyInputToNum(qty);
+        if (
+            !non_numerical_inputs.includes(qty.toUpperCase()) &&
+            !qty_numerical_value
+        ) {
             const error = {
                 param: 'qty',
                 msg:
-                    'Please enter Qty value in one of the following formats: 1,000.50, 1 , 3 items, FREE or N/A.',
+                    "Please enter Qty value in one of the following formats: 1,000.50, 1 , 3 items, FREE or N/A. Qty mustn't be zero.",
             };
             errors.push(error);
-        } else {
-            if (qtyValue) qtyValue = strToNum(qtyValue);
         }
         //validate rate input
+        //returns {currency, numValue}
         rate = rate.trim();
-        const rateObj = validateStringToCurrency(rate);
-        if (!strValues.includes(rate.toLocaleLowerCase()) && !rateObj) {
+        const rate_obj = validateRateInputToObj(rate);
+        if (!non_numerical_inputs.includes(rate.toUpperCase()) && !rate_obj) {
             const error = {
                 param: 'rate',
                 msg:
@@ -77,13 +78,22 @@ export const TaskForm = ({
             };
             errors.push(error);
         } else {
-            if (rateObj) {
+            if (rate_obj) {
+                //check if currency exist
+                if (!rate_obj.currency) {
+                    const error = {
+                        param: 'rate',
+                        msg:
+                            'Please provide some form of currency for the entered rate value.',
+                    };
+                    errors.push(error);
+                }
                 //check if different currency has been used
                 const different_currencies = [];
                 tasks.forEach((el) => {
                     if (
                         el.amount.currency &&
-                        el.amount.currency !== rateObj.currency
+                        el.amount.currency !== rate_obj.currency
                     ) {
                         different_currencies.push(1);
                     }
@@ -92,18 +102,20 @@ export const TaskForm = ({
                     const error = {
                         param: 'rate',
                         msg:
-                            'Please provide the same currency for all entries.',
+                            'Please provide the same currency for all rate entries.',
                     };
                     errors.push(error);
                 }
-                rate = rateObj.currency + rateObj.numValue;
+                rate =
+                    rate_obj.currency +
+                    parseFloat(rate_obj.numValue).toFixed(2);
             }
         }
-
+        console.log(rate_obj);
         //validate tax input
         tax = tax.trim();
-        const taxValue = validateStringToPercentage(tax);
-        if (!taxValue) {
+        const tax_numerical_value = validateTaxInputValueToNum(tax);
+        if (!tax_numerical_value && tax_numerical_value !== 0) {
             const error = {
                 param: 'tax',
                 msg:
@@ -111,35 +123,36 @@ export const TaskForm = ({
             };
             errors.push(error);
         } else {
-            if (taxValue) tax = taxValue + '%';
+            //in case input is without %
+            tax = tax_numerical_value + '%';
         }
-        //rate value without qty value
-        if (rateObj && strValues.includes(qty.toLocaleLowerCase())) {
+        //check for a rate value without qty value
+        //for rate === string, amount === string
+        if (rate_obj && non_numerical_inputs.includes(qty.toUpperCase())) {
             const error = {
                 param: 'qty',
-                msg: 'Please provide quantity for entered rate.',
+                msg:
+                    "Please item's provide quantity for the entered rate value.",
             };
             errors.push(error);
         }
         //calculate taxed and net amount
         let amount;
-        if (rateObj && qtyValue) {
+        if (rate_obj && qty_numerical_value) {
             //net : excluding vat
-            const amountNet = strToNum(rateObj.numValue) * qtyValue;
-            let amountTaxed = '0';
-            if (taxValue)
-                amountTaxed = (amountNet * (strToNum(taxValue) / 100)).toFixed(
-                    2
-                );
-            amountTaxed = strToNum(amountTaxed);
-
+            const amountNet = rate_obj.numValue * qty_numerical_value;
+            let amountTaxed = 0;
+            if (tax_numerical_value)
+                amountTaxed = amountNet * (tax_numerical_value / 100);
+            amountTaxed = amountTaxed.toFixed(2);
+            amountTaxed = +amountTaxed;
             amount = {
-                currency: rateObj.currency,
+                currency: rate_obj.currency,
                 amountNet,
                 amountTaxed,
             };
         } else {
-            //N/A and FREE values
+            // for N/A and FREE values
             amount = rate.toUpperCase();
         }
 
