@@ -6,10 +6,12 @@ import {
     updateInvoiceNotes,
     updateInvoiceDiscount,
     updateInvoiceCurrency,
+    updateInvoiceTaxRate,
 } from '../../../../redux/actions/invoice';
 import {
     toNumberWithCommas,
     validateRateInputToObj,
+    validateTaxInputValueToNum,
 } from '../../../../components/form/utils/validations';
 import notesIcon from '../../../../imgs/icons/notesIcon.png';
 import discountIcon from '../../../../imgs/icons/discountIcon.png';
@@ -19,6 +21,7 @@ const InvoiceDocFooter = ({
     updateInvoiceNotes,
     updateInvoiceDiscount,
     updateInvoiceCurrency,
+    updateInvoiceTaxRate,
     tasks,
 }) => {
     const currency = invoice.currency || '';
@@ -54,7 +57,6 @@ const InvoiceDocFooter = ({
         //return {currency, numValue}
         discount = validateRateInputToObj(discount);
         if (discount) {
-            console.log(discount, net_total_num);
             //alert when discount > net total
             if (discount.numValue > net_total_num) {
                 discount = 0;
@@ -64,8 +66,7 @@ const InvoiceDocFooter = ({
             }
         } else {
             // invalid input
-            discount = 0;
-            e.target.value = `${currency}0.00`;
+            // e.target.value = `${currency}0.00`;
             setErrors(
                 'Inavalid discount input. Please enter the value in format £100.00 !'
             );
@@ -85,23 +86,32 @@ const InvoiceDocFooter = ({
         input.focus();
         input.value = stateValue || `${currency}0.00`;
     };
+    const [tax, setTax] = useState(0);
+    const handle_tax_edit = (e) => {
+        setErrors(null);
+        let tax_rate = e.target.value;
+        tax_rate = validateTaxInputValueToNum(tax_rate);
+        if (tax_rate === null)
+            setErrors(
+                'Inavalid tax rate input. Please enter the value in format 0-100%.'
+            );
+        setTax(tax_rate);
+        updateInvoiceTaxRate(tax_rate);
+    };
 
     //TOTAL CALCULATION
 
-    const net_total_num = tasks.reduce((sum, t) => {
+    let net_total_num = tasks.reduce((sum, t) => {
         if (t.amount.amountNet) return sum + t.amount.amountNet;
         return sum;
     }, 0);
     const net_total_str = toNumberWithCommas(net_total_num) || '0.00';
+    net_total_num = net_total_num - discount;
 
-    const tax_total_num = tasks.reduce((sum, t) => {
-        if (t.amount.amountTaxed) return sum + t.amount.amountTaxed;
-        return sum;
-    }, 0);
-    const tax_total_str = toNumberWithCommas(tax_total_num) || '0.00';
+    const tax_total_num = net_total_num * (tax / 100);
+    const tax_total_str = toNumberWithCommas(tax_total_num) || '0%';
 
-    let invoice_total_num = net_total_num - discount;
-    invoice_total_num = invoice_total_num + tax_total_num;
+    const invoice_total_num = net_total_num + tax_total_num;
     const invoice_total_str = toNumberWithCommas(invoice_total_num);
 
     return (
@@ -184,15 +194,32 @@ const InvoiceDocFooter = ({
                             </form>
                         </Fragment>
                     )}
-                    <div>
-                        <span>Tax:</span>
+                    <div className='invoice__tax-display'>
+                        <span>Tax rate:</span>
                         <span>
-                            <b>
-                                {currency}
-                                {tax_total_str}
-                            </b>
+                            <b>{tax}%</b>
                         </span>
                     </div>
+                    <form className='invoice__tax-form'>
+                        <label htmlFor='invoice-tax'>Tax Rate:</label>
+                        <input
+                            type='text'
+                            id='invoice-tax'
+                            onChange={handle_tax_edit}
+                            defaultValue='0%'
+                        />
+                    </form>
+                    {tax > 0 && (
+                        <div>
+                            <span>Tax Amount:</span>
+                            <span>
+                                <b>
+                                    {currency}
+                                    {tax_total_str}
+                                </b>
+                            </span>
+                        </div>
+                    )}
                     {/* <div>
                         <span>Other fees*:</span>
                         <span>
@@ -224,6 +251,7 @@ InvoiceDocFooter.propTypes = {
     updateInvoiceNotes: PropTypes.func,
     updateInvoiceDiscount: PropTypes.func,
     updateInvoiceCurrency: PropTypes.func,
+    updateInvoiceTaxRate: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     invoice: state.invoice,
@@ -234,6 +262,7 @@ const mapDispatchToProps = {
     updateInvoiceNotes,
     updateInvoiceDiscount,
     updateInvoiceCurrency,
+    updateInvoiceTaxRate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InvoiceDocFooter);

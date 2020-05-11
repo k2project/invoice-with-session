@@ -52,7 +52,7 @@ export const getNumericalValueFromString = (str) => {
 };
 
 export const validateTaxInputValueToNum = (str) => {
-    const regExpPercentage = /^([0-9]{1,2}(\.[0-9]{1,2})?|100)\s?%?$/;
+    const regExpPercentage = /^([0-9]{1,2}(\.[0-9]{1,2})?|100)\s?%$/;
     if (regExpPercentage.test(str)) {
         str = str.replace(/%/g, '').trim();
         return getNumericalValueFromString(str);
@@ -70,7 +70,6 @@ export const validateRateInputToObj = (str) => {
             .split(' ')[0];
 
         let numValue = strWithCommasToNum(num);
-        console.log(numValue);
         return {
             currency,
             numValue,

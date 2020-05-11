@@ -239,7 +239,7 @@ export const TaskForm = ({
                             <small>(e.g. £11, N/A, Free)</small>
                         </FormInput>
                     </span>
-                    <span>
+                    {/* <span>
                         <FormInput
                             form={{ formData, setFormData }}
                             name='tax'
@@ -248,7 +248,7 @@ export const TaskForm = ({
                             <b>Tax* </b>
                             <small>(e.g. 10%, 10, N/A, Free)</small>
                         </FormInput>
-                    </span>
+                    </span> */}
                 </div>
 
                 <button

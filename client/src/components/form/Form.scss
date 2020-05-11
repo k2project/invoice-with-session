@@ -278,12 +278,15 @@ textarea:focus {
     padding: 0;
     width: 100%;
     font-size: 1.2rem;
+    td,
+    th {
+        width: 12%;
+        text-align: right;
+    }
     tr.tile {
         margin-left: 0;
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
-        display: grid;
-        grid-template-columns: auto 1fr auto auto auto auto auto auto auto auto;
     }
     button {
         border: solid 1px #111;
@@ -296,15 +299,16 @@ textarea:focus {
     }
     th[scope='row'] {
         text-align: left;
-        padding-right: 1rem;
-        // min-width: 25rem;
+        padding-right: 2rem;
+        width: 50%;
     }
     .td__value {
-        min-width: 4rem;
-        padding: 0 0.5rem;
+        padding: 0 1rem;
     }
 
     .td__date {
+        width: 4rem;
+        text-align: center;
         img {
             height: 2.8rem;
         }
@@ -349,11 +353,11 @@ textarea:focus {
     }
     .grid-3-cls {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-column-gap: 2rem;
     }
     .col-span-3 {
-        grid-column: span 3;
+        grid-column: span 2;
     }
 }
 .form__save-as input:focus {

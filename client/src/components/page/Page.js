@@ -8,7 +8,7 @@ import DesktopOnly from './DesktopOnly';
 import loader from '../../imgs/icons/loader.gif';
 
 const Page = ({ title, user, children }) => {
-    let mql = window.matchMedia('(min-width: 1000px)');
+    let mql = window.matchMedia('(min-width: 1024px)');
     const [desktop, desktopDisplay] = useState(true);
     const getMQL = () => {
         if (mql.matches) {

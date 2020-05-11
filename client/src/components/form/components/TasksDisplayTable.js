@@ -96,7 +96,7 @@ const TasksDisplayTable = ({
                     <th scope='col'>Task description</th>
                     <th scope='col'>Item Quantity</th>
                     <th scope='col'>Rate</th>
-                    <th scope='col'>Tax</th>
+                    {/* <th scope='col'>Tax</th> */}
                     <th scope='col'>Add task to a new invoice</th>
                     <th scope='col'>Move Item Up</th>
                     <th scope='col'>Move Item Down</th>
@@ -129,7 +129,7 @@ const TasksDisplayTable = ({
                         <th scope='row'>{item.description}</th>
                         <td className='td__value'>{item.qty}</td>
                         <td className='td__value'>{item.rate}</td>
-                        <td className='td__value'>{item.tax}</td>
+                        {/* <td className='td__value'>{item.tax}</td> */}
                         <td className='td__btn update'>
                             <button
                                 title='Update task'

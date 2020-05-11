@@ -87,7 +87,7 @@ const InvoiceDocRecepient = ({
                     </p>
                     {companyDetails}
                 </div>
-                <div className='txt--right'>
+                <div className='invoice-recepient__dates txt--right'>
                     <p>
                         <b>INVOICE #</b>
                         {invoice.saved_as}

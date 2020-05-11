@@ -250,7 +250,7 @@
     padding-right: 4rem;
     flex-grow: 1;
 }
-.invoice-recepient__banking {
+.invoice-recepient__banking p {
     padding-left: 4rem;
 }
 .invoice__recepient-name {
@@ -333,13 +333,13 @@
     width: 80rem;
 }
 .invoice__td-rate {
-    width: 5rem;
+    width: 8rem;
 }
 .invoice__td-qty {
-    width: 5rem;
+    width: 8rem;
 }
 .invoice__td-tax {
-    width: 5rem;
+    width: 8rem;
 }
 .invoice__td-amount {
     width: 10rem;
@@ -419,10 +419,13 @@ tr > .invoice__td-btn {
         grid-template-columns: auto 1fr;
         align-items: end;
     }
+    .invoice__tax-display,
     .invoice__discount-display {
         display: none;
     }
 }
+
+.invoice__tax-form,
 .invoice__discount-form {
     width: 100%;
     margin-bottom: 0.5rem;
@@ -446,6 +449,7 @@ tr > .invoice__td-btn {
     font-size: 3rem;
     font-weight: bold;
     top: 0.2rem;
+    padding-left: 1rem;
 }
 .invoice__cover {
     position: absolute;

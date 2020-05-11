@@ -8,6 +8,7 @@ import {
     UPDATE_INVOICE_NOTES,
     UPDATE_INVOICE_DISCOUNT,
     UPDATE_INVOICE_CURRENCY,
+    UPDATE_INVOICE_TAX_RATE,
 } from '../actions/types';
 
 const initialState = {
@@ -40,6 +41,8 @@ export default function (state = initialState, { type, payload }) {
             return { ...state, discount: payload };
         case UPDATE_INVOICE_CURRENCY:
             return { ...state, currency: payload };
+        case UPDATE_INVOICE_TAX_RATE:
+            return { ...state, tax: payload };
         default:
             return state;
     }

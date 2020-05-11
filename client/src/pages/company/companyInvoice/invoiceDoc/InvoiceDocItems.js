@@ -24,7 +24,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                     </th>
                     <td className='invoice__td-qty'>{t.qty}</td>
                     <td className='invoice__td-rate'>{t.rate}</td>
-                    <td className='invoice__td-tax'>{t.tax}</td>
+                    {/* <td className='invoice__td-tax'>{t.tax}</td> */}
                     <td className='invoice__td-amount'>{amount}</td>
                     <td className='invoice__td-btn'>
                         <button
@@ -130,9 +130,9 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                             <th scope='col' className='invoice__td-rate'>
                                 <b>RATE</b>
                             </th>
-                            <th scope='col' className='invoice__td-tax'>
+                            {/* <th scope='col' className='invoice__td-tax'>
                                 <b>TAX</b>
-                            </th>
+                            </th> */}
                             <th scope='col' className='invoice__td-amount'>
                                 <b>AMOUNT</b>
                             </th>
