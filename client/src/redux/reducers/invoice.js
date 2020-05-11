@@ -9,10 +9,11 @@ import {
     UPDATE_INVOICE_DISCOUNT,
     UPDATE_INVOICE_CURRENCY,
     UPDATE_INVOICE_TAX_RATE,
+    UPDATE_INVOICE_OTHER_FEES,
 } from '../actions/types';
 
 const initialState = {
-    // _id, created_at, saved_as, issue_date, due_date, notes, discount, currency
+    // _id, created_at, saved_as, issue_date, due_date, notes, discount, currency, tax , fees
     bg_color: 'orange',
     text_color: '#111',
     notes: null,
@@ -43,6 +44,8 @@ export default function (state = initialState, { type, payload }) {
             return { ...state, currency: payload };
         case UPDATE_INVOICE_TAX_RATE:
             return { ...state, tax: payload };
+        case UPDATE_INVOICE_OTHER_FEES:
+            return { ...state, fees: payload };
         default:
             return state;
     }

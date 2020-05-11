@@ -9,6 +9,7 @@ import {
     UPDATE_INVOICE_DISCOUNT,
     UPDATE_INVOICE_CURRENCY,
     UPDATE_INVOICE_TAX_RATE,
+    UPDATE_INVOICE_OTHER_FEES,
 } from './types';
 
 export const setInvoiceInitState = (invoice) => (dispatch) => {
@@ -69,5 +70,11 @@ export const updateInvoiceTaxRate = (tax) => (dispatch) => {
     dispatch({
         type: UPDATE_INVOICE_TAX_RATE,
         payload: tax,
+    });
+};
+export const updateInvoiceOtherFees = (fees) => (dispatch) => {
+    dispatch({
+        type: UPDATE_INVOICE_OTHER_FEES,
+        payload: fees,
     });
 };

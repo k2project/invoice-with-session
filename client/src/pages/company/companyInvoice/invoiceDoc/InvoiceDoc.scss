@@ -8,10 +8,10 @@
     }
     .invoice__btn {
         position: absolute;
-        right: -8.6rem;
+        right: -8.2rem;
         top: 0.2rem;
         img {
-            height: 2.2rem;
+            width: 2.2rem;
             opacity: 0.2;
         }
         img:hover {
@@ -20,13 +20,13 @@
         }
     }
     .invice__btn--rel {
-        right: -7rem;
+        right: -6.7rem;
         top: 1.2rem;
         position: absolute;
     }
     .icon_iSettings {
         top: 2rem;
-        right: -3.5rem;
+        right: -3.2rem;
     }
     .icon_issue-date {
         top: 5.2rem;
@@ -38,15 +38,19 @@
         top: 1.7rem;
     }
     .icon_iAdd-task {
-        right: -8.4rem;
+        right: -8.3rem;
     }
     .icon_iNotes {
-        right: -3.3rem;
+        right: -3.2rem;
         top: 3rem;
     }
     .icon_iDiscount {
-        right: -3.3rem;
-        top: 6rem;
+        right: -3.2rem;
+        top: 7.2rem;
+    }
+    .icon_iFees {
+        right: -3.2rem;
+        top: 11rem;
     }
     .close {
         position: absolute;
@@ -419,12 +423,14 @@ tr > .invoice__td-btn {
         grid-template-columns: auto 1fr;
         align-items: end;
     }
+    .invoice__fees-display,
     .invoice__tax-display,
     .invoice__discount-display {
         display: none;
     }
 }
 
+.invoice__fees-form,
 .invoice__tax-form,
 .invoice__discount-form {
     width: 100%;
@@ -448,8 +454,8 @@ tr > .invoice__td-btn {
 .invoice__total-sum {
     font-size: 3rem;
     font-weight: bold;
-    top: 0.2rem;
-    padding-left: 1rem;
+    padding-top: 2rem;
+    grid-column: span 2;
 }
 .invoice__cover {
     position: absolute;

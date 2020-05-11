@@ -7,6 +7,7 @@ import {
     updateInvoiceDiscount,
     updateInvoiceCurrency,
     updateInvoiceTaxRate,
+    updateInvoiceOtherFees,
 } from '../../../../redux/actions/invoice';
 import {
     toNumberWithCommas,
@@ -15,6 +16,7 @@ import {
 } from '../../../../components/form/utils/validations';
 import notesIcon from '../../../../imgs/icons/notesIcon.png';
 import discountIcon from '../../../../imgs/icons/discountIcon.png';
+import waletIcon from '../../../../imgs/icons/waletIcon.png';
 
 const InvoiceDocFooter = ({
     invoice,
@@ -22,6 +24,7 @@ const InvoiceDocFooter = ({
     updateInvoiceDiscount,
     updateInvoiceCurrency,
     updateInvoiceTaxRate,
+    updateInvoiceOtherFees,
     tasks,
 }) => {
     const currency = invoice.currency || '';
@@ -81,6 +84,7 @@ const InvoiceDocFooter = ({
             input = document.getElementById('invoice-notes');
         if (input === 'discount')
             input = document.getElementById('invoice-discount');
+        if (input === 'fees') input = document.getElementById('invoice-fees');
         //move cursor to the end of text by reseting value to empty string befor setting focus on the el
         input.value = '';
         input.focus();
@@ -98,6 +102,30 @@ const InvoiceDocFooter = ({
         setTax(tax_rate);
         updateInvoiceTaxRate(tax_rate);
     };
+    const [showFees, setShowFees] = useState(false);
+    const [fees, setFees] = useState(0);
+    const show_fees = async () => {
+        if (showFees) {
+            //reset fees on hidding
+            setFees(0);
+            updateInvoiceOtherFees(0);
+            return setShowFees(false);
+        }
+        await setShowFees(true);
+        edit_input('fees', fees);
+    };
+    const handle_fees_edit = (e) => {
+        setErrors(null);
+        let fees = e.target.value;
+        //return {currency, numValue}
+        fees = validateRateInputToObj(fees);
+        if (fees === null)
+            return setErrors(
+                'Inavalid discount input. Please enter the value in format £100.00 !'
+            );
+        setFees(fees.numValue);
+        updateInvoiceOtherFees(fees.numValue);
+    };
 
     //TOTAL CALCULATION
 
@@ -111,7 +139,7 @@ const InvoiceDocFooter = ({
     const tax_total_num = net_total_num * (tax / 100);
     const tax_total_str = toNumberWithCommas(tax_total_num) || '0%';
 
-    const invoice_total_num = net_total_num + tax_total_num;
+    const invoice_total_num = net_total_num + tax_total_num + fees;
     const invoice_total_str = toNumberWithCommas(invoice_total_num);
 
     return (
@@ -127,11 +155,19 @@ const InvoiceDocFooter = ({
                 </button>
                 <button
                     className='invoice__btn icon_iDiscount'
-                    title='Edit discount'
+                    title='Add discount'
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={show_discount}
                 >
-                    <img src={discountIcon} alt='Edit discount' />
+                    <img src={discountIcon} alt='Add discount' />
+                </button>
+                <button
+                    className='invoice__btn icon_iFees'
+                    title='Add other fees'
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={show_fees}
+                >
+                    <img src={waletIcon} alt='Add other fees' />
                 </button>
 
                 <section className='invoice__notes'>
@@ -189,6 +225,7 @@ const InvoiceDocFooter = ({
                                 <input
                                     type='text'
                                     id='invoice-discount'
+                                    autoComplete='off'
                                     onChange={handle_discount_edit}
                                 />
                             </form>
@@ -206,6 +243,7 @@ const InvoiceDocFooter = ({
                             type='text'
                             id='invoice-tax'
                             onChange={handle_tax_edit}
+                            autoComplete='off'
                             defaultValue='0%'
                         />
                     </form>
@@ -220,14 +258,30 @@ const InvoiceDocFooter = ({
                             </span>
                         </div>
                     )}
-                    {/* <div>
-                        <span>Other fees*:</span>
-                        <span>
-                            <b>{currency}0.00</b>
-                        </span>
-                    </div> */}
+                    {showFees && (
+                        <Fragment>
+                            <div className='invoice__fees-display'>
+                                <span>Other:</span>
+                                <span>
+                                    <b>
+                                        {currency}
+                                        0.00
+                                    </b>
+                                </span>
+                            </div>
+                            <form className='invoice__fees-form'>
+                                <label htmlFor='invoice-fees'>Other:</label>
+                                <input
+                                    type='text'
+                                    id='invoice-fees'
+                                    autoComplete='off'
+                                    onChange={handle_fees_edit}
+                                />
+                            </form>
+                        </Fragment>
+                    )}
                     <div>
-                        <span>Total:</span>
+                        <span className='sr-only'>Total:</span>
                         <span className='invoice__total-sum'>
                             {currency}
                             {invoice_total_str}
@@ -252,6 +306,7 @@ InvoiceDocFooter.propTypes = {
     updateInvoiceDiscount: PropTypes.func,
     updateInvoiceCurrency: PropTypes.func,
     updateInvoiceTaxRate: PropTypes.func,
+    updateInvoiceOtherFees: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     invoice: state.invoice,
@@ -263,6 +318,7 @@ const mapDispatchToProps = {
     updateInvoiceDiscount,
     updateInvoiceCurrency,
     updateInvoiceTaxRate,
+    updateInvoiceOtherFees,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InvoiceDocFooter);
