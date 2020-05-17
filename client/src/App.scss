@@ -331,6 +331,29 @@ a:focus {
 .btn--disabled {
     opacity: 0.1;
 }
+.btn-icon {
+    display: inline-grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: normal;
+    width: 3.5rem;
+    height: 3.5rem;
+    opacity: 0.3;
+    border: solid 1px #111;
+    margin: 0.2rem;
+    img {
+        height: 1.6rem;
+        margin: auto;
+    }
+}
+.btn-icon:hover {
+    background-color: #f1f1f1;
+}
+.btn-icon:focus {
+    border: dashed 0.1rem #111;
+}
 //====================
 //  HEADINGS STYLING
 //====================

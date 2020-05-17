@@ -6,6 +6,7 @@
     font-weight: bold;
     font-size: 1.6rem;
 }
+.company-invoices,
 .company-tasks {
     max-width: 90rem;
     padding-right: 5%;
@@ -14,4 +15,39 @@
     margin: 0.5rem;
     width: 80rem;
     background-color: #f1f1f1;
+}
+.company-invoices {
+    max-width: 70rem;
+}
+.invoices-table {
+    text-align: left;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0;
+    width: 100%;
+    font-size: 1.2rem;
+    caption {
+        text-align: left;
+        padding-bottom: 1rem;
+    }
+    th[scope='row'] {
+        text-align: left;
+        padding-right: 3rem;
+        padding-left: 3rem;
+        min-width: 40rem;
+        font-weight: bold;
+    }
+    td,
+    th {
+        min-width: 4rem;
+        text-align: right;
+    }
+    tr.tile {
+        margin-left: 0;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+}
+.invoices-date {
+    color: #c5c5c5;
 }

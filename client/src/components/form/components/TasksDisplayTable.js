@@ -37,7 +37,7 @@ const TasksDisplayTable = ({
                 }
             });
         } else {
-            trArr.forEach((tr) => (tr.style.display = 'grid'));
+            trArr.forEach((tr) => (tr.style.display = 'flex'));
         }
     }, [currentTask]);
 

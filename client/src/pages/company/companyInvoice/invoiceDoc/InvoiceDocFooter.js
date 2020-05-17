@@ -35,7 +35,7 @@ const InvoiceDocFooter = ({
             updateInvoiceCurrency(itemWithCurrency.amount.currency);
     }, [tasks]);
 
-    const TXT_INIT_TEXT = 'Edit your notes here...';
+    const TXT_INIT_TEXT = 'Thank you for your business.';
     const [notes, setNotes] = useState(TXT_INIT_TEXT);
     const handle_notes_edit = (e) => {
         let notes = e.target.value;
@@ -146,6 +146,7 @@ const InvoiceDocFooter = ({
         <Fragment>
             <section className='invoice__footer'>
                 <button
+                    type='button'
                     className='invoice__btn icon_iNotes'
                     title='Edit notes'
                     onMouseDown={(e) => e.preventDefault()}
@@ -154,6 +155,7 @@ const InvoiceDocFooter = ({
                     <img src={notesIcon} alt='Edit notes' />
                 </button>
                 <button
+                    type='button'
                     className='invoice__btn icon_iDiscount'
                     title='Add discount'
                     onMouseDown={(e) => e.preventDefault()}
@@ -162,6 +164,7 @@ const InvoiceDocFooter = ({
                     <img src={discountIcon} alt='Add discount' />
                 </button>
                 <button
+                    type='button'
                     className='invoice__btn icon_iFees'
                     title='Add other fees'
                     onMouseDown={(e) => e.preventDefault()}
@@ -173,7 +176,7 @@ const InvoiceDocFooter = ({
                 <section className='invoice__notes'>
                     <div className='invoice__notes-display'>
                         <h3>
-                            <b>Notes*:</b>
+                            <b>Notes:</b>
                         </h3>
                         <p>{notes}</p>
                     </div>
@@ -183,7 +186,7 @@ const InvoiceDocFooter = ({
                     <div className='invoice__notes-form'>
                         <form>
                             <label htmlFor='invoice-notes'>
-                                <b> Notes*:</b>
+                                <b> Notes:</b>
                             </label>
                             <textarea
                                 id='invoice-notes'

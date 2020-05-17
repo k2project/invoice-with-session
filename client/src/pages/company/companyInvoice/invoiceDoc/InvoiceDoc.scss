@@ -1,11 +1,80 @@
 @import '../../../../App.scss';
 //width: 80rem;
+
+.txt-white {
+    color: #fff;
+}
+.txt-black {
+    color: #111;
+}
+.bg-black {
+    background-color: #000;
+    color: #fff;
+}
+.bg-grey {
+    background-color: #5f7c8a;
+}
+.bg-brown {
+    background-color: #785447;
+}
+.bg-bright-orange {
+    background-color: #ff872b;
+}
+.bg-orange {
+    background-color: #eb9346;
+}
+.bg-yellow {
+    background-color: #ffd455;
+}
+.bg-yellow-green {
+    background-color: #d8e465;
+}
+.bg-light-green {
+    background-color: #8bc34a;
+}
+.bg-green {
+    background-color: #4baf50;
+}
+.bg-dark-green {
+    background-color: #009688;
+}
+.bg-see-blue {
+    background-color: #01bcd5;
+}
+.bg-light-blue {
+    background-color: #03a9f4;
+}
+.bg-blue {
+    background-color: #2065a8;
+}
+.bg-dark-blue {
+    background-color: #203354;
+}
+.bg-dark-purple {
+    background-color: #3f50b6;
+}
+.bg-purple {
+    background-color: #673bb7;
+}
+.bg-purple-pink {
+    background-color: #9c27b0;
+}
+.bg-pink {
+    background-color: #e91f63;
+}
+.bg-dark-pink {
+    background-color: #d5133a;
+}
+.bg-red {
+    background-color: #f44337;
+}
 #invoice {
     font-size: 1.2rem;
     margin-bottom: 3rem;
     .txt--right {
         text-align: right;
     }
+    //side btns
     .invoice__btn {
         position: absolute;
         right: -8.2rem;
@@ -90,9 +159,26 @@
         }
         b {
             font-size: 1.6rem;
-            display: block;
+            display: inline-block;
             margin-bottom: 1rem;
             padding-bottom: 0.4rem;
+        }
+        a {
+            display: inline-block;
+            padding: 0.3rem;
+            margin-left: 1rem;
+            top: 0.2rem;
+            opacity: 0.3;
+        }
+        a:focus {
+            border: dashed 0.1rem #111;
+        }
+        a:hover {
+            opacity: 0.5;
+        }
+        img {
+            height: 2rem;
+            top: 0.2rem;
         }
     }
     h1 {
@@ -123,7 +209,7 @@
         padding: 2rem 5rem 5rem;
         text-align: center;
         color: #c5c5c5;
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 }
 .color-picker {
@@ -166,74 +252,6 @@
         top: -0.1rem;
     }
 }
-.txt-white {
-    color: #fff;
-}
-.txt-black {
-    color: #111;
-}
-.bg-black {
-    background-color: #000;
-    color: #fff;
-}
-.bg-grey {
-    background-color: #5f7c8a;
-}
-.bg-brown {
-    background-color: #785447;
-}
-.bg-bright-orange {
-    background-color: #ff872b;
-}
-.bg-orange {
-    background-color: #eb9346;
-}
-.bg-yellow {
-    background-color: #ffd455;
-}
-.bg-yellow-green {
-    background-color: #d8e465;
-}
-.bg-light-green {
-    background-color: #8bc34a;
-}
-.bg-green {
-    background-color: #4baf50;
-}
-.bg-dark-green {
-    background-color: #009688;
-}
-.bg-see-blue {
-    background-color: #01bcd5;
-}
-.bg-light-blue {
-    background-color: #03a9f4;
-}
-.bg-blue {
-    background-color: #2065a8;
-}
-.bg-dark-blue {
-    background-color: #203354;
-}
-.bg-dark-purple {
-    background-color: #3f50b6;
-}
-.bg-purple {
-    background-color: #673bb7;
-}
-.bg-purple-pink {
-    background-color: #9c27b0;
-}
-.bg-pink {
-    background-color: #e91f63;
-}
-.bg-dark-pink {
-    background-color: #d5133a;
-}
-.bg-red {
-    background-color: #f44337;
-}
-
 .invoice-recepient {
     background-color: #fff;
     padding: 3rem 5rem 1rem;
@@ -410,7 +428,7 @@ tr > .invoice__td-btn {
 }
 
 .invoice__total {
-    padding: 4rem 5rem 4rem 3rem;
+    padding: 5rem 5rem 4rem 3rem;
     text-align: right;
     font-size: 1.4rem;
     display: grid;
@@ -470,6 +488,7 @@ tr > .invoice__td-btn {
     #invoice {
         transform: scale(0.8);
         left: -8rem;
-        margin-top: -2.2rem;
+        top: -12rem;
+        margin: 0 0 -22rem;
     }
 }

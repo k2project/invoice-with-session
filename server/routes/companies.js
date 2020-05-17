@@ -42,6 +42,7 @@ companiesRoutes.post('/', auth, async (req, res) => {
             user: req.session.userID,
             details: req.body,
             tasks: [],
+            invoices: [],
         });
         await company.save();
         //return company's id for redirection to the company's page
@@ -140,7 +141,7 @@ companiesRoutes.put('/task/:companyID', auth, async (req, res) => {
         res.end();
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Server error ---> adding/updating a task');
+        return res.status(500).send('Server error ---> deleting a task');
     }
 });
 //@route    DELETE api/companies/:company_id
@@ -155,5 +156,60 @@ companiesRoutes.delete('/:company_id', auth, async (req, res) => {
         return res.status(500).send('Server error');
     }
 });
+//@route    POST api/companies/invoice/:companyID
+//@desc     Add/Update an invoice
+//@status   Private
+companiesRoutes.post('/invoice/:companyID', auth, async (req, res) => {
+    try {
+        let company = await Company.findOne({
+            _id: req.params.companyID,
+        });
 
+        const { invoices } = company;
+        const indexOfInvoice = Number(
+            invoices.findIndex((invoice) => invoice._id === req.body._id)
+        );
+        if (indexOfInvoice === -1) {
+            invoices.push(req.body.invoice);
+        } else {
+            invoices.splice(indexOfInvoice, 1, req.body.invoice);
+        }
+        company.invoices = invoices;
+        //remove tasks that have been added to the invoice
+        company.tasks = req.body.tasks;
+        await company.save();
+        res.end();
+    } catch (err) {
+        console.error(err.message);
+        return res
+            .status(500)
+            .send('Server error ---> adding/updating an invoice');
+    }
+});
+//@route    PUT api/companies/invoice/:companyID
+//@desc     Delete an invoice
+//@status   Private
+companiesRoutes.put('/invoice/:companyID', auth, async (req, res) => {
+    try {
+        let company = await Company.findOne({
+            _id: req.params.companyID,
+        });
+
+        const { invoices } = company;
+        const indexOfInvoice = Number(
+            invoices.findIndex((invoice) => invoice._id === req.body.id)
+        );
+        if (indexOfInvoice === -1) {
+            return res.status(400).send("Couldn't find the invoice to delete.");
+        } else {
+            invoices.splice(indexOfInvoice, 1);
+        }
+        company.invoices = invoices;
+        await company.save();
+        res.end();
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server error ---> deleting an invoice');
+    }
+});
 module.exports = companiesRoutes;

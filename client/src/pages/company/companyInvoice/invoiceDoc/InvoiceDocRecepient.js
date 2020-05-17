@@ -121,6 +121,7 @@ const InvoiceDocRecepient = ({
                         </p>
                     )}
                     <button
+                        type='button'
                         className='invoice__btn'
                         title='Change Profile details'
                         onMouseDown={(e) => e.preventDefault()}
@@ -132,6 +133,7 @@ const InvoiceDocRecepient = ({
                         />
                     </button>
                     <button
+                        type='button'
                         className='invoice__btn icon_issue-date'
                         title='Change issue date'
                         onMouseDown={(e) => e.preventDefault()}
@@ -140,6 +142,7 @@ const InvoiceDocRecepient = ({
                         <img src={calendarIcon} alt='Change issue date' />
                     </button>
                     <button
+                        type='button'
                         className='invoice__btn icon_due-date'
                         title='Change due date'
                         onMouseDown={(e) => e.preventDefault()}
@@ -156,6 +159,7 @@ const InvoiceDocRecepient = ({
                         updateState={updateInvoiceCompany}
                     />
                     <button
+                        type='button'
                         className='close'
                         onClick={() => setShowCompanyDetails(false)}
                         onMouseDown={(e) => e.preventDefault()}
@@ -176,6 +180,7 @@ const InvoiceDocRecepient = ({
                                 cb={(date) => updateInvoiceIssueDate(date)}
                             />
                             <button
+                                type='button'
                                 className='close'
                                 onClick={() => setShowIssueDateCalendar(false)}
                                 onMouseDown={(e) => e.preventDefault()}
@@ -195,6 +200,7 @@ const InvoiceDocRecepient = ({
                                 cb={(date) => updateInvoiceDueDate(date)}
                             />
                             <button
+                                type='button'
                                 className='close'
                                 onClick={() => setShowDueDateCalendar(false)}
                                 onMouseDown={(e) => e.preventDefault()}

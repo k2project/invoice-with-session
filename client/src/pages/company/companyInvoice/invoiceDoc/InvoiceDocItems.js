@@ -10,7 +10,9 @@ import plusIcon from '../../../../imgs/icons/plusIcon.png';
 import updateIcon from '../../../../imgs/icons/updateIcon.png';
 import tasksIcon from '../../../../imgs/icons/tasksIcon.png';
 
-const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
+const InvoiceDocItems = ({ company, setCurrentTask, currentTask }) => {
+    let { tasks } = company;
+    //if invoice update add invoice's tasks to the company's tasks arr
     //display recepient details in the invoice
     const tasksDetails = tasks
         .filter((t) => t.addToInvoice)
@@ -28,6 +30,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                     <td className='invoice__td-amount'>{amount}</td>
                     <td className='invoice__td-btn'>
                         <button
+                            type='button'
                             className='invoice__btn invice__btn--rel'
                             title='Update Items'
                             onMouseDown={(e) => e.preventDefault()}
@@ -39,35 +42,8 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                 </tr>
             );
         });
-    //create page break
-    // useEffect(() => {
-    //     // create page-break el
-    //     let el = document.createElement('tbody');
-    //     el.setAttribute('aria-hidden', 'true');
-    //     el.className = 'page-break';
-    //     el.innerHTML = `<tr><td colSpan="5" ></td><th></th></tr>`;
-    //     //calculate the break
-    //     const tr_arr = document.querySelectorAll('.invoice__items-tbody tr');
-    //     const invoice = document.getElementById('invoice');
-    //     const invoice_top = invoice.getBoundingClientRect().top;
-    //     //A4 = 2480 x 3508 px
-    //     //invoice width 800px
-    //     const A4_HEIGHT = (3508 * 800) / 2480;
-    //     const PAGE_MARGIN_BTM = 50;
-    //     const page_height = A4_HEIGHT - PAGE_MARGIN_BTM;
-    //     console.log(invoice_top, page_height);
-    //     tr_arr.forEach((tr, i) => {
-    //         let tr_top = tr.getBoundingClientRect().top;
-    //         tr_top = tr_top - invoice_top;
-    //         console.log(i + 1, ':', tr_top);
-    //     });
-    //     //insert page-break el
-    //     // const tr = document.querySelector(
-    //     //     '.invoice__items-tbody tr:nth-child(3)'
-    //     // );
-    //     // tr.after(el);
-    // }, [tasks]);
-    const [showTasks, setShowTasks] = useState(false);
+
+    const [showTasks, setShowTasks] = useState(true);
     const open_tasks = async () => {
         if (showTasks === true || tasks.length === 0)
             return setShowTasks(false);
@@ -75,7 +51,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
         document.querySelector('.tasks-table tbody').focus();
     };
 
-    const [showTaskForm, setShowTaskForm] = useState(false);
+    const [showTaskForm, setShowTaskForm] = useState(true);
     const open_task_form = async () => {
         //toggle show form only when the plus icon clicked again
         //if form opened for update already, clear inputs
@@ -104,14 +80,17 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
             <section className='invoice__items'>
                 <h2 className='sr-only'>Invoice items display.</h2>
                 <div>
-                    <button
-                        className='invoice__btn icon_iTasks'
-                        title='Display All Items'
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={open_tasks}
-                    >
-                        <img src={tasksIcon} alt='Display All Items' />
-                    </button>
+                    {tasks.length > 0 && (
+                        <button
+                            type='button'
+                            className='invoice__btn icon_iTasks'
+                            title='Display All Items'
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={open_tasks}
+                        >
+                            <img src={tasksIcon} alt='Display All Items' />
+                        </button>
+                    )}
                 </div>
             </section>
             <section className='invoice__items'>
@@ -147,6 +126,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                 </table>
                 <div className='invoice__items-btm'>
                     <button
+                        type='button'
                         className='invoice__btn icon_iAdd-task'
                         title='Add a new item.'
                         onMouseDown={(e) => e.preventDefault()}
@@ -164,6 +144,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                     </h3>
                     <TaskDisplayTable />
                     <button
+                        type='button'
                         className='close'
                         onClick={() => setShowTasks(false)}
                         onMouseDown={(e) => e.preventDefault()}
@@ -172,6 +153,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                     </button>
                 </section>
             )}
+
             {showTaskForm && (
                 <section className='invoice__task-form'>
                     <h3 className='sr-only'>
@@ -179,6 +161,7 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
                     </h3>
                     <TaskForm />
                     <button
+                        type='button'
                         className='close'
                         onClick={() => setShowTaskForm(false)}
                         onMouseDown={(e) => e.preventDefault()}
@@ -192,13 +175,14 @@ const InvoiceDocItems = ({ tasks, setCurrentTask, currentTask }) => {
 };
 
 InvoiceDocItems.propTypes = {
-    tasks: PropTypes.array,
+    company: PropTypes.object,
     setCurrentTask: PropTypes.func,
     currentTask: PropTypes.object,
 };
 const mapStateToProps = (state) => ({
-    tasks: state.companies.find((c) => c._id === state.session.currentCompany)
-        .tasks,
+    company: state.companies.find(
+        (c) => c._id === state.session.currentCompany
+    ),
     currentTask: state.session.currentTask,
 });
 const mapDispatchToProps = {

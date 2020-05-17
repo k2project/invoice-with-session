@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setInvoiceInitState } from '../../../redux/actions/invoice';
+import { updateCompanyArr } from '../../../redux/actions/companies';
 import InvoiceDoc from './invoiceDoc/InvoiceDoc';
 import NewInvoiceSubmit from './NewInvoiceSubmit';
 import { alertUnsavedChanges } from '../../../components/form/utils/handleUnsavedChanges';
@@ -11,6 +12,7 @@ import {
     date_YYYY_MM,
     date_DD_MM_YYYY,
 } from '../../../components/calendar/dates';
+import { v4 as uuidv4 } from 'uuid';
 
 class NewInvoice extends Component {
     constructor(props) {
@@ -25,6 +27,7 @@ class NewInvoice extends Component {
         );
     }
     handleChanges() {
+        // IMPORTANT! on cancelation restet company's details ( remove tasks added on invoice update)
         //BECAUSE TASKS CAN BE AMENDED UPDATED IN FORM HENCE NEED TO CHECK INIT STATE AGAINST COMPANY.TASKS NOT INVOICE.TASKS!!!
         // alertUnsavedChanges(
         //     this.state.invoice, //initial state
@@ -46,11 +49,25 @@ class NewInvoice extends Component {
         const searchArr = window.location.search.split('&');
         if (searchArr[1]) {
             //updating an existing invoice
-            const invoiceID = searchArr[1].slice(8);
+            //?updating=...
+            //downlaoding an existing invoice
+            //?download=...
+            const invoice_ID = searchArr[1].slice(9);
+            const invoiceToLoad = this.props.company.invoices.find(
+                (invoice) => invoice._id === invoice_ID
+            );
             //invoiceInitState from the invoices arr
-            invoiceInitState = {
-                _id: invoiceID,
-            };
+            invoiceInitState = invoiceToLoad;
+            //add invoice tasks to existing tasks of the current company
+            const arrOfTasks = [
+                ...invoiceToLoad.tasks,
+                ...this.props.company.tasks,
+            ];
+            this.props.updateCompanyArr(
+                'tasks',
+                arrOfTasks,
+                this.props.company._id
+            );
         } else {
             //create invoice name
             let company_abbr = getInputValueByLabel(
@@ -78,6 +95,8 @@ class NewInvoice extends Component {
             let due_date = date_DD_MM_YYYY(new Date().getTime() + TWO_WEEKS);
             //a new invoice
             invoiceInitState = {
+                _id: uuidv4(),
+                created_at: new Date(),
                 saved_as,
                 issue_date: date_DD_MM_YYYY(new Date()),
                 due_date,
@@ -86,6 +105,10 @@ class NewInvoice extends Component {
                 profile: JSON.parse(JSON.stringify(this.props.profile.details)),
                 company: JSON.parse(JSON.stringify(this.props.company.details)),
                 tasks: JSON.parse(JSON.stringify(this.props.company.tasks)),
+                discount: 0,
+                tax: 0,
+                fees: 0,
+                notes: 'Thank you for your business.',
             };
         }
         //set init state for comparison on component unmounting
@@ -118,6 +141,7 @@ NewInvoice.propTypes = {
     profile: PropTypes.object,
     company: PropTypes.object,
     invoice: PropTypes.object,
+    updateCompanyArr: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -131,6 +155,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     setInvoiceInitState,
+    updateCompanyArr,
 };
 
 export default connect(

@@ -9,6 +9,7 @@ import CompanyUpdate from './CompanyUpdate';
 import CompanyDetails from './CompanyDetails';
 import CompanyTasks from './CompanyTasks';
 import NewInvoice from './companyInvoice/NewInvoice';
+import CompanyInvoices from './CompanyInvoices';
 
 import './Company.scss';
 
@@ -40,12 +41,7 @@ export const Company = ({ companies, setCurrentCompany }) => {
                     )}
                     {tab === 'tasks' && <CompanyTasks />}
                     {tab === 'invoice' && <NewInvoice />}
-                    {/* <Link
-                        to={`/dashboard/companies/${company._id}?tab=invoice&invoice=327h2gds7gdb83`}
-                        className='submenu__btn'
-                        onMouseDown={(e) => e.preventDefault()}
-                    /> */}
-                    {tab === 'invoices' && <div className='tile'>invoices</div>}
+                    {tab === 'invoices' && <CompanyInvoices />}
                     {tab === 'details' && <CompanyDetails />}
                     {tab === 'update' && <CompanyUpdate />}
                 </Fragment>

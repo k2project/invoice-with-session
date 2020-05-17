@@ -12,6 +12,9 @@ const CompanySchema = new mongoose.Schema(
         tasks: {
             type: Array,
         },
+        invoices: {
+            type: Array,
+        },
     },
     { timestamps: true }
 );

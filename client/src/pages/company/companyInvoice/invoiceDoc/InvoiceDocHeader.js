@@ -9,6 +9,7 @@ import {
 import DetailsDisplayTable from '../../../../components/form/components/DetailsDisplayTable';
 import settingsIcon from '../../../../imgs/icons/cogs.png';
 import profileIcon from '../../../../imgs/icons/profileIcon.png';
+import helpIcon from '../../../../imgs/icons/helpIcon.png';
 
 const InvoiceDocHeader = ({
     invoice,
@@ -86,6 +87,7 @@ const InvoiceDocHeader = ({
             title={color[0]}
         >
             <button
+                type='button'
                 onClick={() => {
                     changeInvoiceColors([color[1], invoice.text_color]);
                     localStorage.setItem('invoice_bg', color[1]);
@@ -107,6 +109,7 @@ const InvoiceDocHeader = ({
             title={color[0]}
         >
             <button
+                type='button'
                 onClick={() => {
                     changeInvoiceColors([invoice.bg_color, color[1]]);
                     localStorage.setItem('invoice_txt', color[1]);
@@ -136,6 +139,7 @@ const InvoiceDocHeader = ({
                         </ul>
                     </section>
                     <button
+                        type='button'
                         className='close'
                         onClick={() => setSettings(false)}
                         onMouseDown={(e) => e.preventDefault()}
@@ -148,6 +152,7 @@ const InvoiceDocHeader = ({
                 className={`bg-${invoice.bg_color} txt-${invoice.text_color}`}
             >
                 <button
+                    type='button'
                     className='invoice__btn icon_iSettings'
                     title='Change invoice settings'
                     onClick={open_settings}
@@ -158,9 +163,17 @@ const InvoiceDocHeader = ({
                 <div>
                     <h1>invoice</h1>
                     <b>#{invoice.saved_as}</b>
+                    <a
+                        href='#save-as'
+                        title='Change invoice number'
+                        onMouseDown={(e) => e.preventDefault()}
+                    >
+                        <img src={helpIcon} alt='Change invoice number' />
+                    </a>
                 </div>
                 <div className='txt--right'>
                     <button
+                        type='button'
                         className='invoice__btn'
                         title='Change Profile details'
                         onMouseDown={(e) => e.preventDefault()}
@@ -178,6 +191,7 @@ const InvoiceDocHeader = ({
                         updateState={updateInvoiceProfile}
                     />
                     <button
+                        type='button'
                         className='close'
                         onClick={() => setShowProfile(false)}
                         onMouseDown={(e) => e.preventDefault()}

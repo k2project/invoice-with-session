@@ -328,6 +328,10 @@ textarea:focus {
         outline: none;
     }
 }
+//hide addToInvoice btn in company tasks tab
+.company-tasks .included {
+    display: none;
+}
 .task-form {
     width: 100%;
     margin-top: -2rem;

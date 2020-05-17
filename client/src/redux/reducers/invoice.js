@@ -14,12 +14,16 @@ import {
 
 const initialState = {
     // _id, created_at, saved_as, issue_date, due_date, notes, discount, currency, tax , fees
-    bg_color: 'orange',
-    text_color: '#111',
-    notes: null,
+    bg_color: 'blue',
+    text_color: 'white',
     profile: [],
     company: [],
     tasks: [],
+    notes: null,
+    discount: 0,
+    tax: 0,
+    fees: 0,
+    currency: 'Thank you for your business.',
 };
 
 export default function (state = initialState, { type, payload }) {

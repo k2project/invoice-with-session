@@ -80,6 +80,7 @@ body {
 li {
     list-style: none;
 }
+
 header {
     display: flex;
     align-items: flex-end;
@@ -98,7 +99,9 @@ header b {
 header ul {
     margin-bottom: 0;
 }
-
+header img {
+    display: none;
+}
 h1 {
     font-family: 'Audiowide', serif;
     font-size: 60px;
@@ -148,6 +151,9 @@ p.invoice__address-btm {
 }
 .invoice__items {
     padding: 0 60px;
+}
+.invoice__items table {
+    width: 100%;
 }
 .invoice__items td,
 .invoice__items th {
@@ -220,14 +226,30 @@ p.invoice__address-btm {
 }
 
 .invoice__total {
-    padding-left: 20px;
-    padding-right: 60px;
-    display: flex;
-    align-items: flex-end;
+    padding: 40px 60px 30px 20px;
+    font-size: 12px;
+    display: grid;
+    align-content: end;
 }
 .invoice__total div {
     width: 100%;
     text-align: right;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: end;
+    margin-bottom: 3px;
+}
+.invoice__total .invoice__fees-display,
+.invoice__total .invoice__tax-display,
+.invoice__total .invoice__discount-display {
+    display: grid;
+}
+.invoice__total-sum {
+    display: block;
+    font-size: 26px;
+    font-weight: bold;
+    padding-top: 10px;
+    grid-column: span 2;
 }
 .invoice__cover {
     position: absolute;
@@ -244,6 +266,9 @@ footer {
     color: #c5c5c5;
     font-size: 9px;
 }
+.invoice__fees-form,
+.invoice__tax-form,
+.invoice__discount-form,
 .invoice__discount-form,
 .invoice__notes-form,
 .page-break,
@@ -415,7 +440,6 @@ PRINT PAGE - PDF
     .invoice__items {
         padding: 0 60px;
     }
-
     .invoice__items td,
     .invoice__items th {
         padding: 10px 0 10px 10px;
@@ -487,14 +511,30 @@ PRINT PAGE - PDF
     }
 
     .invoice__total {
-        padding-left: 20px;
-        padding-right: 60px;
-        display: flex;
-        align-items: flex-end;
+        padding: 40px 60px 30px 20px;
+        font-size: 12px;
+        display: grid;
+        align-content: end;
     }
     .invoice__total div {
         width: 100%;
         text-align: right;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: end;
+        margin-bottom: 3px;
+    }
+    .invoice__total .invoice__fees-display,
+    .invoice__total .invoice__tax-display,
+    .invoice__total .invoice__discount-display {
+        display: grid;
+    }
+    .invoice__total-sum {
+        display: block;
+        font-size: 26px;
+        font-weight: bold;
+        padding-top: 10px;
+        grid-column: span 2;
     }
     .invoice__cover {
         position: absolute;
@@ -509,8 +549,12 @@ PRINT PAGE - PDF
         padding: 40px 60px 60px;
         text-align: center;
         color: #c5c5c5;
-        font-size: 9px;
+        font-size: 10px;
     }
+    .invoice__fees-form,
+    .invoice__tax-form,
+    .invoice__discount-form,
+    .invoice__discount-form,
     .invoice__notes-form,
     .page-break,
     .invoice__task-form,

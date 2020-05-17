@@ -15,6 +15,8 @@ export default function (state = initialState, { type, payload }) {
             return [];
 
         case UPDATE_COMPANY:
+            //property and arr: details / imvoices
+            //id : company id
             const { property, arr, id } = payload;
             const companyToUpdateIndex = state.findIndex((c) => c._id === id);
             const companyToUpdate = state[companyToUpdateIndex];

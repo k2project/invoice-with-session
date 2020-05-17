@@ -1,10 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import { connect } from 'react-redux';
+import { getAllCompanies } from '../../../redux/actions/companies';
 import FormInput from '../../../components/form/components/FormInput';
+import { setAlert } from '../../../redux/actions/messages';
 
-export const NewInvoiceSubmit = ({ company, invoice, history }) => {
+export const NewInvoiceSubmit = ({
+    company,
+    invoice,
+    getAllCompanies,
+    setAlert,
+    history,
+}) => {
+    useEffect(() => {
+        const searchArr = window.location.search.split('&');
+        if (searchArr[1]) {
+            //downlaoding an existing invoice
+            //?download=...
+            const download = searchArr[1].slice(0, 8);
+            const invoice = document.getElementById('invoice');
+            if (download && invoice) {
+                downloadInvoice();
+                history.push(
+                    `/dashboard/companies/${company._id}?tab=invoices`
+                );
+            }
+        }
+    });
     const downloadInvoice = () => {
         const invoice = document.getElementById('invoice').innerHTML;
         const pdf = window.open();
@@ -35,18 +59,48 @@ export const NewInvoiceSubmit = ({ company, invoice, history }) => {
         saveAs: invoice.saved_as,
         errors: [],
     });
-    const saveInvoice = () => {
+    const saveInvoice = async (e) => {
+        e.preventDefault();
+        console.log(invoice);
         //save invoice state
-        //clear invoice doc
-        setSaveAs(false);
-        history.push(`/dashboard/companies/${company._id}?tab=invoices`);
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+
+            const tasksIncludedInInvoice = company.tasks.filter(
+                (t) => t.addToInvoice
+            );
+            if (tasksIncludedInInvoice.length === 0)
+                return setAlert(
+                    'There is no items in the invoice to be saved. Please add a new item.',
+                    'danger',
+                    null,
+                    false,
+                    10000
+                );
+            invoice.tasks = tasksIncludedInInvoice;
+            const tasks = company.tasks.filter((t) => !t.addToInvoice);
+            await axios.post(
+                `/api/companies/invoice/${company._id}`,
+                JSON.stringify({ invoice, tasks }),
+                config
+            );
+            getAllCompanies();
+            setSaveAs(false);
+            history.push(`/dashboard/companies/${company._id}?tab=invoices`);
+        } catch (err) {
+            console.log('Invoice saving err:', err);
+        }
     };
 
     return (
         <section>
             <h3 className='sr-only'>Save or download invoice form.</h3>
             {saveAs && (
-                <form className='form__save-as'>
+                <form className='form__save-as' onSubmit={saveInvoice}>
                     <FormInput
                         form={{ formData, setFormData }}
                         name='saveAs'
@@ -55,13 +109,17 @@ export const NewInvoiceSubmit = ({ company, invoice, history }) => {
                         <b>Save as: </b>
                     </FormInput>
                     <button
+                        type='submit'
                         className='btn btn--info btn--sibling'
-                        onClick={saveInvoice}
                     >
                         {' '}
                         Save
                     </button>
-                    <button className='btn' onClick={() => setSaveAs(false)}>
+                    <button
+                        type='button'
+                        className='btn'
+                        onClick={() => setSaveAs(false)}
+                    >
                         {' '}
                         Cancel
                     </button>
@@ -69,12 +127,21 @@ export const NewInvoiceSubmit = ({ company, invoice, history }) => {
             )}
 
             {!saveAs && (
-                <button className='btn btn--sibling' onClick={show_form}>
-                    Save
+                <button
+                    type='button'
+                    className='btn btn--sibling'
+                    onClick={show_form}
+                    id='save-as'
+                >
+                    Save As
                 </button>
             )}
             {!saveAs && (
-                <button className='btn btn--info' onClick={downloadInvoice}>
+                <button
+                    type='button'
+                    className='btn btn--info'
+                    onClick={downloadInvoice}
+                >
                     Download*
                 </button>
             )}
@@ -95,6 +162,8 @@ export const NewInvoiceSubmit = ({ company, invoice, history }) => {
 NewInvoiceSubmit.propTypes = {
     company: PropTypes.object,
     invoice: PropTypes.object,
+    getAllCompanies: PropTypes.func,
+    setAlert: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -104,7 +173,10 @@ const mapStateToProps = (state) => ({
     invoice: state.invoice,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    getAllCompanies,
+    setAlert,
+};
 
 export default connect(
     mapStateToProps,

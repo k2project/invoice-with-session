@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
@@ -29,7 +30,8 @@ export const TaskForm = ({
         tax: '0%',
         errors: [],
     };
-
+    const searchArr = useLocation().search.split('&');
+    const tab = searchArr[0].slice(5);
     const [formData, setFormData] = useState(initState);
     useEffect(() => {
         if (currentTask) {
@@ -111,7 +113,7 @@ export const TaskForm = ({
                     rate_obj.currency + toNumberWithCommas(rate_obj.numValue);
             }
         }
-        console.log(rate_obj);
+
         //validate tax input
         tax = tax.trim();
         const tax_numerical_value = validateTaxInputValueToNum(tax);
@@ -179,7 +181,11 @@ export const TaskForm = ({
                 amount,
             };
             task._id = currentTask ? currentTask._id : uuidv4();
-            task.addToInvoice = currentTask ? currentTask.addToInvoice : true;
+
+            const addToInvoiceForNewEntry = tab === 'invoice' ? true : false;
+            task.addToInvoice = currentTask
+                ? currentTask.addToInvoice
+                : addToInvoiceForNewEntry;
             task.createdAt = currentTask ? currentTask.createdAt : new Date();
 
             await axios.post(
