@@ -27,12 +27,17 @@ const InvoiceDocFooter = ({
     updateInvoiceOtherFees,
     tasks,
 }) => {
-    const currency = invoice.currency || '';
     const [errors, setErrors] = useState(null);
     useEffect(() => {
-        const itemWithCurrency = tasks.find((t) => t.amount.currency);
-        if (itemWithCurrency)
-            updateInvoiceCurrency(itemWithCurrency.amount.currency);
+        const itemWithCurrency = tasks
+            .filter((t) => t.addToInvoice)
+            .find((t) => t.amount.currency);
+        if (itemWithCurrency) {
+            let currency = itemWithCurrency.amount.currency;
+            updateInvoiceCurrency(currency);
+        } else {
+            updateInvoiceCurrency('');
+        }
     }, [tasks]);
 
     const TXT_INIT_TEXT = 'Thank you for your business.';
@@ -88,7 +93,7 @@ const InvoiceDocFooter = ({
         //move cursor to the end of text by reseting value to empty string befor setting focus on the el
         input.value = '';
         input.focus();
-        input.value = stateValue || `${currency}0.00`;
+        input.value = stateValue || `${invoice.currency}0.00`;
     };
     const [tax, setTax] = useState(0);
     const handle_tax_edit = (e) => {
@@ -117,7 +122,6 @@ const InvoiceDocFooter = ({
     const handle_fees_edit = (e) => {
         setErrors(null);
         let fees = e.target.value;
-        //return {currency, numValue}
         fees = validateRateInputToObj(fees);
         if (fees === null)
             return setErrors(
@@ -129,10 +133,12 @@ const InvoiceDocFooter = ({
 
     //TOTAL CALCULATION
 
-    let net_total_num = tasks.reduce((sum, t) => {
-        if (t.amount.amountNet) return sum + t.amount.amountNet;
-        return sum;
-    }, 0);
+    let net_total_num = tasks
+        .filter((t) => t.addToInvoice)
+        .reduce((sum, t) => {
+            if (t.amount.amountNet) return sum + t.amount.amountNet;
+            return sum;
+        }, 0);
     const net_total_str = toNumberWithCommas(net_total_num) || '0.00';
     net_total_num = net_total_num - discount;
 
@@ -205,7 +211,7 @@ const InvoiceDocFooter = ({
                         <span>Subtotal:</span>
                         <span>
                             <b>
-                                {currency}
+                                {invoice.currency}
                                 {net_total_str}
                             </b>
                         </span>
@@ -216,8 +222,8 @@ const InvoiceDocFooter = ({
                                 <span>Discount:</span>
                                 <span>
                                     <b>
-                                        {currency}
-                                        0.00
+                                        {invoice.currency}
+                                        {invoice.discount}
                                     </b>
                                 </span>
                             </div>
@@ -255,7 +261,7 @@ const InvoiceDocFooter = ({
                             <span>Tax Amount:</span>
                             <span>
                                 <b>
-                                    {currency}
+                                    {invoice.currency}
                                     {tax_total_str}
                                 </b>
                             </span>
@@ -267,8 +273,8 @@ const InvoiceDocFooter = ({
                                 <span>Other:</span>
                                 <span>
                                     <b>
-                                        {currency}
-                                        0.00
+                                        {invoice.currency}
+                                        {invoice.fees}
                                     </b>
                                 </span>
                             </div>
@@ -286,7 +292,7 @@ const InvoiceDocFooter = ({
                     <div>
                         <span className='sr-only'>Total:</span>
                         <span className='invoice__total-sum'>
-                            {currency}
+                            {invoice.currency}
                             {invoice_total_str}
                         </span>
                     </div>

@@ -232,6 +232,7 @@ textarea:focus {
     th,
     td {
         background-color: #fff;
+        min-width: 4.5rem;
     }
 
     tr {
@@ -280,7 +281,7 @@ textarea:focus {
     font-size: 1.2rem;
     td,
     th {
-        width: 12%;
+        width: 10%;
         text-align: right;
     }
     tr.tile {
@@ -295,19 +296,19 @@ textarea:focus {
     }
 
     .td__btn {
-        width: 4rem;
+        width: 4.5rem;
     }
     th[scope='row'] {
         text-align: left;
         padding-right: 2rem;
-        width: 50%;
+        width: 55%;
     }
     .td__value {
         padding: 0 1rem;
     }
 
     .td__date {
-        width: 4rem;
+        width: 5rem;
         text-align: center;
         img {
             height: 2.8rem;

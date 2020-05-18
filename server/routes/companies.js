@@ -100,17 +100,7 @@ companiesRoutes.post('/task/:companyID', auth, async (req, res) => {
         let company = await Company.findOne({
             _id: req.params.companyID,
         });
-
-        const { tasks } = company;
-        const indexOfTask = Number(
-            tasks.findIndex((task) => task._id === req.body._id)
-        );
-        if (indexOfTask === -1) {
-            tasks.push(req.body);
-        } else {
-            tasks.splice(indexOfTask, 1, req.body);
-        }
-        company.tasks = tasks;
+        company.tasks = req.body;
         await company.save();
         res.end();
     } catch (err) {
@@ -167,7 +157,9 @@ companiesRoutes.post('/invoice/:companyID', auth, async (req, res) => {
 
         const { invoices } = company;
         const indexOfInvoice = Number(
-            invoices.findIndex((invoice) => invoice._id === req.body._id)
+            invoices.findIndex(
+                (invoice) => invoice._id === req.body.invoice._id
+            )
         );
         if (indexOfInvoice === -1) {
             invoices.push(req.body.invoice);

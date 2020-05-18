@@ -19,11 +19,11 @@ const initialState = {
     profile: [],
     company: [],
     tasks: [],
-    notes: null,
+    notes: 'Thank you for your business.',
     discount: 0,
     tax: 0,
     fees: 0,
-    currency: 'Thank you for your business.',
+    currency: '',
 };
 
 export default function (state = initialState, { type, payload }) {

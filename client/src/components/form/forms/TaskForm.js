@@ -188,9 +188,18 @@ export const TaskForm = ({
                 : addToInvoiceForNewEntry;
             task.createdAt = currentTask ? currentTask.createdAt : new Date();
 
+            if (currentTask) {
+                const indexOfTask = Number(
+                    tasks.findIndex((task) => task._id === currentTask._id)
+                );
+                tasks.splice(indexOfTask, 1, task);
+            } else {
+                tasks.push(task);
+            }
+
             await axios.post(
                 `/api/companies/task/${currentCompany}`,
-                JSON.stringify(task),
+                JSON.stringify(tasks),
                 config
             );
             getAllCompanies();

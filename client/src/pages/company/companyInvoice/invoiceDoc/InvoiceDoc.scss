@@ -314,21 +314,6 @@
             width: 80rem;
         }
     }
-    .page-break {
-        padding: 5rem 0;
-        margin-bottom: 4rem;
-        td {
-            position: absolute;
-            width: 81rem;
-            left: -6rem;
-            background-color: #f1f1f1;
-            padding: 2rem 6rem;
-            margin: 5rem 0;
-        }
-        th {
-            padding: 7rem;
-        }
-    }
 }
 .invoice__items-btm {
     padding: 1.5em 5rem;
@@ -341,6 +326,7 @@
         display: none;
     }
 
+    .td__btn.delete,
     .td__btn.update {
         display: none;
     }

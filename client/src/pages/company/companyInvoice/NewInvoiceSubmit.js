@@ -3,29 +3,46 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { getAllCompanies } from '../../../redux/actions/companies';
-import FormInput from '../../../components/form/components/FormInput';
+import {
+    getAllCompanies,
+    updateCompanyArr,
+} from '../../../redux/actions/companies';
 import { setAlert } from '../../../redux/actions/messages';
+import { setInvoiceInitState } from '../../../redux/actions/invoice';
+import FormInput from '../../../components/form/components/FormInput';
 
 export const NewInvoiceSubmit = ({
     company,
     invoice,
     getAllCompanies,
+    updateCompanyArr,
+    setInvoiceInitState,
+    invoiceInitState,
     setAlert,
     history,
 }) => {
+    const [update, setUpdate] = useState(false);
     useEffect(() => {
         const searchArr = window.location.search.split('&');
         if (searchArr[1]) {
             //downlaoding an existing invoice
             //?download=...
-            const download = searchArr[1].slice(0, 8);
+            const search = searchArr[1].slice(0, 8);
             const invoice = document.getElementById('invoice');
-            if (download && invoice) {
+            if (search === 'download' && invoice) {
                 downloadInvoice();
+                //reset invoice redux state so there is no dialog box
+                setInvoiceInitState(invoiceInitState);
+                //reset company tasks to
+                const tasks = company.tasks.filter((t) => !t.addToInvoice);
+                updateCompanyArr('tasks', tasks, company._id);
                 history.push(
                     `/dashboard/companies/${company._id}?tab=invoices`
                 );
+            }
+            if (search === 'updating' && invoice) {
+                setUpdate(true);
+                setSaveAs(true);
             }
         }
     });
@@ -61,7 +78,6 @@ export const NewInvoiceSubmit = ({
     });
     const saveInvoice = async (e) => {
         e.preventDefault();
-        console.log(invoice);
         //save invoice state
         try {
             const config = {
@@ -83,22 +99,33 @@ export const NewInvoiceSubmit = ({
                 );
             invoice.tasks = tasksIncludedInInvoice;
             const tasks = company.tasks.filter((t) => !t.addToInvoice);
+            invoice.saved_as = document.getElementById('saveAs').value;
             await axios.post(
                 `/api/companies/invoice/${company._id}`,
                 JSON.stringify({ invoice, tasks }),
                 config
             );
-            getAllCompanies();
-            setSaveAs(false);
+            //reset invoice redux state so there is no dialog box
+            await setInvoiceInitState(invoiceInitState);
+            await getAllCompanies();
+            await setSaveAs(false);
             history.push(`/dashboard/companies/${company._id}?tab=invoices`);
         } catch (err) {
             console.log('Invoice saving err:', err);
         }
     };
-
+    const handle_cancel = () => {
+        // if (update) {
+        //     history.push(`/dashboard/companies/${company._id}?tab=invoices`);
+        // } else {
+        // }
+        setSaveAs(false);
+    };
     return (
         <section>
-            <h3 className='sr-only'>Save or download invoice form.</h3>
+            <h3 className='sr-only'>
+                {update ? 'Update invoice form.' : 'Invoice form.'}
+            </h3>
             {saveAs && (
                 <form className='form__save-as' onSubmit={saveInvoice}>
                     <FormInput
@@ -118,7 +145,7 @@ export const NewInvoiceSubmit = ({
                     <button
                         type='button'
                         className='btn'
-                        onClick={() => setSaveAs(false)}
+                        onClick={handle_cancel}
                     >
                         {' '}
                         Cancel
@@ -163,6 +190,8 @@ NewInvoiceSubmit.propTypes = {
     company: PropTypes.object,
     invoice: PropTypes.object,
     getAllCompanies: PropTypes.func,
+    updateCompanyArr: PropTypes.func,
+    setInvoiceInitState: PropTypes.func,
     setAlert: PropTypes.func,
 };
 
@@ -175,6 +204,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     getAllCompanies,
+    updateCompanyArr,
+    setInvoiceInitState,
     setAlert,
 };
 

@@ -14,27 +14,19 @@ export const alertUnsavedChanges = async (
         history.push(currentPathname);
         const unblockRouting = history.block();
 
-        console.log(targetPathname, currentPathname);
-
         const msg = `You have some unsaved changes. What would you like to do?`;
-        const cancelBtnText = 'Discharge changes';
-        const confirmBtnText = 'Return to the form!';
+        const cancelBtnText = 'Leave the page.';
+        const confirmBtnText = 'Stay on the page!';
         const confirmCb = () => {
             unblockRouting();
         };
+
         const cancelCb = async () => {
             //discharge all changes and clear app changes status
-            // chnages clear on reload
-            if (targetPathname === currentPathname) {
-                //on clicking submenu redirect to the targeted tab
-                window.location.replace(
-                    window.location.origin + targetPathname + targetTab
-                );
-            } else {
-                window.location.replace(
-                    window.location.origin + targetPathname + '?tab=tasks'
-                );
-            }
+            // changes cleared on reload
+            window.location.replace(
+                window.location.origin + targetPathname + targetTab
+            );
         };
 
         dialogBox({
@@ -46,7 +38,7 @@ export const alertUnsavedChanges = async (
         });
     } else {
         //no chnages
-        setUpdates(null);
+        if (setUpdates) setUpdates(null);
     }
 };
 
