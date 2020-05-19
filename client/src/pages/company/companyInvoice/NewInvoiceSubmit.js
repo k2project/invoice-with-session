@@ -70,7 +70,9 @@ export const NewInvoiceSubmit = ({
     const [saveAs, setSaveAs] = useState(false);
     const show_form = async () => {
         await setSaveAs(true);
-        document.querySelector('.form__save-as input').focus();
+        const invoiceNumInput = document.querySelector('.form__save-as input');
+        invoiceNumInput.focus();
+        invoiceNumInput.value = invoice.saved_as || '';
     };
     const [formData, setFormData] = useState({
         saveAs: invoice.saved_as,

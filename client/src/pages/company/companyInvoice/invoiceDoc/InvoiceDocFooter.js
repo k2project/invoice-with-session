@@ -39,26 +39,26 @@ const InvoiceDocFooter = ({
             updateInvoiceCurrency('');
         }
     }, [tasks]);
+    // useEffect(() => {
+    //     const discountInput = document.getElementById('invoice-discount');
+    //     if (invoice.discount > 0) {
+    //         setShowDiscount(true);
+    //         discountInput.value = `${invoice.currency}${invoice.discount}`;
+    //     }
+    // });
 
-    const TXT_INIT_TEXT = 'Thank you for your business.';
+    const TXT_INIT_TEXT = invoice.notes || 'Thank you for your business.';
     const [notes, setNotes] = useState(TXT_INIT_TEXT);
     const handle_notes_edit = (e) => {
         let notes = e.target.value;
         setNotes(notes);
         updateInvoiceNotes(notes);
     };
-    const [showDiscount, setShowDiscount] = useState(false);
-    const [discount, setDiscount] = useState(0);
-    const show_discount = async () => {
-        if (showDiscount) {
-            //reset discount on hidding
-            setDiscount(0);
-            updateInvoiceDiscount(0);
-            return setShowDiscount(false);
-        }
-        await setShowDiscount(true);
-        edit_input('discount', discount);
-    };
+    let default_discount = invoice.currency;
+    default_discount += invoice.discount
+        ? toNumberWithCommas(invoice.discount)
+        : '0.00';
+    const [discount, setDiscount] = useState(default_discount);
     const handle_discount_edit = (e) => {
         setErrors(null);
         let discount = e.target.value;
@@ -95,7 +95,9 @@ const InvoiceDocFooter = ({
         input.focus();
         input.value = stateValue || `${invoice.currency}0.00`;
     };
-    const [tax, setTax] = useState(0);
+    let default_tax = invoice.tax ? invoice.tax : 0;
+    default_tax += '%';
+    const [tax, setTax] = useState(default_tax);
     const handle_tax_edit = (e) => {
         setErrors(null);
         let tax_rate = e.target.value;
@@ -107,18 +109,9 @@ const InvoiceDocFooter = ({
         setTax(tax_rate);
         updateInvoiceTaxRate(tax_rate);
     };
-    const [showFees, setShowFees] = useState(false);
-    const [fees, setFees] = useState(0);
-    const show_fees = async () => {
-        if (showFees) {
-            //reset fees on hidding
-            setFees(0);
-            updateInvoiceOtherFees(0);
-            return setShowFees(false);
-        }
-        await setShowFees(true);
-        edit_input('fees', fees);
-    };
+    let default_fees = invoice.currency;
+    default_fees += invoice.fees ? toNumberWithCommas(invoice.fees) : '0.00';
+    const [fees, setFees] = useState(default_fees);
     const handle_fees_edit = (e) => {
         setErrors(null);
         let fees = e.target.value;
@@ -140,12 +133,12 @@ const InvoiceDocFooter = ({
             return sum;
         }, 0);
     const net_total_str = toNumberWithCommas(net_total_num) || '0.00';
-    net_total_num = net_total_num - discount;
+    net_total_num = net_total_num - invoice.discount;
 
-    const tax_total_num = net_total_num * (tax / 100);
+    const tax_total_num = net_total_num * (invoice.tax / 100);
     const tax_total_str = toNumberWithCommas(tax_total_num) || '0%';
 
-    const invoice_total_num = net_total_num + tax_total_num + fees;
+    const invoice_total_num = net_total_num + tax_total_num + invoice.fees;
     const invoice_total_str = toNumberWithCommas(invoice_total_num);
 
     return (
@@ -165,7 +158,7 @@ const InvoiceDocFooter = ({
                     className='invoice__btn icon_iDiscount'
                     title='Add discount'
                     onMouseDown={(e) => e.preventDefault()}
-                    onClick={show_discount}
+                    onClick={() => edit_input('discount', discount)}
                 >
                     <img src={discountIcon} alt='Add discount' />
                 </button>
@@ -174,7 +167,7 @@ const InvoiceDocFooter = ({
                     className='invoice__btn icon_iFees'
                     title='Add other fees'
                     onMouseDown={(e) => e.preventDefault()}
-                    onClick={show_fees}
+                    onClick={() => edit_input('fees', fees)}
                 >
                     <img src={waletIcon} alt='Add other fees' />
                 </button>
@@ -190,7 +183,7 @@ const InvoiceDocFooter = ({
                         className={`bg-${invoice.bg_color}  invoice__cover`}
                     ></div>
                     <div className='invoice__notes-form'>
-                        <form>
+                        <form onSubmit={(e) => e.preventDefault()}>
                             <label htmlFor='invoice-notes'>
                                 <b> Notes:</b>
                             </label>
@@ -216,47 +209,51 @@ const InvoiceDocFooter = ({
                             </b>
                         </span>
                     </div>
-                    {showDiscount && (
-                        <Fragment>
-                            <div className='invoice__discount-display'>
-                                <span>Discount:</span>
-                                <span>
-                                    <b>
-                                        {invoice.currency}
-                                        {invoice.discount}
-                                    </b>
-                                </span>
-                            </div>
-                            <form className='invoice__discount-form'>
-                                <label htmlFor='invoice-discount'>
-                                    Discount:
-                                </label>
-                                <input
-                                    type='text'
-                                    id='invoice-discount'
-                                    autoComplete='off'
-                                    onChange={handle_discount_edit}
-                                />
-                            </form>
-                        </Fragment>
-                    )}
+                    <Fragment>
+                        <div className='invoice__discount-display'>
+                            <span>Discount:</span>
+                            <span>
+                                <b>
+                                    {invoice.currency}
+                                    {invoice.discount}
+                                </b>
+                            </span>
+                        </div>
+                        <form
+                            className='invoice__discount-form'
+                            onSubmit={(e) => e.preventDefault()}
+                        >
+                            <label htmlFor='invoice-discount'>Discount:</label>
+                            <input
+                                type='text'
+                                id='invoice-discount'
+                                autoComplete='off'
+                                onChange={handle_discount_edit}
+                                defaultValue={default_discount}
+                            />
+                        </form>
+                    </Fragment>
+
                     <div className='invoice__tax-display'>
                         <span>Tax rate:</span>
                         <span>
                             <b>{tax}%</b>
                         </span>
                     </div>
-                    <form className='invoice__tax-form'>
+                    <form
+                        className='invoice__tax-form'
+                        onSubmit={(e) => e.preventDefault()}
+                    >
                         <label htmlFor='invoice-tax'>Tax Rate:</label>
                         <input
                             type='text'
                             id='invoice-tax'
                             onChange={handle_tax_edit}
                             autoComplete='off'
-                            defaultValue='0%'
+                            defaultValue={default_tax}
                         />
                     </form>
-                    {tax > 0 && (
+                    {invoice.tax > 0 && (
                         <div>
                             <span>Tax Amount:</span>
                             <span>
@@ -267,28 +264,32 @@ const InvoiceDocFooter = ({
                             </span>
                         </div>
                     )}
-                    {showFees && (
-                        <Fragment>
-                            <div className='invoice__fees-display'>
-                                <span>Other:</span>
-                                <span>
-                                    <b>
-                                        {invoice.currency}
-                                        {invoice.fees}
-                                    </b>
-                                </span>
-                            </div>
-                            <form className='invoice__fees-form'>
-                                <label htmlFor='invoice-fees'>Other:</label>
-                                <input
-                                    type='text'
-                                    id='invoice-fees'
-                                    autoComplete='off'
-                                    onChange={handle_fees_edit}
-                                />
-                            </form>
-                        </Fragment>
-                    )}
+
+                    <Fragment>
+                        <div className='invoice__fees-display'>
+                            <span>Other*:</span>
+                            <span>
+                                <b>
+                                    {invoice.currency}
+                                    {invoice.fees}
+                                </b>
+                            </span>
+                        </div>
+                        <form
+                            className='invoice__fees-form'
+                            onSubmit={(e) => e.preventDefault()}
+                        >
+                            <label htmlFor='invoice-fees'>Other*:</label>
+                            <input
+                                type='text'
+                                id='invoice-fees'
+                                autoComplete='off'
+                                onChange={handle_fees_edit}
+                                defaultValue={default_fees}
+                            />
+                        </form>
+                    </Fragment>
+
                     <div>
                         <span className='sr-only'>Total:</span>
                         <span className='invoice__total-sum'>

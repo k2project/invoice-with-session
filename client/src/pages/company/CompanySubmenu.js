@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteCompany } from '../../redux/actions/companies';
+import { newInvoiceLoading } from '../../redux/actions/session';
 import { getInputValueByLabel } from '../../components/form/utils/customFormQueries';
 import { dialogBox } from '../../components/alerts/alertsFuns';
 
@@ -13,7 +14,12 @@ import deleteIcon from '../../imgs/icons/deleteIcon.png';
 import tasksIcon from '../../imgs/icons/tasksIcon.png';
 import invoicesIcon from '../../imgs/icons/invoicesIcon.png';
 
-const CompanySubmenu = ({ company, deleteCompany, history }) => {
+const CompanySubmenu = ({
+    company,
+    deleteCompany,
+    newInvoiceLoading,
+    history,
+}) => {
     //details | tasks |invoices | update | delete
     let companyName = getInputValueByLabel(company.details, 'Name');
     const handleDelete = (e) => {
@@ -29,6 +35,10 @@ const CompanySubmenu = ({ company, deleteCompany, history }) => {
 
         dialogBox({ msg, cancelCb, confirmCb, targetEl });
         document.getElementById('dialog-cancel').focus();
+    };
+    const clickingNewInvoiceBtn = () => {
+        newInvoiceLoading();
+        // window.location = `/dashboard/companies/${company._id}?tab=invoice`;
     };
     return (
         <nav aria-label="Company's submenu" className='submenu'>
@@ -49,6 +59,7 @@ const CompanySubmenu = ({ company, deleteCompany, history }) => {
                         to={`/dashboard/companies/${company._id}?tab=invoice`}
                         className='submenu__btn'
                         onMouseDown={(e) => e.preventDefault()}
+                        onClick={clickingNewInvoiceBtn}
                     >
                         <img src={plusIcon} className='submenu__icon' alt='' />
                         New Invoice
@@ -113,6 +124,7 @@ const CompanySubmenu = ({ company, deleteCompany, history }) => {
 CompanySubmenu.propTypes = {
     deleteCompany: PropTypes.func,
     company: PropTypes.object.isRequired,
+    newInvoiceLoading: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     company: state.companies.find(
@@ -121,6 +133,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
     deleteCompany,
+    newInvoiceLoading,
 };
 export default connect(
     mapStateToProps,

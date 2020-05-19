@@ -5,6 +5,7 @@ import {
     REMOVE_USER,
     SET_CURRENT_COMPANY,
     SET_CURRENT_TASK,
+    LOAD_NEW_INVOICE,
 } from './types';
 import { setAlert } from './messages';
 import { getProfile } from './profile';
@@ -30,4 +31,10 @@ export const setCurrentCompany = (id) => (dispatch) => {
 };
 export const setCurrentTask = (task) => (dispatch) => {
     dispatch({ type: SET_CURRENT_TASK, payload: task });
+};
+export const newInvoiceLoading = () => (dispatch) => {
+    dispatch({ type: LOAD_NEW_INVOICE, payload: true });
+    setTimeout(() => {
+        dispatch({ type: LOAD_NEW_INVOICE, payload: false });
+    }, 1000);
 };

@@ -38,32 +38,8 @@ class NewInvoice extends Component {
         //set current tabs for handling unsaved changes redirection
         this.setState({ ...this.state, tabs: window.location.search });
         let invoiceInitState;
-        const searchArr = window.location.search.split('&');
-        if (searchArr[1]) {
-            //updating an existing invoice
-            //?updating=...
-            //downlaoding an existing invoice
-            //?download=...
-            const invoice_ID = searchArr[1].slice(9);
-            const invoiceToLoad = this.props.company.invoices.find(
-                (invoice) => invoice._id === invoice_ID
-            );
-            if (invoiceToLoad) {
-                //invoiceInitState from the invoices arr
-                invoiceInitState = invoiceToLoad;
-                //add invoice tasks to existing tasks of the current company
-                const tasksArrIncInvoiceTasks = [
-                    ...invoiceToLoad.tasks,
-                    ...this.props.company.tasks,
-                ];
-                this.props.updateCompanyArr(
-                    'tasks',
-                    tasksArrIncInvoiceTasks,
-                    this.props.company._id
-                );
-            }
-        } else {
-            //set all tasks ro be excluded from invoice on load of a new invoice
+        if (this.props.session.newInvoiceLoaded) {
+            //set all tasks to be excluded from invoice on load of a new invoice
             const noTasksIncluded = this.props.company.tasks.map(
                 (t) => (t.addToInvoice = false)
             );
@@ -110,19 +86,44 @@ class NewInvoice extends Component {
                 notes: 'Thank you for your business.',
                 currency: '',
             };
+            //set init state for comparison on component unmounting
+            this.setState({
+                invoice: JSON.parse(JSON.stringify(invoiceInitState)),
+            });
+
+            //set redux state
+            this.props.setInvoiceInitState(invoiceInitState);
         }
 
-        //set init state for comparison on component unmounting
-        this.setState({
-            invoice: JSON.parse(JSON.stringify(invoiceInitState)),
-        });
-
-        //set redux state
-        this.props.setInvoiceInitState(invoiceInitState);
+        const searchArr = window.location.search.split('&');
+        if (searchArr[1]) {
+            //updating an existing invoice
+            //?updating=...
+            //downlaoding an existing invoice
+            //?download=...
+            const invoice_ID = searchArr[1].slice(9);
+            const invoiceToLoad = this.props.company.invoices.find(
+                (invoice) => invoice._id === invoice_ID
+            );
+            if (invoiceToLoad) {
+                //invoiceInitState from the invoices arr
+                invoiceInitState = invoiceToLoad;
+                //add invoice tasks to existing tasks of the current company
+                const tasksArrIncInvoiceTasks = [
+                    ...invoiceToLoad.tasks,
+                    ...this.props.company.tasks,
+                ];
+                this.props.updateCompanyArr(
+                    'tasks',
+                    tasksArrIncInvoiceTasks,
+                    this.props.company._id
+                );
+            }
+        }
     }
     componentWillUnmount() {
         //auth err and logout won't trigger fun
-        if (this.props.authenticated) this.handleChanges();
+        if (this.props.session.authenticated) this.handleChanges();
     }
     handleChanges() {
         //TASKS CAN BE AMENDED/UPDATED IN FORM  WITH EFECT ON DB HENCE NEED TO CHECK INIT STATE AGAINST COMPANY.TASKS NOT INVOICE.TASKS!!!
@@ -175,17 +176,15 @@ class NewInvoice extends Component {
         return (
             <section className='company-invoice'>
                 <h2 className='sr-only'>Create a new invoice.</h2>
-                {this.state.invoice && <InvoiceDoc />}
-                {this.state.invoice && (
-                    <NewInvoiceSubmit invoiceInitState={this.state.invoice} />
-                )}
+                <InvoiceDoc />
+                <NewInvoiceSubmit invoiceInitState={this.state.invoice} />
             </section>
         );
     }
 }
 
 NewInvoice.propTypes = {
-    authenticated: PropTypes.bool,
+    session: PropTypes.object,
     profile: PropTypes.object,
     company: PropTypes.object,
     invoice: PropTypes.object,
@@ -193,7 +192,7 @@ NewInvoice.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    authenticated: state.session.authenticated,
+    session: state.session,
     profile: state.profile,
     company: state.companies.find(
         (c) => c._id === state.session.currentCompany
