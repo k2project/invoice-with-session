@@ -117,10 +117,10 @@ export const NewInvoiceSubmit = ({
         }
     };
     const handle_cancel = () => {
-        // if (update) {
-        //     history.push(`/dashboard/companies/${company._id}?tab=invoices`);
-        // } else {
-        // }
+        if (update) {
+            history.push(`/dashboard/companies/${company._id}?tab=invoices`);
+        } else {
+        }
         setSaveAs(false);
     };
     return (

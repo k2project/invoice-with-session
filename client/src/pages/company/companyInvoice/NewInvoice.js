@@ -42,8 +42,8 @@ class NewInvoice extends Component {
             currency: '',
         });
     }
-    async setAllTasksToExcluded() {
-        let tasks = this.props.company.tasks.map((task) => {
+    async setAllTasksToExcluded(tasksArr) {
+        let tasks = tasksArr.map((task) => {
             task.addToInvoice = false;
             return task;
         });
@@ -65,7 +65,7 @@ class NewInvoice extends Component {
     componentDidMount() {
         //set current tabs for handling unsaved changes redirection
         this.setState({ ...this.state, tabs: window.location.search });
-        let invoiceInitState;
+
         if (this.props.session.newInvoiceLoaded) {
             //invoice num #
             let company_abbr = getInputValueByLabel(
@@ -92,7 +92,7 @@ class NewInvoice extends Component {
             const TWO_WEEKS = 1.21e9;
             let due_date = date_DD_MM_YYYY(new Date().getTime() + TWO_WEEKS);
             //a new invoice
-            invoiceInitState = {
+            let invoiceInitState = {
                 _id: uuidv4(),
                 created_at: new Date(),
                 saved_as,
@@ -128,9 +128,17 @@ class NewInvoice extends Component {
             const invoiceToLoad = this.props.company.invoices.find(
                 (invoice) => invoice._id === invoice_ID
             );
+            //set component init state
+            this.setState({
+                invoice: JSON.parse(JSON.stringify(invoiceToLoad)),
+            });
+            //set redux state
+            this.props.setInvoiceInitState(invoiceToLoad);
+            if (!invoiceToLoad)
+                this.props.history.push(
+                    `/dashboard/companies/${this.props.company._id}?tab=invoices`
+                );
             if (invoiceToLoad) {
-                //invoiceInitState from the invoices arr
-                invoiceInitState = invoiceToLoad;
                 //add invoice tasks to existing tasks of the current company
                 const tasksArrIncInvoiceTasks = [
                     ...invoiceToLoad.tasks,
@@ -150,23 +158,41 @@ class NewInvoice extends Component {
     }
     handleChanges() {
         //TASKS CAN BE AMENDED/UPDATED IN FORM  WITH EFECT ON DB HENCE NEED TO CHECK INIT STATE AGAINST COMPANY.TASKS NOT INVOICE.TASKS!!!
+        //update invoice state of added tasks before comaring changes on leave
         this.props.invoice.tasks = this.props.company.tasks.filter(
             (t) => t.addToInvoice
         );
-        const cb = () => {
+        console.log(
+            JSON.stringify(this.state.invoice) ===
+                JSON.stringify(this.props.invoice)
+        );
+        console.log('state:', this.state.invoice, 'redux', this.props.invoice);
+        //remove tasks added on update
+        const initStateTasksIds = this.state.invoice.tasks.map((t) => t._id);
+        const nonInvoiceTasks = this.props.company.tasks.filter(
+            (task) => !initStateTasksIds.includes(task._id)
+        );
+        console.log(nonInvoiceTasks);
+        this.props.updateCompanyArr(
+            'tasks',
+            nonInvoiceTasks,
+            this.props.company._id
+        );
+        const stateUpdate = () => {
+            //no changes detected
             this.resestInvoiceState();
             //if changes discarched update DB
             if (
                 JSON.stringify(this.state.invoice) !==
                 JSON.stringify(this.props.invoice)
             )
-                this.setAllTasksToExcluded();
+                this.setAllTasksToExcluded(nonInvoiceTasks);
         };
         alertUnsavedChanges(
             this.state.invoice,
             this.props.invoice,
             `/dashboard/companies/${this.props.company._id}${this.state.tabs}`,
-            cb,
+            stateUpdate,
             this.props.history
         );
     }
