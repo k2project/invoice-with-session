@@ -8,10 +8,16 @@ import helpIcon from '../../imgs/icons/helpIcon.png';
 import companiesIcon from '../../imgs/icons/companiesIcon.png';
 import { connect } from 'react-redux';
 import { setAlert } from '../../redux/actions/messages';
+import { setCurrentCompany } from '../../redux/actions/session';
 import NavSubmenu from './NavSubmenu';
 import { sortInputsByNamesAlphabeticaly } from '../form/utils/customFormQueries';
 
-const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
+const Nav = ({
+    setAlert,
+    profile: { createdAt, updatedAt },
+    companies,
+    setCurrentCompany,
+}) => {
     companies = sortInputsByNamesAlphabeticaly(companies, 'details');
     return (
         <nav aria-label='dashboard menu' className='dashboard-nav '>
@@ -56,6 +62,7 @@ const Nav = ({ setAlert, profile: { createdAt, updatedAt }, companies }) => {
                                     }`}
                                     onMouseDown={(e) => e.preventDefault()}
                                     onClick={() => {
+                                        setCurrentCompany(companies[0]._id);
                                         setAlert(
                                             `Submenu listing companies now open below. `,
                                             'success'
@@ -172,6 +179,7 @@ Nav.propTypes = {
     setAlert: PropTypes.func.isRequired,
     profile: PropTypes.object,
     companies: PropTypes.array,
+    setCurrentCompany: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     profile: state.profile,
@@ -179,5 +187,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
     setAlert,
+    setCurrentCompany,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);

@@ -13,12 +13,12 @@ import CompanyInvoices from './CompanyInvoices';
 
 import './Company.scss';
 
-export const Company = ({ companies, setCurrentCompany }) => {
+export const Company = ({ companies, currentCompany, setCurrentCompany }) => {
     let { id } = useParams();
     let company = companies.find((c) => c._id === id);
-    setCurrentCompany(id);
 
     useEffect(() => {
+        // setCurrentCompany(id);
         return () => {
             setCurrentCompany(null);
         };
@@ -31,7 +31,7 @@ export const Company = ({ companies, setCurrentCompany }) => {
     return (
         <Page>
             {!company && <Redirect to='/dashboard/companies' />}
-            {company && (
+            {company && currentCompany && (
                 <Fragment>
                     <CompanySubmenu />
                     {!tabs.includes(tab) && (
@@ -51,9 +51,11 @@ export const Company = ({ companies, setCurrentCompany }) => {
 };
 Company.propTypes = {
     setCurrentCompany: PropTypes.func,
+    currentCompany: PropTypes.string,
 };
 const mapStateToProps = (state) => ({
     companies: state.companies,
+    currentCompany: state.session.currentCompany,
 });
 
 const mapDispatchToProps = {

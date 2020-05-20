@@ -12,7 +12,7 @@ const persistConfig = {
     key: 'sess',
     storage,
     // stateReconciler: autoMergeLevel2,
-    whitelist: ['session', 'invoice'],
+    whitelist: ['session'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

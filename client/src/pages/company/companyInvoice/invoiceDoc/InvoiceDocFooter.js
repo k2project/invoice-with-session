@@ -39,13 +39,6 @@ const InvoiceDocFooter = ({
             updateInvoiceCurrency('');
         }
     }, [tasks]);
-    // useEffect(() => {
-    //     const discountInput = document.getElementById('invoice-discount');
-    //     if (invoice.discount > 0) {
-    //         setShowDiscount(true);
-    //         discountInput.value = `${invoice.currency}${invoice.discount}`;
-    //     }
-    // });
 
     const TXT_INIT_TEXT = invoice.notes || 'Thank you for your business.';
     const [notes, setNotes] = useState(TXT_INIT_TEXT);
@@ -62,7 +55,7 @@ const InvoiceDocFooter = ({
     const handle_discount_edit = (e) => {
         setErrors(null);
         let discount = e.target.value;
-        //return {currency, numValue}
+        //return {invoice.currency, numValue}
         discount = validateRateInputToObj(discount);
         if (discount) {
             //alert when discount > net total
@@ -74,7 +67,7 @@ const InvoiceDocFooter = ({
             }
         } else {
             // invalid input
-            // e.target.value = `${currency}0.00`;
+            // e.target.value = `${invoice.currency}0.00`;
             setErrors(
                 'Inavalid discount input. Please enter the value in format £100.00 !'
             );

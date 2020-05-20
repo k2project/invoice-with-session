@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setInvoiceInitState } from '../../../redux/actions/invoice';
@@ -21,29 +22,51 @@ class NewInvoice extends Component {
             invoice: null,
         };
         this.handleChanges = this.handleChanges.bind(this);
-        this.clearInitState = this.clearInitState.bind(this);
-        this.updateInitStateToReduxStateOnSubmit = this.updateInitStateToReduxStateOnSubmit.bind(
-            this
-        );
+        this.resestInvoiceState = this.resestInvoiceState.bind(this);
+        this.setAllTasksToExcluded = this.setAllTasksToExcluded.bind(this);
     }
 
-    updateInitStateToReduxStateOnSubmit() {
-        // this.props.setUpdates(this.props.company.details);
+    resestInvoiceState() {
+        //on leave clear invoice permanent state
+        //no changes or submit or page leave
+        this.props.setInvoiceInitState({
+            bg_color: localStorage.invoice_bg || 'blue',
+            text_color: localStorage.invoice_txt || 'white',
+            profile: [],
+            company: [],
+            tasks: [],
+            discount: 0,
+            tax: 0,
+            fees: 0,
+            notes: 'Thank you for your business.',
+            currency: '',
+        });
     }
-    clearInitState() {
-        //on submit clear app updates
-        // this.props.setUpdates(null);
+    async setAllTasksToExcluded() {
+        let tasks = this.props.company.tasks.map((task) => {
+            task.addToInvoice = false;
+            return task;
+        });
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+            await axios.post(
+                `/api/companies/task/${this.props.company._id}`,
+                JSON.stringify(tasks),
+                config
+            );
+        } catch (err) {
+            console.log(err);
+        }
     }
     componentDidMount() {
         //set current tabs for handling unsaved changes redirection
         this.setState({ ...this.state, tabs: window.location.search });
         let invoiceInitState;
         if (this.props.session.newInvoiceLoaded) {
-            //set all tasks to be excluded from invoice on load of a new invoice
-            const noTasksIncluded = this.props.company.tasks.map(
-                (t) => (t.addToInvoice = false)
-            );
-            updateCompanyArr('tasks', noTasksIncluded, this.props.company._id);
             //invoice num #
             let company_abbr = getInputValueByLabel(
                 this.props.company.details,
@@ -127,50 +150,25 @@ class NewInvoice extends Component {
     }
     handleChanges() {
         //TASKS CAN BE AMENDED/UPDATED IN FORM  WITH EFECT ON DB HENCE NEED TO CHECK INIT STATE AGAINST COMPANY.TASKS NOT INVOICE.TASKS!!!
-        console.log(
-            JSON.stringify(this.state.invoice) ===
-                JSON.stringify(this.props.invoice)
-        );
         this.props.invoice.tasks = this.props.company.tasks.filter(
             (t) => t.addToInvoice
         );
-        console.log(this.state.invoice, this.props.invoice);
-
+        const cb = () => {
+            this.resestInvoiceState();
+            //if changes discarched update DB
+            if (
+                JSON.stringify(this.state.invoice) !==
+                JSON.stringify(this.props.invoice)
+            )
+                this.setAllTasksToExcluded();
+        };
         alertUnsavedChanges(
             this.state.invoice,
             this.props.invoice,
             `/dashboard/companies/${this.props.company._id}${this.state.tabs}`,
-            null,
+            cb,
             this.props.history
         );
-        // if (
-        //     JSON.stringify(this.state.invoice) !==
-        //     JSON.stringify(this.props.invoice)
-        // ) {
-        //     const msg = `You have some unsaved changes. What would you like to do?`;
-        //     const cancelBtnText = 'Discharge changes';
-        //     const confirmBtnText = 'Return to the form!';
-        //     const confirmCb = () => {};
-        //     const cancelCb = async () => {};
-        //     dialogBox({
-        //         msg,
-        //         cancelBtnText,
-        //         confirmBtnText,
-        //         confirmCb,
-        //         cancelCb,
-        //     });
-        // } else {
-        //     //remove any tasks added on update
-        //     const tasksWithoutInvocieTasks = this.props.company.tasks.filter(
-        //         (el) => !this.state.invoice.tasks.includes(el)
-        //     );
-        //     console.log(tasksWithoutInvocieTasks);
-        //     this.props.updateCompanyArr(
-        //         'tasks',
-        //         tasksWithoutInvocieTasks,
-        //         this.props.company._id
-        //     );
-        // }
     }
     render() {
         return (

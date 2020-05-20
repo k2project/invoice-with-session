@@ -24,6 +24,7 @@ export const alertUnsavedChanges = async (
         const cancelCb = async () => {
             //discharge all changes and clear app changes status
             // changes cleared on reload
+            await setUpdates();
             window.location.replace(
                 window.location.origin + targetPathname + targetTab
             );
@@ -38,7 +39,7 @@ export const alertUnsavedChanges = async (
         });
     } else {
         //no chnages
-        if (setUpdates) setUpdates(null);
+        setUpdates(null);
     }
 };
 
