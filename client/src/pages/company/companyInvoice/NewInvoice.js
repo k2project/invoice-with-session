@@ -123,9 +123,6 @@ class NewInvoice extends Component {
             (t) => t.addToInvoice
         );
 
-        // this.props.invoice.tasks = [...this.state.invoice.tasks];
-        console.log('@@@@', this.props.invoice.tasks);
-
         let nonInvoiceTasks = this.props.company.tasks;
         //on updates
 
@@ -142,29 +139,10 @@ class NewInvoice extends Component {
                 this.props.company._id
             );
         }
-        // // remove tasks added on update
-        // const initStateTasksIds = this.state.invoice.tasks.map((t) => t._id);
-        // const nonInvoiceTasks = this.props.company.tasks.filter(
-        //     (task) => !initStateTasksIds.includes(task._id)
-        // );
-        // this.props.updateCompanyArr(
-        //     'tasks',
-        //     nonInvoiceTasks,
-        //     this.props.company._id
-        // );
-
-        console.log('state:', this.state.invoice, 'redux', this.props.invoice);
         const stateUpdate = () => {
             //no changes detected or chnages discharged
             this.resestInvoiceState();
             this.setAllTasksToExcluded(nonInvoiceTasks);
-
-            // //if changes discarched update DB
-            // if (
-            //     JSON.stringify(this.state.invoice) !==
-            //     JSON.stringify(this.props.invoice)
-            // )
-            //     this.setAllTasksToExcluded(nonInvoiceTasks);
         };
 
         alertUnsavedChanges(

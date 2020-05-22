@@ -29,17 +29,17 @@ export const NewInvoiceSubmit = ({
             const search = searchArr[1].slice(0, 8);
             const invoiceForm = document.getElementById('invoice');
             if (search === 'download' && invoiceForm) {
-                console.log(invoice);
-                downloadInvoice();
-                handleSubmit();
-                //reset invoice redux state so there is no dialog box
-                // setInvoiceInitState(invoiceInitState);
-                //reset company tasks to
-                // const tasks = company.tasks.filter((t) => !t.addToInvoice);
-                // updateCompanyArr('tasks', tasks, company._id);
-                history.push(
-                    `/dashboard/companies/${company._id}?tab=invoices`
-                );
+                setTimeout(() => {
+                    downloadInvoice();
+                    // no prompt
+                    handleSubmit();
+                    // reset company.tasks
+                    const tasks = company.tasks.filter((t) => !t.addToInvoice);
+                    updateCompanyArr('tasks', tasks, company._id);
+                    history.push(
+                        `/dashboard/companies/${company._id}?tab=invoices`
+                    );
+                }, 0);
             }
             if (search === 'updating' && invoiceForm) {
                 setUpdate(true);
