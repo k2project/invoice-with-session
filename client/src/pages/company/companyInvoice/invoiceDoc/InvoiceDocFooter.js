@@ -89,7 +89,6 @@ const InvoiceDocFooter = ({
         input.value = stateValue || `${invoice.currency}0.00`;
     };
     let default_tax = invoice.tax ? invoice.tax : 0;
-    default_tax += '%';
     const [tax, setTax] = useState(default_tax);
     const handle_tax_edit = (e) => {
         setErrors(null);
@@ -243,7 +242,7 @@ const InvoiceDocFooter = ({
                             id='invoice-tax'
                             onChange={handle_tax_edit}
                             autoComplete='off'
-                            defaultValue={default_tax}
+                            defaultValue={default_tax + '%'}
                         />
                     </form>
                     {invoice.tax > 0 && (

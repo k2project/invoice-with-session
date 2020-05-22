@@ -1,1 +1,10 @@
 @import '../../App.scss';
+.help {
+    a:link,
+    a:visited {
+        color: $COLOR_THEME;
+    }
+    p {
+        margin: 2rem 1rem 0;
+    }
+}
