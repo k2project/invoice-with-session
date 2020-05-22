@@ -283,6 +283,15 @@ a:focus {
     background-color: darken($COLOR_INFO, 10%);
     border-color: darken($COLOR_INFO, 10%);
 }
+.btn--success {
+    background-color: $COLOR_SUCCESS;
+    color: #fff;
+    border-color: $COLOR_SUCCESS;
+}
+.btn--success:hover {
+    background-color: darken($COLOR_SUCCESS, 10%);
+    border-color: darken($COLOR_SUCCESS, 10%);
+}
 
 .btn--grey {
     padding: 1rem 0.5rem;

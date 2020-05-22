@@ -469,6 +469,30 @@ tr > .invoice__td-btn {
     left: 0;
     opacity: 0.4;
 }
+.invoice-submit {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-items: end;
+    .btn {
+        width: 15rem;
+    }
+    #save-as {
+        // justify-self: end;
+    }
+    p {
+        grid-column: span 2;
+        justify-self: start;
+        margin-top: 2rem;
+    }
+}
+.form__save-as {
+    input {
+        width: 26rem;
+    }
+}
+.form__save-as input:focus {
+    border-color: $COLOR_THEME;
+}
 //fit invoice to a smaller screen
 @media only screen and (max-width: 1200px) {
     #invoice {
@@ -476,5 +500,10 @@ tr > .invoice__td-btn {
         left: -8rem;
         top: -12rem;
         margin: 0 0 -22rem;
+    }
+    .invoice-submit {
+        transform: scale(0.8);
+        left: -8rem;
+        top: -2rem;
     }
 }

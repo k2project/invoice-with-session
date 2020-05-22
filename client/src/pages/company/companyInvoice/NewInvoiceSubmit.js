@@ -16,8 +16,7 @@ export const NewInvoiceSubmit = ({
     invoice,
     getAllCompanies,
     updateCompanyArr,
-    setInvoiceInitState,
-    invoiceInitState,
+    handleSubmit,
     setAlert,
     history,
 }) => {
@@ -28,26 +27,28 @@ export const NewInvoiceSubmit = ({
             //downlaoding an existing invoice
             //?download=...
             const search = searchArr[1].slice(0, 8);
-            const invoice = document.getElementById('invoice');
-            if (search === 'download' && invoice) {
+            const invoiceForm = document.getElementById('invoice');
+            if (search === 'download' && invoiceForm) {
+                console.log(invoice);
                 downloadInvoice();
+                handleSubmit();
                 //reset invoice redux state so there is no dialog box
-                setInvoiceInitState(invoiceInitState);
+                // setInvoiceInitState(invoiceInitState);
                 //reset company tasks to
-                const tasks = company.tasks.filter((t) => !t.addToInvoice);
-                updateCompanyArr('tasks', tasks, company._id);
+                // const tasks = company.tasks.filter((t) => !t.addToInvoice);
+                // updateCompanyArr('tasks', tasks, company._id);
                 history.push(
                     `/dashboard/companies/${company._id}?tab=invoices`
                 );
             }
-            if (search === 'updating' && invoice) {
+            if (search === 'updating' && invoiceForm) {
                 setUpdate(true);
-                setSaveAs(true);
+                show_form();
             }
         }
-    });
+    }, []);
     const downloadInvoice = () => {
-        const invoice = document.getElementById('invoice').innerHTML;
+        const invoiceEl = document.getElementById('invoice').innerHTML;
         const pdf = window.open();
         pdf.document.write('<html><head>');
         pdf.document.write(
@@ -60,7 +61,7 @@ export const NewInvoiceSubmit = ({
         />`
         );
         pdf.document.write('</head><body>');
-        pdf.document.write(invoice);
+        pdf.document.write(invoiceEl);
         pdf.document.write('</body></link>');
         pdf.document.close();
         setTimeout(function () {
@@ -72,7 +73,7 @@ export const NewInvoiceSubmit = ({
         await setSaveAs(true);
         const invoiceNumInput = document.querySelector('.form__save-as input');
         invoiceNumInput.focus();
-        invoiceNumInput.value = invoice.saved_as || '';
+        invoiceNumInput.value = invoice.saved_as;
     };
     const [formData, setFormData] = useState({
         saveAs: invoice.saved_as,
@@ -107,24 +108,18 @@ export const NewInvoiceSubmit = ({
                 JSON.stringify({ invoice, tasks }),
                 config
             );
-            //reset invoice redux state so there is no dialog box
-            await setInvoiceInitState(invoiceInitState);
             await getAllCompanies();
-            await setSaveAs(false);
+            setSaveAs(false);
+            // stop check for unsaved changes on NewInvocie unmount
+            handleSubmit();
             history.push(`/dashboard/companies/${company._id}?tab=invoices`);
         } catch (err) {
             console.log('Invoice saving err:', err);
         }
     };
-    const handle_cancel = () => {
-        if (update) {
-            history.push(`/dashboard/companies/${company._id}?tab=invoices`);
-        } else {
-        }
-        setSaveAs(false);
-    };
+
     return (
-        <section>
+        <section className='invoice-submit'>
             <h3 className='sr-only'>
                 {update ? 'Update invoice form.' : 'Invoice form.'}
             </h3>
@@ -144,36 +139,28 @@ export const NewInvoiceSubmit = ({
                         {' '}
                         Save
                     </button>
-                    <button
-                        type='button'
-                        className='btn'
-                        onClick={handle_cancel}
-                    >
-                        {' '}
-                        Cancel
-                    </button>
                 </form>
             )}
 
             {!saveAs && (
                 <button
                     type='button'
-                    className='btn btn--sibling'
+                    className='btn btn--info btn--sibling'
                     onClick={show_form}
                     id='save-as'
                 >
                     Save As
                 </button>
             )}
-            {!saveAs && (
-                <button
-                    type='button'
-                    className='btn btn--info'
-                    onClick={downloadInvoice}
-                >
-                    Download*
-                </button>
-            )}
+
+            <button
+                type='button'
+                className='btn btn--success'
+                onClick={downloadInvoice}
+            >
+                Download*
+            </button>
+
             <p>
                 *{' '}
                 <small>
@@ -207,7 +194,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     getAllCompanies,
     updateCompanyArr,
-    setInvoiceInitState,
     setAlert,
 };
 

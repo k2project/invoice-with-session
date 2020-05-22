@@ -3,7 +3,7 @@ import errIcon from '../../imgs/icons/errIcon.png';
 export const dialogBox = async ({
     msg,
     cancelBtnText = 'Cancel',
-    confirmBtnText = 'Proceeed',
+    confirmBtnText = 'Proceed',
     cancelCb,
     confirmCb,
 }) => {

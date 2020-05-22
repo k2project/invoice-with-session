@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteCompany } from '../../redux/actions/companies';
-import { newInvoiceLoading } from '../../redux/actions/session';
 import { getInputValueByLabel } from '../../components/form/utils/customFormQueries';
 import { dialogBox } from '../../components/alerts/alertsFuns';
 
@@ -14,12 +13,7 @@ import deleteIcon from '../../imgs/icons/deleteIcon.png';
 import tasksIcon from '../../imgs/icons/tasksIcon.png';
 import invoicesIcon from '../../imgs/icons/invoicesIcon.png';
 
-const CompanySubmenu = ({
-    company,
-    deleteCompany,
-    newInvoiceLoading,
-    history,
-}) => {
+const CompanySubmenu = ({ company, deleteCompany, history }) => {
     //details | tasks |invoices | update | delete
     let companyName = getInputValueByLabel(company.details, 'Name');
     const handleDelete = (e) => {
@@ -36,10 +30,14 @@ const CompanySubmenu = ({
         dialogBox({ msg, cancelCb, confirmCb, targetEl });
         document.getElementById('dialog-cancel').focus();
     };
-    const clickingNewInvoiceBtn = () => {
-        newInvoiceLoading();
-        // window.location = `/dashboard/companies/${company._id}?tab=invoice`;
+    const handleNewInvoiceClick = () => {
+        if (window.location.search.split('&').length > 1) {
+            //reset form to initial state if there is an invoice being updated
+            history.push(`/dashboard/companies/${company._id}?tab=invoice`);
+            window.location.reload();
+        }
     };
+
     return (
         <nav aria-label="Company's submenu" className='submenu'>
             <h2 className='company__title'>{companyName}</h2>
@@ -59,7 +57,7 @@ const CompanySubmenu = ({
                         to={`/dashboard/companies/${company._id}?tab=invoice`}
                         className='submenu__btn'
                         onMouseDown={(e) => e.preventDefault()}
-                        onClick={clickingNewInvoiceBtn}
+                        onClick={handleNewInvoiceClick}
                     >
                         <img src={plusIcon} className='submenu__icon' alt='' />
                         New Invoice
@@ -124,7 +122,6 @@ const CompanySubmenu = ({
 CompanySubmenu.propTypes = {
     deleteCompany: PropTypes.func,
     company: PropTypes.object.isRequired,
-    newInvoiceLoading: PropTypes.func,
 };
 const mapStateToProps = (state) => ({
     company: state.companies.find(
@@ -133,7 +130,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = {
     deleteCompany,
-    newInvoiceLoading,
 };
 export default connect(
     mapStateToProps,
