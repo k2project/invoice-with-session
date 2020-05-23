@@ -9,8 +9,8 @@ const Login = ({ authenticated, startSession }) => {
         e.preventDefault();
         try {
             const body = JSON.stringify({
-                email: 'me@me.com',
-                password: 'Qwert123',
+                email: 'me2@me.com',
+                password: 'Qwert12345',
             });
             const config = {
                 headers: {

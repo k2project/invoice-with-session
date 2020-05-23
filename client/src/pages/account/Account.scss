@@ -1,19 +1,22 @@
 @import '../../App.scss';
 .account h2 {
     font-weight: bold;
+    margin-bottom: 1.5rem;
 }
-.delete-account p {
+.delete-account h2 {
     color: $COLOR_DANGER;
-    font-size: 1.4rem;
 }
 .account {
     width: 60rem;
+    display: block;
+    border-bottom: solid #e1e1e1 0.1rem;
+    margin-bottom: 4rem;
     .tile {
-        margin: 2rem 0;
+        margin: 2rem 0 4rem;
         display: block;
         padding: 3rem 4rem 2rem 2rem;
     }
     label {
-        padding-bottom: 1rem;
+        // padding-bottom: 1rem;
     }
 }

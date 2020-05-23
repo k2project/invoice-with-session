@@ -8,18 +8,20 @@ import FormInput from '../../components/form/components/FormInput';
 import FormErrorsDisplay from '../../components/form/components/FormErrorsDisplay';
 import { formErrorsStyling } from '../../components/form/utils/formFuns';
 
-const DeleteAccount = ({ setAlert, endSession }) => {
+const ChangeEmail = ({ setAlert, endSession, user }) => {
     const handleCancelataion = () => {
-        const inputs = document.querySelectorAll('.delete-account-form input');
+        const inputs = document.querySelectorAll(
+            '.change-email-account  input'
+        );
         Array.from(inputs).forEach((input) => {
             input.classList.remove('form__input--err');
             input.removeAttribute('aria-label');
         });
         setFormData(initState);
     };
-    const deleteAccount = async (e) => {
+    const changeEmail = async (e) => {
         e.preventDefault();
-        const { password } = formData;
+        const { email } = formData;
         try {
             const config = {
                 headers: {
@@ -27,13 +29,13 @@ const DeleteAccount = ({ setAlert, endSession }) => {
                 },
             };
 
-            const body = JSON.stringify({ password });
-            await axios.post('/api/user/unregister', body, config);
+            const body = JSON.stringify({ email });
+            await axios.put('/api/user/change-email', body, config);
             endSession();
             setAlert(
-                'Your account has been deleted successfully. We are sorry to see you going...',
+                'Your email address has been changed successfully. Please sign up with a new email.',
                 'success',
-                'sign up page',
+                'login page',
                 false
             );
             setFormData(initState);
@@ -45,7 +47,7 @@ const DeleteAccount = ({ setAlert, endSession }) => {
         }
     };
     const initState = {
-        password: '',
+        email: '',
         errors: [],
     };
     const [formData, setFormData] = useState(initState);
@@ -53,27 +55,27 @@ const DeleteAccount = ({ setAlert, endSession }) => {
         formErrorsStyling(formData.errors);
     }, [formData.errors]);
     return (
-        <section className='delete-account account'>
-            <h2>Delete your account.</h2>
+        <section className='change-email-account account'>
+            <h2>Change your user email ({user.email})</h2>
             <p>
-                Once you delete your account, there is no going back. Please be
-                certain.
+                Upon a successful update you will be redirected to the login
+                page to sign in with the new credentials.
             </p>
-            <form className='tile delete-account-form' onSubmit={deleteAccount}>
+            <form className='tile delete-account-form' onSubmit={changeEmail}>
                 <FormInput
                     form={{ formData, setFormData }}
-                    type='password'
-                    name='password'
+                    type='email'
+                    name='email'
                 >
-                    Enter password to confirm the deactivation of your account.
+                    Enter your new email address.
                 </FormInput>
                 <button
-                    className='btn btn--danger btn--sibling'
+                    className='btn btn--info btn--sibling'
                     onMouseDown={(e) => e.preventDefault()}
                 >
-                    Delete account
+                    Change email
                 </button>
-                {formData.password.length > 0 && (
+                {formData.email.length > 0 && (
                     <button
                         className='btn'
                         onMouseDown={(e) => e.preventDefault()}
@@ -86,20 +88,22 @@ const DeleteAccount = ({ setAlert, endSession }) => {
             {formData.errors.length > 0 && (
                 <FormErrorsDisplay
                     errors={formData.errors}
-                    label='Delete account form'
+                    label='Change email form'
                 />
             )}
         </section>
     );
 };
 
-DeleteAccount.propTypes = {
+ChangeEmail.propTypes = {
     setAlert: PropTypes.func,
     endSession: PropTypes.func,
 };
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    user: state.user,
+});
 const mapDispatchToProps = {
     setAlert,
     endSession,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeEmail);

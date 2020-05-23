@@ -8,18 +8,23 @@ import FormInput from '../../components/form/components/FormInput';
 import FormErrorsDisplay from '../../components/form/components/FormErrorsDisplay';
 import { formErrorsStyling } from '../../components/form/utils/formFuns';
 
-const DeleteAccount = ({ setAlert, endSession }) => {
+const ChangePassword = ({ setAlert, endSession }) => {
     const handleCancelataion = () => {
-        const inputs = document.querySelectorAll('.delete-account-form input');
+        const inputs = document.querySelectorAll('.change-password-form input');
         Array.from(inputs).forEach((input) => {
             input.classList.remove('form__input--err');
             input.removeAttribute('aria-label');
         });
         setFormData(initState);
     };
-    const deleteAccount = async (e) => {
+    const changePassword = async (e) => {
         e.preventDefault();
-        const { password } = formData;
+        const {
+            currentPassword,
+            newPassword,
+            newPasswordConfirmation,
+        } = formData;
+
         try {
             const config = {
                 headers: {
@@ -27,13 +32,18 @@ const DeleteAccount = ({ setAlert, endSession }) => {
                 },
             };
 
-            const body = JSON.stringify({ password });
-            await axios.post('/api/user/unregister', body, config);
+            const body = JSON.stringify({
+                currentPassword,
+                newPassword,
+                newPasswordConfirmation,
+            });
+
+            await axios.put('/api/user/change-password', body, config);
             endSession();
             setAlert(
-                'Your account has been deleted successfully. We are sorry to see you going...',
+                'Your password has been changed successfully. Please sign up with a new password.',
                 'success',
-                'sign up page',
+                'login page',
                 false
             );
             setFormData(initState);
@@ -45,7 +55,9 @@ const DeleteAccount = ({ setAlert, endSession }) => {
         }
     };
     const initState = {
-        password: '',
+        currentPassword: '',
+        newPassword: '',
+        newPasswordConfirmation: '',
         errors: [],
     };
     const [formData, setFormData] = useState(initState);
@@ -53,27 +65,51 @@ const DeleteAccount = ({ setAlert, endSession }) => {
         formErrorsStyling(formData.errors);
     }, [formData.errors]);
     return (
-        <section className='delete-account account'>
-            <h2>Delete your account.</h2>
+        <section className='change-password account'>
+            <h2>Change your user password.</h2>
             <p>
-                Once you delete your account, there is no going back. Please be
-                certain.
+                Make sure it's at least 7 characters including a number and an
+                uppercase letter.
             </p>
-            <form className='tile delete-account-form' onSubmit={deleteAccount}>
+            <p>
+                Upon a successful update you will be redirected to the login
+                page to sign in with the new credentials.
+            </p>
+
+            <form
+                className='tile change-password-form'
+                onSubmit={changePassword}
+            >
                 <FormInput
                     form={{ formData, setFormData }}
                     type='password'
-                    name='password'
+                    name='currentPassword'
                 >
-                    Enter password to confirm the deactivation of your account.
+                    Enter your current password.
+                </FormInput>
+                <FormInput
+                    form={{ formData, setFormData }}
+                    type='password'
+                    name='newPassword'
+                >
+                    Enter a new password.
+                </FormInput>
+                <FormInput
+                    form={{ formData, setFormData }}
+                    type='password'
+                    name='newPasswordConfirmation'
+                >
+                    Confirm the new password.
                 </FormInput>
                 <button
-                    className='btn btn--danger btn--sibling'
+                    className='btn btn--info btn--sibling'
                     onMouseDown={(e) => e.preventDefault()}
                 >
-                    Delete account
+                    Change password
                 </button>
-                {formData.password.length > 0 && (
+                {(formData.currentPassword.length > 0 ||
+                    formData.newPassword.length > 0 ||
+                    formData.newPasswordConfirmation.length > 0) && (
                     <button
                         className='btn'
                         onMouseDown={(e) => e.preventDefault()}
@@ -86,14 +122,14 @@ const DeleteAccount = ({ setAlert, endSession }) => {
             {formData.errors.length > 0 && (
                 <FormErrorsDisplay
                     errors={formData.errors}
-                    label='Delete account form'
+                    label='Change password form'
                 />
             )}
         </section>
     );
 };
 
-DeleteAccount.propTypes = {
+ChangePassword.propTypes = {
     setAlert: PropTypes.func,
     endSession: PropTypes.func,
 };
@@ -102,4 +138,4 @@ const mapDispatchToProps = {
     setAlert,
     endSession,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);

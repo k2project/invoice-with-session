@@ -11,9 +11,12 @@ function FormErrorsDisplay({ errors, label }) {
         id = id.slice(1).trim();
         document.getElementById(id).focus();
     }
-    const arr = [];
-    const errList = errors.map((err) => (
-        <li key={err.param}>
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+    errors = errors.filter(onlyUnique);
+    const errList = errors.map((err, index) => (
+        <li key={err.param + index}>
             <img src={errIcon} alt='' className='icon--sm' />
             <a href={`#${err.param}`} onClick={onClick}>
                 <span className='sr-only'>Error:</span>
@@ -21,11 +24,12 @@ function FormErrorsDisplay({ errors, label }) {
             </a>
         </li>
     ));
+
     return (
         <ul
             className='form__errs'
             role='alert'
-            aria-label={`${label} errors list. Number of errors: ${arr.length}.`}
+            aria-label={`${label} errors list. Number of errors: ${errors.length}.`}
         >
             {errList}
         </ul>
