@@ -1,0 +1,19 @@
+@import '../../App.scss';
+.account h2 {
+    font-weight: bold;
+}
+.delete-account p {
+    color: $COLOR_DANGER;
+    font-size: 1.4rem;
+}
+.account {
+    width: 60rem;
+    .tile {
+        margin: 2rem 0;
+        display: block;
+        padding: 3rem 4rem 2rem 2rem;
+    }
+    label {
+        padding-bottom: 1rem;
+    }
+}

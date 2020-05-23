@@ -3,8 +3,13 @@ const userRoutes = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const Profile = require('../models/Profile');
+const Company = require('../models/Company');
 const { validationResult } = require('express-validator');
-const { registerValidators, loginValidators } = require('../utils/validators');
+const {
+    registerValidators,
+    loginValidators,
+    accountDeleteValidators,
+} = require('../utils/validators');
 const auth = require('../utils/auth');
 const { profileInitDetails } = require('../utils/initDetails');
 
@@ -93,7 +98,7 @@ userRoutes.get('/', auth, async (req, res) => {
         return res.status(500).send('Server error on getting the user');
     }
 });
-//@route    DELTE api/user
+//@route    DELETE api/user
 //@desc     Log out user
 //@status   Private
 userRoutes.delete('/', ({ session }, res) => {
@@ -106,5 +111,45 @@ userRoutes.delete('/', ({ session }, res) => {
         }
     });
 });
+//@route    POST api/user/unregister
+//@desc     Delete user's account and profile
+//@status   Private
+userRoutes.post(
+    '/unregister',
+    [...accountDeleteValidators, auth],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log(`VALIDATION ERR: DELETE ACCOUNT`, errors.array());
+            return res.status(400).json({ errors: errors.array() });
+        }
 
+        try {
+            let user = await User.findOne({ _id: req.session.userID });
+            if (!user)
+                return res.status(400).json({
+                    errors: [{ msg: 'Cant find the user' }],
+                });
+            const isMatch = await bcrypt.compare(
+                req.body.password,
+                user.password
+            );
+            if (!isMatch)
+                return res.status(400).json({
+                    errors: [{ msg: 'Incorrect password.', param: 'password' }],
+                });
+            //remove user
+            await User.findOneAndRemove({ _id: req.session.userID });
+            //remove profile
+            await Profile.findOneAndRemove({ user: req.session.userID });
+            //remove all companies
+            await Company.deleteMany({ user: req.session.userID });
+
+            res.json({ msg: 'User account deleted.' });
+        } catch (err) {
+            console.error(err.message);
+            return res.status(500).send('Server error');
+        }
+    }
+);
 module.exports = userRoutes;

@@ -66,8 +66,7 @@ export const Header = ({
             setAlert(
                 'You have been logged out successfully.',
                 'success',
-                'login page',
-                false
+                'login page'
             );
             endSession();
         } catch (err) {

@@ -64,22 +64,9 @@ export default function AddCustomFields({
             customFieldPosition: null,
             errors: [],
         });
-        //set last option as default
-        // document
-        //     .getElementById('customFieldPosition')
-        //     .lastElementChild.setAttribute('selected', true);
     };
-    // const getSelectedPosition = () => {
-    //     const el = document.getElementById('customFieldPosition');
-    //     setFormData({
-    //         ...formData,
-    //         customFieldPosition: el.options[el.selectedIndex].value,
-    //     });
-    // };
+
     useEffect(() => {
-        // document
-        //     .getElementById('customFieldPosition')
-        //     .lastElementChild.setAttribute('selected', true);
         formErrorsStyling(formData.errors);
     }, [formData.errors]);
     return (
@@ -106,18 +93,6 @@ export default function AddCustomFields({
                     You can determin the display position of the new field in
                     the details list.
                 </p>
-                {/* <label htmlFor='customFieldPosition'>Choose a position:</label>
-                <select id='customFieldPosition' onChange={getSelectedPosition}>
-                    {[...Array(++maxPosition).keys()].map((key) => (
-                        <option
-                            value={key}
-                            key={'position-of-custom-field-' + key}
-                        >
-                            {key + 1}
-                        </option>
-                    ))}
-                </select> */}
-                {/* <br /> */}
                 <button
                     className='btn btn--grey'
                     onMouseDown={(e) => e.preventDefault()}

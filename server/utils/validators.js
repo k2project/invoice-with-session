@@ -44,8 +44,16 @@ const loginValidators = new Array(
         .isEmail(),
     check('password', 'Password is required').trim().escape().not().isEmpty()
 );
+const accountDeleteValidators = new Array(
+    check('password', 'To delete yor account you must provide your password.')
+        .trim()
+        .escape()
+        .not()
+        .isEmpty()
+);
 
 module.exports = {
     registerValidators,
     loginValidators,
+    accountDeleteValidators,
 };
