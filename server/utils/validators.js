@@ -21,28 +21,16 @@ const registerValidators = new Array(
                 //to get rid of 'invalid value' error
                 return true;
             }
-        }),
-    check('password2')
-        .trim()
-        .escape()
-        .custom((value, { req }) => {
-            if (value !== req.body.password) {
-                // trow error if passwords do not match
-                throw new Error("Passwords don't match.");
-            } else {
-                //to get rid of 'invalid value' error
-                return true;
-            }
         })
 );
 
 const loginValidators = new Array(
-    check('email', 'Please include valid email')
+    check('email', 'Please include a valid email address.')
         .trim()
         .escape()
         .normalizeEmail()
         .isEmail(),
-    check('password', 'Password is required').trim().escape().not().isEmpty()
+    check('password', 'Password is required.').trim().escape().not().isEmpty()
 );
 const accountDeleteValidators = new Array(
     check('password', 'To delete yor account you must provide your password.')

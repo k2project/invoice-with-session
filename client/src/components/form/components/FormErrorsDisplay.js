@@ -15,15 +15,27 @@ function FormErrorsDisplay({ errors, label }) {
         return self.indexOf(value) === index;
     }
     errors = errors.filter(onlyUnique);
-    const errList = errors.map((err, index) => (
-        <li key={err.param + index}>
-            <img src={errIcon} alt='' className='icon--sm' />
-            <a href={`#${err.param}`} onClick={onClick}>
-                <span className='sr-only'>Error:</span>
-                {err.msg}
-            </a>
-        </li>
-    ));
+    const errList = errors.map((err, index) => {
+        if (err.param) {
+            return (
+                <li key={err.param + index}>
+                    <img src={errIcon} alt='' className='icon--sm' />
+                    <a href={`#${err.param}`} onClick={onClick}>
+                        <span className='sr-only'>Error:</span>
+                        {err.msg}
+                    </a>
+                </li>
+            );
+        } else {
+            return (
+                <li key={err.param + index}>
+                    <img src={errIcon} alt='' className='icon--sm' />
+                    <span className='sr-only'>Error:</span>
+                    {err.msg}
+                </li>
+            );
+        }
+    });
 
     return (
         <ul

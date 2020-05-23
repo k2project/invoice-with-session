@@ -18,7 +18,7 @@ export const Company = ({ companies, currentCompany, setCurrentCompany }) => {
     let company = companies.find((c) => c._id === id);
 
     useEffect(() => {
-        // setCurrentCompany(id);
+        setCurrentCompany(id);
         return () => {
             setCurrentCompany(null);
         };

@@ -2,6 +2,7 @@ export const formErrorsStyling = (arr) => {
     //when password doesnt meet required parameters and doesnt match the confirmation aria on first password gets overide by 'don't match' msg
     //uniqueErr allows to display first error msg on first password 'Password must be at least 8 characters long and must contain a number and a capital letter.'
     const uniqueErr = [];
+
     arr.length > 0 &&
         arr.forEach((err) => {
             if (err.param) {

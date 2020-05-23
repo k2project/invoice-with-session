@@ -56,8 +56,8 @@ const DeleteAccount = ({ setAlert, endSession }) => {
         <section className='delete-account account'>
             <h2>Delete your account.</h2>
             <p>
-                Once you delete your account, there is no going back. Please be
-                certain.
+                <b>WARRNING!</b> Once you delete your account, there is no going
+                back. Please be certain.
             </p>
             <form className='tile delete-account-form' onSubmit={deleteAccount}>
                 <FormInput
@@ -65,7 +65,8 @@ const DeleteAccount = ({ setAlert, endSession }) => {
                     type='password'
                     name='password'
                 >
-                    Enter password to confirm the deactivation of your account.
+                    Enter your password to confirm the deactivation of your
+                    account.
                 </FormInput>
                 <button
                     className='btn btn--danger btn--sibling'

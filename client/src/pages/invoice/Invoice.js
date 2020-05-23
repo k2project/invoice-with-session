@@ -3,7 +3,6 @@ import './Invoice.scss';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setCurrentCompany } from '../../redux/actions/session';
 import Page from '../../components/page/Page';
 import {
     getInputValueByLabel,
@@ -11,7 +10,7 @@ import {
 } from '../../components/form/utils/customFormQueries';
 import infoIcon from '../../imgs/icons/infoIcon.png';
 
-export const InvoiceInit = ({ companies, setCurrentCompany }) => {
+export const InvoiceInit = ({ companies }) => {
     companies = sortInputsByNamesAlphabeticaly(companies, 'details');
     return (
         <Page>
@@ -25,7 +24,6 @@ export const InvoiceInit = ({ companies, setCurrentCompany }) => {
                         <li className='tile' key={`incoieInit-list-${c._id}`}>
                             <Link
                                 to={`/dashboard/companies/${c._id}?tab=invoice`}
-                                onClick={() => setCurrentCompany(c._id)}
                             >
                                 {getInputValueByLabel(c.details, 'Name')}
                                 <span
@@ -61,8 +59,6 @@ const mapStateToProps = (state) => ({
     companies: state.companies,
 });
 
-const mapDispatchToProps = {
-    setCurrentCompany,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(InvoiceInit);

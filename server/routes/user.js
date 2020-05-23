@@ -31,7 +31,13 @@ userRoutes.post('/register', [...registerValidators], async (req, res) => {
         let user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({
-                errors: [{ msg: 'User already exists.', param: 'email' }],
+                errors: [
+                    {
+                        msg:
+                            'Account already exists. Please try a different email address.',
+                        param: 'email',
+                    },
+                ],
             });
         }
         user = new User({
@@ -68,11 +74,11 @@ userRoutes.post('/login', [...loginValidators], async (req, res) => {
 
     try {
         let user = await User.findOne({ email });
-        const { _id, logins } = user;
         if (!user)
             return res.status(400).json({
                 errors: [{ msg: 'Invalid login credentials' }],
             });
+        const { _id, logins } = user;
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch)
             return res.status(400).json({
@@ -84,7 +90,7 @@ userRoutes.post('/login', [...loginValidators], async (req, res) => {
         await user.save();
         res.json({ _id, email, lastLogin: logins[1] });
     } catch (err) {
-        res.status(500).send('Server Error: LOGIN ERR');
+        res.status(500).send('Server Error: @@@@ LOGIN ERR ');
     }
 });
 //@route    GET api/user

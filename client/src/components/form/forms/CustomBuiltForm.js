@@ -100,8 +100,9 @@ const CustomBuiltForm = ({
             };
             const body = JSON.stringify(formState);
             const res = await axios.post(http, body, config);
-            await cb();
+
             setAlert(msg, 'success', null, false);
+            await cb();
             //stops prompt on form submition when updated
             if (updateInitStateToReduxStateOnSubmit)
                 updateInitStateToReduxStateOnSubmit();
@@ -113,12 +114,11 @@ const CustomBuiltForm = ({
                 `${url}${res.data.id ? res.data.id + '?tab=details' : ''}`
             );
         } catch (err) {
-            console.log(err);
             if (err.response.data.msg === 'AuthError') {
                 endSession('Your session has expired. Please sign back in.');
                 return;
             }
-            err.response.data.errors ||
+            if (err.response.data.errors)
                 setErrors([...errors, ...err.response.data.errors]);
         }
     };

@@ -98,6 +98,11 @@ a:active {
 a:focus {
     text-decoration: underline;
 }
+.link--themed:link,
+.link--themed:visited,
+.link--themed:active {
+    color: $COLOR_THEME;
+}
 //====================
 //  ALERTS STYLING
 //====================
@@ -252,6 +257,13 @@ a:focus {
     border-color: $COLOR_THEME;
     color: seashell;
     font-size: 1.8rem;
+}
+.btn--theme:hover {
+    background-color: darken($COLOR_THEME, 10%);
+    border-color: darken($COLOR_THEME, 10%);
+}
+.btn--theme:focus {
+    color: #111;
 }
 .btn--white {
     background-color: none;

@@ -1,0 +1,17 @@
+@import '../../App.scss';
+.logo {
+    color: $COLOR_THEME;
+    margin: 0 0 2rem;
+}
+
+.logo__name {
+    font-family: $FONT_LOGO;
+    letter-spacing: -0.3rem;
+    font-size: 6rem;
+}
+
+.logo__title {
+    font-size: 1.2rem;
+    letter-spacing: -0.03rem;
+    margin-top: -1.2rem;
+}

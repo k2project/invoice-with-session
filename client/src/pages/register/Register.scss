@@ -1,0 +1,26 @@
+@import '../../App.scss';
+.register {
+    display: grid;
+    min-height: 100vh;
+    align-content: center;
+    text-align: center;
+    width: 40rem;
+    padding-bottom: 5rem;
+    margin: 0 auto;
+    color: $COLOR_DARK;
+    form {
+        text-align: left;
+    }
+    ul {
+        margin: 0 0 2rem;
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+}
+@media only screen and (max-width: 450px) {
+    .register {
+        width: 90%;
+    }
+}

@@ -1,0 +1,43 @@
+@import '../../App.scss';
+.login {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    .logo {
+        color: #fff;
+        transform: scale(1.5);
+    }
+}
+.login__form {
+    color: $COLOR_DARK;
+    margin: 0 auto 4rem;
+    width: 37rem;
+    text-align: left;
+    ul {
+        margin: 0;
+    }
+}
+.login__bg {
+    background-image: url('../../imgs/laptop.jpg');
+    background-size: cover;
+    display: block;
+    min-height: 100vh;
+}
+@media only screen and (max-width: 800px) {
+    .login {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+        section {
+            padding: 7rem 0;
+        }
+    }
+}
+@media only screen and (max-width: 400px) {
+    .login__form {
+        width: 80%;
+    }
+}
