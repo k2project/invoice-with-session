@@ -33,8 +33,6 @@ const IN_PROD = NODE_ENV === 'production';
         });
         console.log('DB connected');
         const app = express();
-        // Serve the static files from the React app
-        app.use(express.static(path.join(__dirname, 'client/build')));
 
         app.use(helmet());
         app.use(express.urlencoded({ extended: true }));
@@ -63,10 +61,14 @@ const IN_PROD = NODE_ENV === 'production';
         app.use('/api/user', userRoutes);
         app.use('/api/profile', profileRoutes);
         app.use('/api/companies', companiesRoutes);
-        // Handles any requests that don't match the ones above
-        app.get('*', (req, res) => {
-            res.sendFile(path.join(__dirname + '/client/build/index.html'));
-        });
+        if (process.env.NODE_ENV === 'production') {
+            app.use(express.static('client/build'));
+            app.get('*', (req, res) => {
+                res.sendFile(
+                    path.resolve(__dirname, 'client', 'build', 'index.html')
+                );
+            });
+        }
 
         app.listen(PORT, () =>
             console.log(`Server is running on port ${PORT}`)
