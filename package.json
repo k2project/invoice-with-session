@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "Online invoice pdf generator",
     "main": "server.js",
+    "engines": {
+        "node": "10.15.1"
+    },
     "scripts": {
         "start": "node server",
         "server": "nodemon server",
@@ -25,7 +28,7 @@
         "uuid": "^7.0.3"
     },
     "devDependencies": {
-        "concurrently": "^5.2.0",
-        "nodemon": "^2.0.4"
+        "concurrently": "^5.1.0",
+        "nodemon": "^2.0.3"
     }
 }
