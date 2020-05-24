@@ -16,8 +16,8 @@ const ONE_HR = 3.6e6;
 const {
     PORT = 5000,
     NODE_ENV = 'development',
-    SESS_NAME = process.env.SESS_NAME,
-    SESS_SECRET = process.env.SESS_SECRET,
+    SESS_NAME = 'sid',
+    SESS_SECRET = 'ssh!my$ecr3t4thi$se££!0n',
     SESS_LIFETIME = ONE_HR,
 } = process.env;
 const IN_PROD = NODE_ENV === 'production';
