@@ -39,9 +39,16 @@ const InvoiceDocFooter = ({
             updateInvoiceCurrency('');
         }
     }, [tasks]);
+    //update forms default inputs value
+    useEffect(() => {
+        document.getElementById('invoice-notes').value = invoice.notes;
+        document.getElementById('invoice-discount').value =
+            invoice.currency + toNumberWithCommas(invoice.discount);
+        document.getElementById('invoice-fees').value =
+            invoice.currency + toNumberWithCommas(invoice.fees);
+    }, [invoice.notes, invoice.discount, invoice.fees]);
 
-    const TXT_INIT_TEXT = invoice.notes || 'Thank you for your business.';
-    const [notes, setNotes] = useState(TXT_INIT_TEXT);
+    const [notes, setNotes] = useState('Thank you for your business.');
     const handle_notes_edit = (e) => {
         let notes = e.target.value;
         setNotes(notes);
@@ -169,7 +176,7 @@ const InvoiceDocFooter = ({
                         <h3>
                             <b>Notes:</b>
                         </h3>
-                        <p>{notes}</p>
+                        <p>{invoice.notes}</p>
                     </div>
                     <div
                         className={`bg-${invoice.bg_color}  invoice__cover`}
@@ -182,7 +189,7 @@ const InvoiceDocFooter = ({
                             <textarea
                                 id='invoice-notes'
                                 onChange={handle_notes_edit}
-                                defaultValue={TXT_INIT_TEXT}
+                                defaultValue={notes}
                             ></textarea>
                         </form>
                     </div>
@@ -195,20 +202,16 @@ const InvoiceDocFooter = ({
                     <div>
                         <span>Subtotal:</span>
                         <span>
-                            <b>
-                                {invoice.currency}
-                                {net_total_str}
-                            </b>
+                            {invoice.currency}
+                            {net_total_str}
                         </span>
                     </div>
                     <Fragment>
                         <div className='invoice__discount-display'>
                             <span>Discount:</span>
                             <span>
-                                <b>
-                                    {invoice.currency}
-                                    {invoice.discount}
-                                </b>
+                                {invoice.currency}
+                                {toNumberWithCommas(invoice.discount)}
                             </span>
                         </div>
                         <form
@@ -228,9 +231,7 @@ const InvoiceDocFooter = ({
 
                     <div className='invoice__tax-display'>
                         <span>Tax rate:</span>
-                        <span>
-                            <b>{tax}%</b>
-                        </span>
+                        <span>{tax}%</span>
                     </div>
                     <form
                         className='invoice__tax-form'
@@ -249,10 +250,8 @@ const InvoiceDocFooter = ({
                         <div>
                             <span>Tax Amount:</span>
                             <span>
-                                <b>
-                                    {invoice.currency}
-                                    {tax_total_str}
-                                </b>
+                                {invoice.currency}
+                                {tax_total_str}
                             </span>
                         </div>
                     )}
@@ -261,10 +260,8 @@ const InvoiceDocFooter = ({
                         <div className='invoice__fees-display'>
                             <span>Other*:</span>
                             <span>
-                                <b>
-                                    {invoice.currency}
-                                    {invoice.fees}
-                                </b>
+                                {invoice.currency}
+                                {toNumberWithCommas(invoice.fees)}
                             </span>
                         </div>
                         <form

@@ -138,7 +138,7 @@ p.invoice__address-btm {
     padding-right: 30px;
     flex-grow: 1;
 }
-.invoice-recepient__banking {
+.invoice-recepient__banking p {
     padding-left: 30px;
 }
 .invoice__recepient-name {
@@ -426,7 +426,7 @@ PRINT PAGE - PDF
         padding-right: 30px;
         flex-grow: 1;
     }
-    .invoice-recepient__banking {
+    .invoice-recepient__banking p {
         padding-left: 30px;
     }
     .invoice__recepient-name {
@@ -512,7 +512,7 @@ PRINT PAGE - PDF
 
     .invoice__total {
         padding: 40px 60px 30px 20px;
-        font-size: 12px;
+        font-size: 11px;
         display: grid;
         align-content: end;
     }
@@ -531,7 +531,7 @@ PRINT PAGE - PDF
     }
     .invoice__total-sum {
         display: block;
-        font-size: 26px;
+        font-size: 25px;
         font-weight: bold;
         padding-top: 10px;
         grid-column: span 2;
