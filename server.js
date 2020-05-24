@@ -36,7 +36,7 @@ const {
         app.use(helmet());
         app.use(express.urlencoded({ extended: true }));
         app.use(express.json({ extended: false }));
-
+        app.set('trust proxy', 1);
         app.use(
             session({
                 name: SESS_NAME,
@@ -49,11 +49,11 @@ const {
                     ttl: parseInt(SESS_LIFETIME) / 1000,
                 }),
                 rolling: true,
-                // cookie: {
-                //     maxAge: parseInt(SESS_LIFETIME),
-                //     sameSite: true,
-                //     secure: IN_PROD,
-                // },
+                cookie: {
+                    maxAge: parseInt(SESS_LIFETIME),
+                    sameSite: true,
+                    secure: IN_PROD,
+                },
             })
         );
 
