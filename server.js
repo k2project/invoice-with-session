@@ -51,8 +51,8 @@ const {
                 rolling: true,
                 cookie: {
                     maxAge: parseInt(SESS_LIFETIME),
-                    sameSite: true,
-                    secure: IN_PROD,
+                    // sameSite: true,
+                    secure: true,
                 },
             })
         );
