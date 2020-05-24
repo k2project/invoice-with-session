@@ -50,16 +50,20 @@ const {
                 }),
                 rolling: true,
                 cookie: {
-                    maxAge: parseInt(SESS_LIFETIME),
-                    // sameSite: true,
-                    secure: true,
+                    secure: false,
                 },
+                // cookie: {
+                //     maxAge: parseInt(SESS_LIFETIME),
+                //     sameSite: true,
+                //     secure: IN_PROD,
+                // },
             })
         );
 
         app.use('/api/user', userRoutes);
         app.use('/api/profile', profileRoutes);
         app.use('/api/companies', companiesRoutes);
+        //Heroku deployment
         if (process.env.NODE_ENV === 'production') {
             app.use(express.static('client/build'));
             app.get('*', (req, res) => {
