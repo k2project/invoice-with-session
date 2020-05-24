@@ -10,19 +10,18 @@ const {
     companiesRoutes,
 } = require('./server/routes/index');
 
-require('dotenv').config();
-
-const ONE_HR = 3.6e6;
-const {
-    PORT = 5000,
-    NODE_ENV = 'development',
-    SESS_NAME = 'sid',
-    SESS_SECRET = 'ssh!my$ecr3t4thi$se££!0n',
-    SESS_LIFETIME = ONE_HR,
-} = process.env;
-const IN_PROD = NODE_ENV === 'production';
-
 (async () => {
+    require('dotenv').config();
+    const ONE_HR = 3.6e6;
+    const {
+        PORT = 5000,
+        NODE_ENV = 'development',
+        SESS_NAME = 'sess',
+        SESS_SECRET = 'ssh!my$ecr3t4thi$se££!0n',
+        SESS_LIFETIME = ONE_HR,
+    } = process.env;
+    const IN_PROD = NODE_ENV === 'production';
+
     try {
         console.log('connecting to DB...');
         await mongoose.connect(process.env.DB_URI, {
@@ -52,7 +51,7 @@ const IN_PROD = NODE_ENV === 'production';
                 rolling: true,
                 cookie: {
                     maxAge: parseInt(SESS_LIFETIME),
-                    // sameSite: true,
+                    sameSite: true,
                     secure: IN_PROD,
                 },
             })
