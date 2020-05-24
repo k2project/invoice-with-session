@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import './InvoiceDoc.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -40,6 +40,7 @@ const InvoiceDocHeader = ({
                 </p>
             );
         }
+        return null;
     });
 
     const [showProfile, setShowProfile] = useState(false);

@@ -107,6 +107,7 @@ export default function DetailsDisplayTable({ details, updateState }) {
                                 </td>
                             </tr>
                         );
+                    return;
                 })}
             </tbody>
 

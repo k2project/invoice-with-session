@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import updateIcon from '../../imgs/icons/updateIcon.png';
 import listIcon from '../../imgs/icons/list.png';
 import { connect } from 'react-redux';
@@ -37,6 +36,6 @@ const ProfileSubmenu = () => {
         </nav>
     );
 };
-ProfileSubmenu.propTypes = {};
+
 const mapDispatchToProps = {};
 export default connect(null, mapDispatchToProps)(ProfileSubmenu);

@@ -15,6 +15,7 @@ class NewInvoice extends Component {
         super(props);
         this.state = {
             invoice: null,
+            submited: false,
         };
         this.handleChanges = this.handleChanges.bind(this);
         this.resestInvoiceState = this.resestInvoiceState.bind(this);
@@ -160,7 +161,9 @@ class NewInvoice extends Component {
                 <InvoiceDoc />
                 {this.state.invoice && (
                     <NewInvoiceSubmit
-                        handleSubmit={() => (this.state.submited = true)}
+                        handleSubmit={() =>
+                            this.setState({ ...this.state, submited: true })
+                        }
                     />
                 )}
             </section>

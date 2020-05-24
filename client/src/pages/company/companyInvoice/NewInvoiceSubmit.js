@@ -8,7 +8,6 @@ import {
     updateCompanyArr,
 } from '../../../redux/actions/companies';
 import { setAlert } from '../../../redux/actions/messages';
-import { setInvoiceInitState } from '../../../redux/actions/invoice';
 import FormInput from '../../../components/form/components/FormInput';
 
 export const NewInvoiceSubmit = ({
@@ -180,7 +179,6 @@ NewInvoiceSubmit.propTypes = {
     invoice: PropTypes.object,
     getAllCompanies: PropTypes.func,
     updateCompanyArr: PropTypes.func,
-    setInvoiceInitState: PropTypes.func,
     setAlert: PropTypes.func,
 };
 

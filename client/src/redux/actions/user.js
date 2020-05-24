@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { GET_USER, AUTH_SESS } from './types';
-import { endSession } from './session';
 
 export const getCurrentUser = () => async (dispatch, getState) => {
     try {

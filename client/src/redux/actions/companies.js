@@ -30,7 +30,7 @@ export const clearCompanies = () => (dispatch) => {
 
 export const deleteCompany = (id) => async (dispatch) => {
     try {
-        const res = await axios.delete(`/api/companies/${id}`);
+        await axios.delete(`/api/companies/${id}`);
         await dispatch(getAllCompanies());
         dispatch(
             setAlert('Company deleted successfully.', 'success', null, false)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import './InvoiceDoc.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -39,17 +39,21 @@ const InvoiceDocRecepient = ({
                 </p>
             );
         }
+        return null;
     });
     //display profile's bank details
-    const bank_name = invoice.profile.find(
+    let bank_name = invoice.profile.find(
         (input) => input.addToInvoice && input.label === 'Bank Name'
     );
-    const bank_account_num = invoice.profile.find(
+    bank_name = bank_name ? bank_name.value : '';
+    let bank_account_num = invoice.profile.find(
         (input) => input.addToInvoice && input.label === 'Account Number'
     );
-    const bank_sort_code = invoice.profile.find(
+    bank_account_num = bank_account_num ? bank_account_num.value : '';
+    let bank_sort_code = invoice.profile.find(
         (input) => input.addToInvoice && input.label === 'Sort Code'
     );
+    bank_sort_code = bank_sort_code ? bank_sort_code.value : '';
     const [showCompanyDetails, setShowCompanyDetails] = useState(false);
     const open_company_details = async () => {
         if (showCompanyDetails === true) return setShowCompanyDetails(false);
@@ -105,19 +109,19 @@ const InvoiceDocRecepient = ({
                     {bank_name && (
                         <p>
                             <b>BANK NAME:</b>
-                            {bank_name.value}
+                            {bank_name}
                         </p>
                     )}
                     {bank_sort_code && (
                         <p>
                             <b>SORT CODE:</b>
-                            {bank_sort_code.value}
+                            {bank_sort_code}
                         </p>
                     )}
                     {bank_account_num && (
                         <p>
                             <b>ACCOUNT No:</b>
-                            {bank_account_num.value}
+                            {bank_account_num}
                         </p>
                     )}
                     <button

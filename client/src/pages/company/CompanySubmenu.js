@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Link, Redirect } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteCompany } from '../../redux/actions/companies';
 import { getInputValueByLabel } from '../../components/form/utils/customFormQueries';

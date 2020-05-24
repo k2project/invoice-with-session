@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState } from 'react';
 import './InvoiceDoc.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

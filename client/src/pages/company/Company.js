@@ -22,7 +22,7 @@ export const Company = ({ companies, currentCompany, setCurrentCompany }) => {
         return () => {
             setCurrentCompany(null);
         };
-    }, []);
+    }, [id, setCurrentCompany]);
 
     const searchArr = useLocation().search.split('&');
     const tab = searchArr[0].slice(5);
