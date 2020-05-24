@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const session = require('express-session');
@@ -32,6 +33,8 @@ const IN_PROD = NODE_ENV === 'production';
         });
         console.log('DB connected');
         const app = express();
+        // Serve the static files from the React app
+        app.use(express.static(path.join(__dirname, 'client/build')));
 
         app.use(helmet());
         app.use(express.urlencoded({ extended: true }));
