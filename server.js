@@ -63,6 +63,10 @@ const IN_PROD = NODE_ENV === 'production';
         app.use('/api/user', userRoutes);
         app.use('/api/profile', profileRoutes);
         app.use('/api/companies', companiesRoutes);
+        // Handles any requests that don't match the ones above
+        app.get('*', (req, res) => {
+            res.sendFile(path.join(__dirname + '/client/build/index.html'));
+        });
 
         app.listen(PORT, () =>
             console.log(`Server is running on port ${PORT}`)
