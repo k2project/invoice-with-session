@@ -49,11 +49,11 @@ const {
                     ttl: parseInt(SESS_LIFETIME) / 1000,
                 }),
                 rolling: true,
-                cookie: {
-                    maxAge: parseInt(SESS_LIFETIME),
-                    sameSite: true,
-                    secure: IN_PROD,
-                },
+                // cookie: {
+                //     maxAge: parseInt(SESS_LIFETIME),
+                //     sameSite: true,
+                //     secure: IN_PROD,
+                // },
             })
         );
 
