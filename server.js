@@ -52,7 +52,7 @@ const IN_PROD = NODE_ENV === 'production';
                 rolling: true,
                 cookie: {
                     maxAge: parseInt(SESS_LIFETIME),
-                    sameSite: true,
+                    // sameSite: true,
                     secure: IN_PROD,
                 },
             })
