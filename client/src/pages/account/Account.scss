@@ -13,12 +13,9 @@
     display: block;
     border-bottom: solid #e1e1e1 0.1rem;
     margin-bottom: 4rem;
-    .tile {
-        margin: 2rem 0 4rem;
-        display: block;
-        padding: 3rem 4rem 2rem 2rem;
-    }
-    label {
-        // padding-bottom: 1rem;
-    }
+}
+.account .tile {
+    margin: 2rem 0 4rem;
+    display: block;
+    padding: 3rem 4rem 2rem 2rem;
 }
