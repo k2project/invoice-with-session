@@ -16,8 +16,8 @@ const ONE_HR = 3.6e6;
 const {
     PORT = 5000,
     NODE_ENV = 'development',
-    SESS_NAME = 'sid',
-    SESS_SECRET = 'ssh!my$ecr3t4thi$se££!0n',
+    SESS_NAME = process.env.SESS_NAME,
+    SESS_SECRET = process.env.SESS_SECRET,
     SESS_LIFETIME = ONE_HR,
 } = process.env;
 const IN_PROD = NODE_ENV === 'production';
@@ -62,7 +62,7 @@ const IN_PROD = NODE_ENV === 'production';
         app.use('/api/profile', profileRoutes);
         app.use('/api/companies', companiesRoutes);
         if (process.env.NODE_ENV === 'production') {
-            app.use(express.static(path.join(__dirname, 'client/build')));
+            app.use(express.static('client/build'));
             app.get('*', (req, res) => {
                 res.sendFile(
                     path.resolve(__dirname, 'client', 'build', 'index.html')

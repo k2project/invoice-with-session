@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { setAlert } from '../../redux/actions/messages';
@@ -12,6 +12,7 @@ export const Header = ({
     endSession,
     lastLogin,
     profile: { createdAt, updatedAt },
+    history,
 }) => {
     const updated = createdAt !== updatedAt;
     const today = dateUX(new Date());
@@ -63,14 +64,21 @@ export const Header = ({
     const logout = async () => {
         try {
             await axios.delete('/api/user');
+            endSession();
             setAlert(
                 'You have been logged out successfully.',
                 'success',
                 'login page'
             );
-            endSession();
         } catch (err) {
             console.log('logout err', err);
+        }
+        //discharge automatically unsaved chnages
+        //no prompt
+        const dialog = document.getElementById('dialog');
+        if (dialog) {
+            dialog.remove();
+            window.location.reload();
         }
     };
 
@@ -122,4 +130,4 @@ const mapDispatchToProps = {
     endSession,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
