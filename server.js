@@ -33,10 +33,9 @@ const {
         console.log('DB connected');
         const app = express();
 
-        // app.use(helmet());
+        app.use(helmet());
         app.use(express.urlencoded({ extended: true }));
         app.use(express.json({ extended: false }));
-        app.set('trust proxy', 1);
         app.use(
             session({
                 name: SESS_NAME,
