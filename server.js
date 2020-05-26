@@ -12,7 +12,7 @@ const {
 
 (async () => {
     require('dotenv').config();
-    const ONE_HR = 3600000;
+    const ONE_HR = 3.6e6;
     const {
         PORT = 5000,
         NODE_ENV = 'development',
@@ -51,7 +51,7 @@ const {
                 cookie: {
                     maxAge: parseInt(SESS_LIFETIME),
                     sameSite: true,
-                    secure: IN_PROD,
+                    // secure: IN_PROD,
                 },
             })
         );
