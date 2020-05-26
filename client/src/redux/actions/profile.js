@@ -11,10 +11,7 @@ export const getProfile = () => async (dispatch) => {
         });
     } catch (err) {
         console.error('ERROR ON PROFILE LOADING', err);
-        if (
-            err.response.data.msg === 'AuthError' &&
-            window.location.pathname !== '/'
-        ) {
+        if (err.response.data.msg === 'AuthError') {
             dispatch(
                 endSession('Your session has expired. Please sign back in.')
             );

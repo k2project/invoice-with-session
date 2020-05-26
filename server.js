@@ -12,7 +12,7 @@ const {
 
 (async () => {
     require('dotenv').config();
-    const ONE_HR = 3.6e6;
+    const ONE_HR = 3600000;
     const {
         PORT = 5000,
         NODE_ENV = 'development',

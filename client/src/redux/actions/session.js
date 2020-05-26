@@ -20,7 +20,8 @@ export const startSession = () => async (dispatch) => {
 
 export const endSession = (err) => (dispatch) => {
     dispatch({ type: END_SESS });
-    if (err) dispatch(setAlert(err, 'danger', null, false, 10000));
+    if (err && window.location.pathname !== '/')
+        dispatch(setAlert(err, 'danger', null, false, 10000));
     localStorage.removeItem('persist:sess');
     dispatch({ type: REMOVE_PROFILE });
     dispatch({ type: CLEAR_COMPANIES });
