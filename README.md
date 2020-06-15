@@ -26,7 +26,8 @@ I created this project to work on my full-stack programming skills. React was us
 The custom-built prompt detects unsaved changes to the forms by comparing component's states on mounting and dismounting with use of JSON methods for deep cloning. This way user is not needlessly concerned with a prompt if his actions bring back the component state to the initial.
 
 Forms allow to add and edit custom fields.
-Main form- INVOICE - allows to change its appearance and update the content dynamically.
+Main form- CREATE INVOICE FORM - allows to change its appearance and update the content dynamically.
+
 I made the application compliant with the WCAG accessibility standards.
 
 # Demo
