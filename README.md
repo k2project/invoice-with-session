@@ -7,8 +7,10 @@ Online application to create and store pdf-formatted invoices with user authenti
 I created this project to work on my full-stack programming skills. React was use to create the front-end components, including multiple custom-built forms and prompt. Redux allows maintaining application advance state. The back-end, built using Node, Express and Mongo, takes advantage of well-developed RESTful API, and user authentication with back-end generated cookie session. The pdf-formated file is created with window.print method and custom print styling, therefore for the best experience I would recommend using Chrome. 
 
 # Screenshots
-![Screenshot](/client/src/imgs/demo_login.png)
+
 ![Screenshot](https://k2project.github.io/portfolio/static/media/invoice.32d9cf4f.png)
+![Screenshot](/client/src/imgs/demo_login.png)
+![Screenshot](/client/src/imgs/demo_prompt.png)
 
 # Tech/frameworks used
 
