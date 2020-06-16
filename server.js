@@ -51,6 +51,7 @@ const {
                 cookie: {
                     maxAge: parseInt(SESS_LIFETIME),
                     sameSite: true,
+                    // applications in the herokuapp.com domain are prevented from setting cookies
                     // secure: IN_PROD,
                 },
             })

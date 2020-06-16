@@ -9,7 +9,8 @@ export const setNewInvoice = (profile, company) => {
     //invoice #
     let company_abbr = getInputValueByLabel(company.details, 'Name').split(' ');
     if (company_abbr.length > 1 && company_abbr[1]) {
-        company_abbr = company_abbr.map((el) => el[0].toUpperCase()).join('');
+        company_abbr = company_abbr.map((el) => el.slice(0, 1).toUpperCase());
+        company_abbr = company_abbr.join('');
     } else {
         company_abbr = company_abbr[0].slice(0, 3).toUpperCase();
     }
